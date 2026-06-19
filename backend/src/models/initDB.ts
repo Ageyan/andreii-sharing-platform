@@ -35,12 +35,20 @@ export const initDatabase = async () => {
       status VARCHAR(50) DEFAULT 'pending', -- pending, confirmed, cancelled
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
+
+    -- 4. Таблиця відгуків
+    CREATE TABLE IF NOT EXISTS reviews (
+      id SERIAL PRIMARY KEY,
+      rating INTEGER NOT NULL, 
+      text_review VARCHAR(500) NOT NULL,
+      booking_id INTEGER REFERENCES bookings(id) ON DELETE CASCADE
+    );
   `;
 
   try {
     await query(createTablesSQL);
-    console.log('✅ Все таблицы в базе данных успешно проверены/созданы!');
+    console.log('✅ Усі таблиці в базі даних успішно перевірені/створені!');
   } catch (error) {
-    console.error('❌ Ошибка при инициализации базы данных:', error);
+    console.error('❌ Помилка при ініціалізації бази даних:', error);
   }
 };
