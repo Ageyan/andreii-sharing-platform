@@ -1,0 +1,62 @@
+import { Response } from "express";
+import { AuthRequest } from "../middleware/authMiddleware";
+import { query } from "../config/db";
+
+export const createBooking = async(req: AuthRequest, res: Response): Promise<void> => {
+    const { item_id, start_date, end_date, total_price } = req.body;
+    const renter_id = req.user?.userId;
+
+    try {
+        const sqlQuery = `
+            INSERT INTO bookings (item_id, start_date, end_date, renter_id, total_price)
+            VALUES ($1, $2, $3, $4, $5)
+            RETURNING *
+        `
+
+        const result = await query(sqlQuery, [
+            item_id,
+            start_date,
+            end_date,
+            renter_id,
+            total_price
+        ])
+
+        res.status(201).json({
+            message: 'Річ успішно орендовано',
+            booking: result.rows[0]
+        })
+    } catch(error) {
+        console.error('Помилка при спробі бронювання', error);
+        res.status(500).json({message: 'Помилка сервера при спробі бронювання'})
+    }
+};
+
+export const getMyBookings = async(req: AuthRequest, res: Response): Promise<void> => {
+    const renter_id = req.user?.userId;
+
+    try {
+        const sqlQuery = 'SELECT * FROM bookings WHERE renter_id = $1';
+
+        const result = await query(sqlQuery, [renter_id]);
+
+        res.status(200).json(result.rows);
+    } catch(error) {
+        console.error('Помилка при отриманні орендованих речей', error);
+        res.status(500).json({message: 'Помилка сервера при отриманні орендованих речей'});
+    }
+};
+
+export const getOwnerBookings = async(req: AuthRequest, res: Response): Promise<void> => {
+    const owner_id = req.user?.userId;
+
+    try {
+        const sqlQuery = 'SELECT * FROM bookings WHERE item_id IN(SELECT id FROM items WHERE owner_id = $1)';
+
+        const result = await query(sqlQuery, [owner_id]);
+
+        res.status(200).json(result.rows);
+    } catch(error) {
+        console.error('Помилка при отриманні речей які орендували', error);
+        res.status(500).json({message: 'Помилка сервера при отриманні речей які орендували'}); 
+    }
+};
