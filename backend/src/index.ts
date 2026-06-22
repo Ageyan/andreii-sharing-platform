@@ -1,5 +1,6 @@
 import express, { Request, Response } from 'express';
 import 'dotenv/config';
+import cors from 'cors';
 import { initDatabase } from '../src/models/initDB';
 import authRoutes from './routes/authRoutes';
 import itemRoutes from './routes/itemRoutes';
@@ -9,6 +10,11 @@ const app = express();
 const port = process.env.PORT || 8000;
 
 app.use(express.json());
+
+app.use(cors({
+    origin: 'http://localhost:5173', 
+    credentials: true
+}));
 
 initDatabase();
 
