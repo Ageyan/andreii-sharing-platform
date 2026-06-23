@@ -1,0 +1,26 @@
+@use '../utils/variables' as *;
+
+@mixin container {
+    max-width: 1440px;
+    width: 100%;
+    padding: 0 24px;
+    margin: 0 auto;
+}
+
+@mixin tablet {
+    @media (min-width: $bp-tablet) {
+        @content;
+    }
+};
+
+@mixin desktop {
+    @media (min-width: $bp-desktop) {
+        @content;
+    }
+};
+
+@mixin large-desktop {
+    @media (min-width: $bp-large-desktop) {
+        @content;
+    }
+};

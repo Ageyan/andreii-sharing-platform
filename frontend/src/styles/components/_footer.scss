@@ -1,0 +1,12 @@
+@use '../utils/variables' as *;
+@use '../utils/mixins' as *;
+
+.footer {
+    flex: 0 0 auto;
+    background-color: #357cc3; 
+    padding: 20px 0;
+
+    &__container {
+        @include container;
+    }
+}

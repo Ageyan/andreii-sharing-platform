@@ -1,0 +1,23 @@
+@use '../utils/mixins' as *;
+@use '../utils/variables' as *;
+
+.app-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; 
+}
+
+.main-container {
+    @include container;
+    flex: 1 0 auto;
+}
+
+body {
+    text-align: center;
+    font-size: 1.3rem;
+    font-family: 'Roboto', sans-serif;
+    color: $text-main; 
+    background-color: $bg-main;
+    // overscroll-behavior: none; 
+    // background-attachment: fixed;
+}

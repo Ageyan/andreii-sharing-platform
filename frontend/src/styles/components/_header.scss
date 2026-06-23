@@ -1,0 +1,69 @@
+@use '../utils/variables' as *;
+@use '../utils/mixins' as *;
+
+.header {
+    width: 100%;
+    background-color: $white; 
+    border-bottom: 1px solid $border-color; 
+    padding: 16px 0; 
+    position: sticky;
+    top: 0;
+    z-index: 100;
+
+    &__container {
+        @include container;
+        display: flex;
+        justify-content: space-between;
+        align-items: center; 
+    }
+
+    &__logo {
+        font-size: 1.4rem; 
+        font-weight: 700;
+        font-family: 'Montserrat', sans-serif;
+        color: $color-text-main;
+        text-decoration: none;
+        letter-spacing: -0.5px; 
+        transition: opacity 0.2s ease;
+
+        &:hover {
+            opacity: 0.8;
+        }
+
+        span {
+            color: $color-accent; 
+        }
+    }
+
+    &__nav {
+        display: flex;
+        align-items: center;
+        gap: 24px;
+
+        &--link {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: $color-text-muted;
+            text-decoration: none;
+            transition: color 0.2s ease;
+
+            &:hover {
+                color: $color-text-main; 
+            }
+        }
+
+        button {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: #E53E3E;
+            cursor: pointer;
+            padding: 6px 12px;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+
+            &:hover {
+                background-color: #FFF5F5; 
+            }
+        }
+    }
+}

@@ -12,17 +12,21 @@ const Header = () => {
     return (
         <div className="header">
             <div className="header__container">
-                <Link to="/">
+                <Link to="/" className="header__logo">
                     <span>Sharing Platform</span>
                 </Link>
                 {isAuthenticated ? (
                     <div className="header__nav">
-                        <Link to="/dashboard">Особистий кабінет</Link>
+                        <Link className="header__nav--link" to="/dashboard">
+                            Особистий кабінет
+                        </Link>
                         <button onClick={handleLogout}>Вихід</button>
                     </div>
                 ) : (
                     <div className="header__nav">
-                        <Link to="/auth">Увійти</Link>
+                        <Link className="header__nav--link" to="/auth">
+                            Увійти
+                        </Link>
                     </div>
                 )}
             </div>
