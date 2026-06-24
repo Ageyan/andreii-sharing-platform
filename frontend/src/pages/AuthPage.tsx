@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import api from '../services/api';
+import { handleLogin, handleRegister } from '../services/auth';
 
 const AuthPage = () => {
     const [email, setEmail] = useState<string>('');
@@ -18,23 +18,16 @@ const AuthPage = () => {
 
         try {
             if (isLogin) {
-                const response = await api.post('/auth/login', {
-                    email,
-                    password,
-                });
+                const response = await handleLogin(email, password);
 
-                if (response.data && response.data.token) {
-                    localStorage.setItem('token', response.data.token);
+                if (response && response.token) {
+                    localStorage.setItem('token', response.token);
                     navigate('/dashboard');
                 }
             } else {
-                const response = await api.post('/auth/register', {
-                    name,
-                    email,
-                    password,
-                });
+                const response = await handleRegister(name, email, password);
 
-                if (response.status === 200 || response.status === 201) {
+                if (response) {
                     alert('Реєстрація успішна! Тепер увійдіть у свій аккаунт.');
                     setIsLogin(true);
                     setPassword('');

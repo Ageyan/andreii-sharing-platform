@@ -6,7 +6,7 @@ const Header = () => {
 
     const handleLogout = () => {
         localStorage.removeItem('token');
-        navigate('/auth');
+        navigate('/');
     };
 
     return (
@@ -17,6 +17,9 @@ const Header = () => {
                 </Link>
                 {isAuthenticated ? (
                     <div className="header__nav">
+                        <Link className="header__nav--link" to="/">
+                            Головна
+                        </Link>
                         <Link className="header__nav--link" to="/dashboard">
                             Особистий кабінет
                         </Link>
@@ -24,6 +27,9 @@ const Header = () => {
                     </div>
                 ) : (
                     <div className="header__nav">
+                        <Link className="header__nav--link" to="/">
+                            Головна
+                        </Link>
                         <Link className="header__nav--link" to="/auth">
                             Увійти
                         </Link>
