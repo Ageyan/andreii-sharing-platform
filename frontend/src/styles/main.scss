@@ -6,5 +6,8 @@
 
 @use './layout/layout';
 
+@use './pages/home-page';
+
 @use './components/header';
+@use './components/category-item';
 @use './components/footer';
