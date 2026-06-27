@@ -8,6 +8,8 @@
 
 @use './pages/home-page';
 
+@use './components/aside';
+@use './components/item-card';
 @use './components/header';
 @use './components/category-item';
 @use './components/footer';

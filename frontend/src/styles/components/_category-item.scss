@@ -4,7 +4,7 @@
 .category-item {
     cursor: pointer;
     width: 112px;
-    height: 144px;
+    min-height: 144px;
     flex-shrink: 0;
     display: flex;
     flex-direction: column;
@@ -16,12 +16,12 @@
         transform: scale(1.1);
     }
 
-    &__img {
+    &__icon-wrapper {
+        border-radius: 50%;
         width: 90px;
         height: 90px;
-        border-radius: 50%;
-        object-fit: cover;
-        
+        overflow: hidden;
+
         &.all {background-color: $all;}
         &.auto {background-color: $auto;}
         &.electronics {background-color: $electronics;}
@@ -33,6 +33,12 @@
         &.sports {background-color: $sports;}
         &.gamer {background-color: $gamer;}
         &.real-estate {background-color: $real-estate;}
+    }
+
+    &__img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
     }
 
     &__title {

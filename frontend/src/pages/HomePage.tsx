@@ -4,25 +4,14 @@ import type { Item, ItemCategory } from '../types/items.types';
 import { getItems } from '../services/items';
 import ItemCard from '../components/ItemCard';
 import CategoryItem from '../components/CategoryItem';
-import { IoIosArrowDown } from 'react-icons/io';
+import Aside from '../components/Aside';
+import type { SortValue } from '../components/Aside';
 
 interface CategoryList {
     id: number;
     name: ItemCategory;
     bg: string;
     src: string;
-}
-
-type SortTitle =
-    | 'Нещодавно додані речі'
-    | 'Від дорогих до дешевих речей'
-    | 'Від дешевих до дорогих речей';
-type SortValue = 'newest' | 'price-desc' | 'price-asc';
-
-interface SortsList {
-    id: number;
-    title: SortTitle;
-    sort: SortValue;
 }
 
 const HomePage = () => {
@@ -32,7 +21,6 @@ const HomePage = () => {
     const [serchTerm, setSerchTerm] = useState<string>('');
     const [selectCategory, setSelectCategory] = useState<ItemCategory>('Усі речі');
     const [sortBy, setSortBy] = useState<SortValue>('newest');
-    const [isOpen, setIsOpen] = useState<boolean>(false);
 
     const categories: CategoryList[] = [
         {
@@ -103,12 +91,6 @@ const HomePage = () => {
         },
     ];
 
-    const sorts: SortsList[] = [
-        { id: 1, title: 'Нещодавно додані речі', sort: 'newest' },
-        { id: 2, title: 'Від дорогих до дешевих речей', sort: 'price-desc' },
-        { id: 3, title: 'Від дешевих до дорогих речей', sort: 'price-asc' },
-    ];
-
     useEffect(() => {
         const controller = new AbortController();
 
@@ -139,12 +121,6 @@ const HomePage = () => {
         getItemsList();
 
         return () => controller.abort();
-    }, []);
-
-    useEffect(() => {
-        const closeSelect = () => setIsOpen(false);
-        document.addEventListener('click', closeSelect);
-        return () => document.removeEventListener('click', closeSelect);
     }, []);
 
     const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -185,55 +161,22 @@ const HomePage = () => {
                 </div>
             </div>
             <div className="home-page__main-layout">
-                <aside className="home-page__aside">
-                    <div
-                        className="home-page__sort"
-                        onClick={e => {
-                            setIsOpen(!isOpen);
-                            e.nativeEvent.stopImmediatePropagation();
-                        }}
-                    >
-                        <span>{sorts.find(s => s.sort === sortBy)?.title}</span>
-                        <IoIosArrowDown className={isOpen ? 'open' : ''} />
-                    </div>
-                    {isOpen && (
-                        <div className="home-page__sort-options">
-                            {sorts.map(s => (
-                                <div
-                                    key={s.id}
-                                    className={`home-page__sort-option ${sortBy === s.sort ? 'selected' : ''}`}
-                                    onClick={() => {
-                                        setSortBy(s.sort);
-                                        setIsOpen(false);
-                                    }}
-                                >
-                                    {s.title}
-                                </div>
-                            ))}
-                        </div>
-                    )}
-                    <button
-                        onClick={() => {
-                            setSerchTerm('');
-                            setSelectCategory('Усі речі');
-                            setSortBy('newest');
-                        }}
-                    >
-                        Скинути фільтри
-                    </button>
-                </aside>
-                <div className="home-page__grid">
-                    <div className="home-page__item-list">
-                        {loader && <div className="text-loader">Завантаження товарів...</div>}
-                        {error && <div className="text-error">{error}</div>}
-                        {!loader &&
-                            !error &&
-                            filteredItems.map(item => <ItemCard key={item.id} item={item} />)}
+                <Aside
+                    setSerchTerm={setSerchTerm}
+                    setSelectCategory={setSelectCategory}
+                    sortBy={sortBy}
+                    setSortBy={setSortBy}
+                />
+                <div className="home-page__item-list">
+                    {loader && <div className="text-loader">Завантаження товарів...</div>}
+                    {error && <div className="text-error">{error}</div>}
+                    {!loader &&
+                        !error &&
+                        filteredItems.map(item => <ItemCard key={item.id} item={item} />)}
 
-                        {!loader && !error && filteredItems.length === 0 && (
-                            <div className="text-empty">Нічого не знайдено за вашим запитом</div>
-                        )}
-                    </div>
+                    {!loader && !error && filteredItems.length === 0 && (
+                        <div className="text-empty">Нічого не знайдено за вашим запитом</div>
+                    )}
                 </div>
             </div>
         </div>
