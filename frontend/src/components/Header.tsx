@@ -1,4 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom';
+import SearchInput from './SearchInput';
 
 const Header = () => {
     const isAuthenticated = !!localStorage.getItem('token');
@@ -15,6 +16,7 @@ const Header = () => {
                 <Link to="/" className="header__logo">
                     <span>Sharing Platform</span>
                 </Link>
+                <SearchInput />
                 {isAuthenticated ? (
                     <div className="header__nav">
                         <Link className="header__nav--link" to="/">

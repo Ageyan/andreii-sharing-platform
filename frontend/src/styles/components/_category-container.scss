@@ -1,0 +1,17 @@
+@use '../utils/variables' as *;
+@use '../utils/mixins' as *;
+
+
+ .category-container {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    padding: 22px 16px 12px;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    margin-bottom: 40px;
+    background-color: $white;
+    border: 1px solid $color-text-main;
+    border-radius: 12px;
+}

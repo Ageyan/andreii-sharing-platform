@@ -1,0 +1,33 @@
+@use '../utils/variables' as *;
+@use '../utils/mixins' as *;
+
+.input-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 700px;
+    width: 100%;
+
+    &__icon {
+        position: absolute;
+        top: 50%;
+        left: 2%;
+        transform: translate(0, -50%);
+    }
+
+    &__field {
+        background-color: $white;
+        padding: 12px 24px 12px 48px;
+        border-radius: 12px;
+        color: inherit;
+        font-size: 1.4rem;
+        width: 100%;
+        border: 2px solid $color-text-muted;
+        outline: none;
+
+        &:focus {
+            border-color: $color-accent;
+        }
+    }
+}
