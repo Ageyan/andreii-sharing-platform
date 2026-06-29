@@ -2,10 +2,10 @@ import { useState, type ReactNode } from 'react';
 import { SearchContext } from '../context/SearchContext'; // путь к первому файлу
 
 export const SearchProvider = ({ children }: { children: ReactNode }) => {
-    const [serchTerm, setSerchTerm] = useState<string>('');
+    const [searchTerm, setSearchTerm] = useState<string>('');
 
     return (
-        <SearchContext.Provider value={{ serchTerm, setSerchTerm }}>
+        <SearchContext.Provider value={{ searchTerm, setSearchTerm }}>
             {children}
         </SearchContext.Provider>
     );

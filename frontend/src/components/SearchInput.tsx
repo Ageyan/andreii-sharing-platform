@@ -2,10 +2,10 @@ import { useSearch } from '../context/SearchContext';
 import { BsSearch } from 'react-icons/bs';
 
 const SearchInput = () => {
-    const { serchTerm, setSerchTerm } = useSearch();
+    const { searchTerm, setSearchTerm } = useSearch();
 
     const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setSerchTerm(event.target.value);
+        setSearchTerm(event.target.value);
     };
 
     return (
@@ -14,7 +14,7 @@ const SearchInput = () => {
             <input
                 className="input-container__field"
                 type="text"
-                value={serchTerm}
+                value={searchTerm}
                 onChange={handleSearch}
                 placeholder="Введіть назву товару..."
             />

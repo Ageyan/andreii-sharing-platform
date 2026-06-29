@@ -25,7 +25,9 @@ const Header = () => {
                         <Link className="header__nav--link" to="/dashboard">
                             Особистий кабінет
                         </Link>
-                        <button onClick={handleLogout}>Вихід</button>
+                        <button className="header__btn-logout" onClick={handleLogout}>
+                            Вихід
+                        </button>
                     </div>
                 ) : (
                     <div className="header__nav">

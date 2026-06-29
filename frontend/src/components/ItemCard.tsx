@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import type { Item } from '../types/items.types';
 
 interface ItemCardProps {
@@ -5,20 +6,33 @@ interface ItemCardProps {
 }
 
 const ItemCard = ({ item }: ItemCardProps) => {
+    const fallbackImage =
+        'https://wezom.com.ua/Media/filemanager/blog/struktura-internet-magazina-klyuchevye-momenty-sozdaniya/original/rEd1gfWUQnNVLIM0caWoMcl8aDVQ27G6372YEQYQ.jpg';
+    const itemImage = item.image_url || fallbackImage;
+
     return (
-        <div
-            className="item-card"
-            style={{
-                background: '#fff',
-                padding: '20px',
-                borderRadius: '8px',
-            }}
-        >
-            <h3 className="item-card__title">{item.title}</h3>
-            <p className="item-card__description">{item.description}</p>
-            <p className="item-card__category">{item.category}</p>
-            <p className="item-card__price">{item.price_per_day} грн/день</p>
-        </div>
+        <Link to={`items/${item.id}`} className="item-card">
+            <div className="item-card__image-wrapper">
+                <img className="item-card__img" src={itemImage} alt={item.title} loading="lazy" />
+                <span className="item-card__badge">{item.category}</span>
+            </div>
+
+            <div className="item-card__content">
+                <h3 className="item-card__title" title={item.title}>
+                    {item.title}
+                </h3>
+                <p className="item-card__description" title={item.description}>
+                    {item.description}
+                </p>
+
+                <div className="item-card__footer">
+                    <span className="item-card__price">
+                        <strong>{item.price_per_day}</strong> грн / день
+                    </span>
+                </div>
+            </div>
+        </Link>
     );
 };
+
 export default ItemCard;

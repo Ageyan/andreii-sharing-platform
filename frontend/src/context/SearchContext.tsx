@@ -1,8 +1,8 @@
 import { createContext, useContext } from 'react';
 
 interface SearchContextType {
-    serchTerm: string;
-    setSerchTerm: (value: string) => void;
+    searchTerm: string;
+    setSearchTerm: (value: string) => void;
 }
 
 export const SearchContext = createContext<SearchContextType | null>(null);

@@ -15,7 +15,7 @@ const HomePage = () => {
     const [selectCategory, setSelectCategory] = useState<ItemCategory>('Усі речі');
     const [sortBy, setSortBy] = useState<SortValue>('newest');
 
-    const { serchTerm, setSerchTerm } = useSearch();
+    const { searchTerm, setSearchTerm } = useSearch();
 
     useEffect(() => {
         const controller = new AbortController();
@@ -50,7 +50,7 @@ const HomePage = () => {
     }, []);
 
     const filteredItems = items
-        .filter(item => item.title.toLowerCase().includes(serchTerm.toLowerCase()))
+        .filter(item => item.title.toLowerCase().includes(searchTerm.toLowerCase()))
         .filter(item => selectCategory === 'Усі речі' || item.category === selectCategory)
         .sort((a, b) => {
             if (sortBy === 'price-desc') {
@@ -67,7 +67,7 @@ const HomePage = () => {
             <SearchContainer setSelectCategory={setSelectCategory} />
             <div className="home-page__main-layout">
                 <Aside
-                    setSerchTerm={setSerchTerm}
+                    setSerchTerm={setSearchTerm}
                     setSelectCategory={setSelectCategory}
                     sortBy={sortBy}
                     setSortBy={setSortBy}
