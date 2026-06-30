@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { handleLogin, handleRegister } from '../services/auth';
 import { MdAlternateEmail, MdOutlineDriveFileRenameOutline } from 'react-icons/md';
@@ -13,6 +13,7 @@ const AuthPage = () => {
     const [name, setName] = useState<string>('');
 
     const navigate = useNavigate();
+    const location = useLocation();
 
     const handlesSubmit = async (event: React.SubmitEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -24,7 +25,10 @@ const AuthPage = () => {
 
                 if (response && response.token) {
                     localStorage.setItem('token', response.token);
-                    navigate('/dashboard');
+
+                    const fromPage = location.state?.from || '/dashboard';
+
+                    navigate(fromPage);
                 }
             } else {
                 const response = await handleRegister(name, email, password);

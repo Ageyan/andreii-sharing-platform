@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { getItemById } from '../services/items';
 import { useEffect, useState } from 'react';
 import type { Item } from '../types/items.types';
@@ -8,7 +8,11 @@ const ItemPage = () => {
     const [item, setItem] = useState<Item | null>(null);
     const [loader, setLoader] = useState<boolean>(false);
     const [error, setError] = useState<string>('');
+    const isAuthenticated = !!localStorage.getItem('token');
+
     const { id } = useParams<{ id: string }>();
+    const navigate = useNavigate();
+    const location = useLocation();
 
     useEffect(() => {
         if (!id) return;
@@ -35,17 +39,126 @@ const ItemPage = () => {
         getItem();
     }, [id]);
 
+    const authNavigate = () => {
+        navigate('/auth', { state: { from: location.pathname } });
+    };
+
+    const fallbackImage =
+        'https://wezom.com.ua/Media/filemanager/blog/struktura-internet-magazina-klyuchevye-momenty-sozdaniya/original/rEd1gfWUQnNVLIM0caWoMcl8aDVQ27G6372YEQYQ.jpg';
+    const itemImage = item?.image_url || fallbackImage;
+
+    const getNextDay = (dateString: string) => {
+        const date = new Date(dateString);
+        date.setDate(date.getDate() + 1);
+        return date.toISOString().split('T')[0];
+    };
+
+    const today = new Date().toISOString().split('T')[0];
+    const tomorrow = getNextDay(today);
+
+    const [startDate, setStartDate] = useState<string>(today);
+    const [endDate, setEndDate] = useState<string>(tomorrow);
+
     return (
         <div className="item-page">
-            {error && <p className="text-error">{error}</p>}
-            {loader && <div>Товар завантажується...</div>}
-
-            {!error && !loader && item && (
-                <div>
-                    <h1>{item.title}</h1>
-                    <p>{item.description}</p>
-                    <span>ID товара: {id}</span>
-                </div>
+            {error && <p>Помилка при завантаженні сторінки</p>}
+            {loader && <div>Сторінка завантажується...</div>}
+            {!loader && !error && item && (
+                <>
+                    <button className="item-page__back-btn" onClick={() => navigate(-1)}>
+                        &larr; Назад до каталогу
+                    </button>
+                    <div className="item-page__layout">
+                        <div className="item-page__main-content">
+                            <div className="item-page__gallery">
+                                <img
+                                    src={itemImage}
+                                    alt={item?.title}
+                                    className="item-page__main-img"
+                                />
+                            </div>
+                            <div className="item-page__info-block">
+                                <span className="item-page__category">{item?.category}</span>
+                                <h1 className="item-page__title">{item?.title}</h1>
+                                <div className="item-page__owner">
+                                    <div className="item-page__owner-avatar">A</div>
+                                    <div className="item-page__owner-info">
+                                        <p className="item-page__owner-name">Власник: Андрій</p>
+                                        <p className="item-page__owner-status">
+                                            На платформі з 2026 року
+                                        </p>
+                                    </div>
+                                </div>
+                                <hr className="item-page__divider" />
+                                <div className="item-page__description-wrapper">
+                                    <h3 className="item-page__section-title">Опис речі</h3>
+                                    <p className="item-page__description">{item?.description}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="item-page__sidebar">
+                            <div className="item-page__widget">
+                                <div className="item-page__price-block">
+                                    <span className="item-page__price-label">Вартість оренди:</span>
+                                    <p className="item-page__price">
+                                        <strong>{item?.price_per_day}</strong> грн / доба
+                                    </p>
+                                </div>
+                                <form
+                                    className="item-page__form"
+                                    onSubmit={e => e.preventDefault()}
+                                >
+                                    <div className="item-page__input-group">
+                                        <label className="item-page__label">Початок оренди</label>
+                                        <input
+                                            type="date"
+                                            className="item-page__date-input"
+                                            value={startDate}
+                                            min={today}
+                                            onChange={e => {
+                                                const newStartDate = e.target.value;
+                                                setStartDate(newStartDate);
+                                                const nextDayForEnd = getNextDay(newStartDate);
+                                                setEndDate(nextDayForEnd);
+                                            }}
+                                            required
+                                        />
+                                    </div>
+                                    <div className="item-page__input-group">
+                                        <label className="item-page__label">Кінець оренди</label>
+                                        <input
+                                            type="date"
+                                            className="item-page__date-input"
+                                            value={endDate}
+                                            min={getNextDay(startDate)}
+                                            onChange={e => setEndDate(e.target.value)}
+                                            required
+                                        />
+                                    </div>
+                                    {isAuthenticated ? (
+                                        <button type="submit" className="item-page__action-btn">
+                                            Орендувати зараз
+                                        </button>
+                                    ) : (
+                                        <button
+                                            onClick={authNavigate}
+                                            type="button"
+                                            className="item-page__action-btn"
+                                        >
+                                            Увійти для оренди
+                                        </button>
+                                    )}
+                                </form>
+                                <p className="item-page__widget-note">
+                                    {isAuthenticated
+                                        ? `* Ви зможете скасувати бронь безкоштовно за 24 години до початку
+                                    оренди.`
+                                        : `* Для орендування необхідно здійснити вхід у особистий кабінет`}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </>
             )}
         </div>
     );
