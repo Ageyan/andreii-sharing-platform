@@ -4,7 +4,9 @@ export interface Item {
     description: string
     price_per_day: number
     category: string
-    image_url: string
+    image_url: string[]
+    owner_name: string 
+    owner_created_at: string
 }
 
 export type ItemCategory = 'Усі речі' | 'Авто' | 'Електроніка' | 

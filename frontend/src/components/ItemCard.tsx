@@ -8,7 +8,7 @@ interface ItemCardProps {
 const ItemCard = ({ item }: ItemCardProps) => {
     const fallbackImage =
         'https://wezom.com.ua/Media/filemanager/blog/struktura-internet-magazina-klyuchevye-momenty-sozdaniya/original/rEd1gfWUQnNVLIM0caWoMcl8aDVQ27G6372YEQYQ.jpg';
-    const itemImage = item.image_url || fallbackImage;
+    const itemImage = item?.image_url?.[0] || fallbackImage;
 
     return (
         <Link to={`items/${item.id}`} className="item-card">

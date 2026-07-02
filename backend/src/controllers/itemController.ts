@@ -50,7 +50,12 @@ export const getItemById = async(req: Request, res: Response): Promise<void> => 
     const { id } = req.params;
 
     try{
-        const sqlQuery = 'SELECT * FROM items WHERE id = $1';
+        const sqlQuery = `
+            SELECT i.*, u.name AS owner_name, u.created_at AS owner_created_at
+            FROM items i
+            INNER JOIN users u ON i.owner_id = u.id
+            WHERE i.id = $1;
+        `;
 
         const result = await query(sqlQuery, [id]);
 
@@ -63,5 +68,41 @@ export const getItemById = async(req: Request, res: Response): Promise<void> => 
     } catch(error) {
         console.error('Помилка при отриманні данної речі', error);
         res.status(500).json({message: 'Помилка сервера при отриманні данної речі'});
+    }
+};
+
+export const deleteItemById = async(req: AuthRequest, res: Response): Promise<void> => {
+    const { id } = req.params;
+    const owner_id = req?.user?.userId;
+
+    try {
+        const sqlQuery = 'DELETE FROM items WHERE id = $1 AND owner_id = $2 RETURNING *'
+
+        const result = await query(sqlQuery, [id, owner_id])
+
+        if(result.rows.length === 0) {
+            res.status(404).json({message: 'Річ не знайдено або у вас немає прав для її видалення'});
+            return;
+        }
+
+        res.status(200).json({ message: 'Річ успішно видалено'});
+    } catch (error) {
+        console.error('Помилка при видаленні речі', error);
+        res.status(500).json({message: 'Помилка сервера при видаленні речі'});
+    }
+};
+
+export const getMyItems = async(req: AuthRequest, res: Response): Promise<void> => {
+    const owner_id = req?.user?.userId
+
+    try {
+        const sqlQuery = 'SELECT * FROM items WHERE owner_id = $1'
+
+        const result = await query(sqlQuery, [owner_id])
+
+        res.status(200).json(result.rows);
+    } catch (error) {
+        console.error('Помилка при отриманні власних речей', error);
+        res.status(500).json({message: 'Помилка сервера при отриманні власних речей'});
     }
 };

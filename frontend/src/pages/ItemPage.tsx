@@ -8,11 +8,16 @@ const ItemPage = () => {
     const [item, setItem] = useState<Item | null>(null);
     const [loader, setLoader] = useState<boolean>(false);
     const [error, setError] = useState<string>('');
+    const [imageActive, setImageActive] = useState<string>('');
     const isAuthenticated = !!localStorage.getItem('token');
 
     const { id } = useParams<{ id: string }>();
     const navigate = useNavigate();
     const location = useLocation();
+
+    const fallbackImage =
+        'https://wezom.com.ua/Media/filemanager/blog/struktura-internet-magazina-klyuchevye-momenty-sozdaniya/original/rEd1gfWUQnNVLIM0caWoMcl8aDVQ27G6372YEQYQ.jpg';
+    const itemImage = item?.image_url?.[0] || fallbackImage;
 
     useEffect(() => {
         if (!id) return;
@@ -23,6 +28,7 @@ const ItemPage = () => {
             try {
                 const res = await getItemById(id);
                 setItem(res);
+                setImageActive(res?.image_url?.[0] || fallbackImage);
             } catch (err) {
                 if (axios.isAxiosError(err)) {
                     const message = err.response?.data.message || 'Помилка при завантаженні товару';
@@ -43,9 +49,14 @@ const ItemPage = () => {
         navigate('/auth', { state: { from: location.pathname } });
     };
 
-    const fallbackImage =
-        'https://wezom.com.ua/Media/filemanager/blog/struktura-internet-magazina-klyuchevye-momenty-sozdaniya/original/rEd1gfWUQnNVLIM0caWoMcl8aDVQ27G6372YEQYQ.jpg';
-    const itemImage = item?.image_url || fallbackImage;
+    const imagesGallery =
+        item?.image_url && item.image_url.length > 0
+            ? item.image_url
+            : [
+                  itemImage,
+                  'https://images.unsplash.com/photo-1606144042614-b2417e99c4e3?q=80&w=200&auto=format&fit=crop',
+                  'https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?q=80&w=200&auto=format&fit=crop',
+              ];
 
     const getNextDay = (dateString: string) => {
         const date = new Date(dateString);
@@ -71,11 +82,24 @@ const ItemPage = () => {
                     <div className="item-page__layout">
                         <div className="item-page__main-content">
                             <div className="item-page__gallery">
-                                <img
-                                    src={itemImage}
-                                    alt={item?.title}
-                                    className="item-page__main-img"
-                                />
+                                <div className="item-page__main-img-wrapper">
+                                    <img
+                                        src={imageActive || itemImage}
+                                        alt={item?.title}
+                                        className="item-page__main-img"
+                                    />
+                                </div>
+                                <div className="item-page__thumbs">
+                                    {imagesGallery.map((imgUrl, index) => (
+                                        <div
+                                            key={index}
+                                            className={`item-page__thumb-item ${imageActive === imgUrl ? 'item-page__thumb-item--active' : ''}`}
+                                            onClick={() => setImageActive(imgUrl)}
+                                        >
+                                            <img src={imgUrl} alt={`Прев'ю ${index + 1}`} />
+                                        </div>
+                                    ))}
+                                </div>
                             </div>
                             <div className="item-page__info-block">
                                 <span className="item-page__category">{item?.category}</span>
@@ -83,7 +107,9 @@ const ItemPage = () => {
                                 <div className="item-page__owner">
                                     <div className="item-page__owner-avatar">A</div>
                                     <div className="item-page__owner-info">
-                                        <p className="item-page__owner-name">Власник: Андрій</p>
+                                        <p className="item-page__owner-name">
+                                            Власник: {item?.owner_name}
+                                        </p>
                                         <p className="item-page__owner-status">
                                             На платформі з 2026 року
                                         </p>
