@@ -1,6 +1,7 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { lazy, Suspense } from 'react';
 import MainLayout from '../layouts/MainLayout';
+import ProtectedRoute from '../routes/ProtectedRoute';
 
 const HomePage = lazy(() => import('../pages/HomePage'));
 const DashboardPage = lazy(() => import('../pages/DashboardPage'));
@@ -14,7 +15,14 @@ const AppRouter = () => {
                 <Routes>
                     <Route element={<MainLayout />}>
                         <Route path="/" element={<HomePage />} />
-                        <Route path="/dashboard" element={<DashboardPage />} />
+                        <Route
+                            path="/dashboard"
+                            element={
+                                <ProtectedRoute>
+                                    <DashboardPage />
+                                </ProtectedRoute>
+                            }
+                        />
                         <Route path="/items/:id" element={<ItemPage />} />
                         <Route path="/auth" element={<AuthPage />} />
                     </Route>

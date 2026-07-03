@@ -26,7 +26,7 @@ const ItemPage = () => {
             setLoader(true);
             setError('');
             try {
-                const res = await getItemById(id);
+                const res = await getItemById(Number(id));
                 setItem(res);
                 setImageActive(res?.image_url?.[0] || fallbackImage);
             } catch (err) {
