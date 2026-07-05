@@ -1,0 +1,117 @@
+@use '../utils/variables' as *;
+@use '../utils/mixins' as *;
+
+.add-item-box {
+    width: 100%;
+    display: flex;
+    justify-content: center; 
+    padding: 20px 0;
+}
+
+.add-item-form {
+    width: 100%;
+    max-width: 750px; 
+    background: $white;
+    padding: 40px;
+    border-radius: 20px;
+    border: 1px solid $border-color;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.03);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    &__title {
+        font-size: 1.6rem;
+        font-weight: 700;
+        color: $text-main;
+        margin-top: 0;
+        margin-bottom: 10px;
+        text-align: center; // Центрируем заголовок, как в авторизации
+    }
+
+    &__group {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        width: 100%;
+    }
+
+    &__row {
+        display: flex;
+        gap: 20px;
+    }
+
+    &__label {
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: $color-text-main;
+    }
+
+    &__input,
+    &__textarea {
+        width: 100%;
+        padding: 14px 16px; 
+        border: 1px solid $border-color;
+        border-radius: 12px; 
+        font-size: 0.95rem;
+        color: $color-text-main;
+        background-color: $white;
+        transition: all 0.2s ease-in-out;
+        outline: none;
+
+        &:focus {
+            border-color: $color-accent; 
+            box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.1);
+        }
+
+        &::placeholder {
+            color: $color-text-muted;
+            font-size: 0.9rem;
+        }
+    }
+
+    &__textarea {
+        min-height: 100px;
+        resize: vertical;
+        font-family: inherit;
+    }
+
+    &__submit-btn {
+        margin-top: 10px;
+        padding: 14px 24px;
+        background: linear-gradient(135deg, #4299e1 0%, $color-accent 100%); 
+        color: $white;
+        border: none;
+        border-radius: 12px;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: transform 0.15s ease, opacity 0.2s ease;
+
+        &:hover {
+            opacity: 0.95;
+        }
+
+        &:active {
+            transform: scale(0.98);
+        }
+    }
+
+    &__error-msg {
+        padding: 12px;
+        background-color: #fff5f5;
+        border-left: 4px solid #e53e3e;
+        color: #c53030;
+        border-radius: 8px;
+        font-size: 0.9rem;
+        font-weight: 500;
+    }
+}
+
+
+
+
+
+
+
+

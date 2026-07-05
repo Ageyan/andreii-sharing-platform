@@ -11,7 +11,9 @@
 @use './pages/item-page';
 @use './pages/home-page';
 
+@use './components/add-item-form';
 @use './components/aside';
+@use './components/dash-items';
 @use './components/item-card';
 @use './components/category-container';
 @use './components/search-input';

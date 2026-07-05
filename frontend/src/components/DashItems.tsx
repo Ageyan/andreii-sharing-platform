@@ -2,11 +2,13 @@ import { useEffect, useState } from 'react';
 import type { Item } from '../types/items.types';
 import { getMyItems, deleteItem } from '../services/items';
 import ItemCard from './ItemCard';
+import AddItemForm from './AddItemForm';
 import axios from 'axios';
 
 const DashItems = () => {
     const [myItems, setMyItems] = useState<Item[]>([]);
     const [loader, setLoader] = useState<boolean>(false);
+    const [viewForm, setViewForm] = useState<boolean>(false);
     const [error, setError] = useState<string>('');
 
     useEffect(() => {
@@ -53,11 +55,27 @@ const DashItems = () => {
     };
 
     return (
-        <div className="dashboard-profile">
+        <div className="dashboard-items">
             {loader && <div>Список речей завантажуеться</div>}
             {error && <p>{error}</p>}
-            {!error &&
-                !loader &&
+            {viewForm ? (
+                <button
+                    className="dash-items__toggle-btn dash-items__toggle-btn--cancel"
+                    onClick={() => setViewForm(!viewForm)}
+                >
+                    Відмінити додавання речі
+                </button>
+            ) : (
+                <button
+                    className="dash-items__toggle-btn dash-items__toggle-btn--add"
+                    onClick={() => setViewForm(!viewForm)}
+                >
+                    Додати нову річ
+                </button>
+            )}
+            {!error && !loader && viewForm ? (
+                <AddItemForm setViewForm={setViewForm} setMyItems={setMyItems} />
+            ) : (
                 myItems.map(i => (
                     <ItemCard key={i.id} item={i}>
                         <button
@@ -70,8 +88,11 @@ const DashItems = () => {
                             Видалити
                         </button>
                     </ItemCard>
-                ))}
-            {!error && !loader && myItems.length === 0 && <div>Поки у вас відсутні речі</div>}
+                ))
+            )}
+            {!error && !loader && myItems.length === 0 && !viewForm && (
+                <div>Поки у вас відсутні речі</div>
+            )}
         </div>
     );
 };

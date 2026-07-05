@@ -1,0 +1,43 @@
+@use '../utils/variables' as *;
+@use '../utils/mixins' as *;
+
+.dash-items {
+    &__toggle-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 12px 20px;
+        font-size: 0.95rem;
+        font-weight: 600;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: all 0.2s ease-in-out;
+        margin-bottom: 24px;
+
+        &--add {
+            background-color: $color-accent;
+            color: $white;
+
+            &:hover {
+                background-color: darken($color-accent, 8%); 
+                transform: translateY(-1px);
+            }
+
+            &:active {
+                transform: translateY(0);
+            }
+        }
+
+        &--cancel {
+            background-color: $bg-main;
+            color: $color-text-main;
+            border: 1px solid $border-color;
+
+            &:hover {
+                background-color: darken($bg-main, 4%);
+                color: $black;
+            }
+        }
+    }
+}

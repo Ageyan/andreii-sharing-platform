@@ -9,31 +9,41 @@ const DashboardPage = () => {
     const [activeTab, setActiveTab] = useState<activeTabType>('profile');
 
     return (
-        <div className="dashboard-page">
-            <aside>
-                <button
-                    className={`dashboard-page__btn ${activeTab === 'profile' ? 'active' : ''}`}
-                    onClick={() => setActiveTab('profile')}
-                >
-                    Профіль
-                </button>
-                <button
-                    className={`dashboard-page__btn ${activeTab === 'items' ? 'active' : ''}`}
-                    onClick={() => setActiveTab('items')}
-                >
-                    Речі
-                </button>
-                <button
-                    className={`dashboard-page__btn ${activeTab === 'bookings' ? 'active' : ''}`}
-                    onClick={() => setActiveTab('bookings')}
-                >
-                    Бронювання
-                </button>
-            </aside>
-            <div>
-                {activeTab === 'profile' && <DashProfile />}
-                {activeTab === 'items' && <DashItems />}
-                {activeTab === 'bookings' && <DashBookings />}
+        <div className="dashboard">
+            <div className="dashboard__container">
+                <aside className="dashboard__sidebar">
+                    <div className="dashboard__user-card">
+                        <div className="dashboard__avatar-placeholder">A</div>
+                        <h2 className="dashboard__user-name">Мій Акаунт</h2>
+                    </div>
+                    <nav className="dashboard__menu">
+                        <button
+                            className={`dashboard__menu-btn ${activeTab === 'profile' ? 'dashboard__menu-btn--active' : ''}`}
+                            onClick={() => setActiveTab('profile')}
+                        >
+                            <span className="dashboard__icon">👤</span> Профіль
+                        </button>
+                        <button
+                            className={`dashboard__menu-btn ${activeTab === 'items' ? 'dashboard__menu-btn--active' : ''}`}
+                            onClick={() => setActiveTab('items')}
+                        >
+                            <span className="dashboard__icon">📦</span> Речі
+                        </button>
+                        <button
+                            className={`dashboard__menu-btn ${activeTab === 'bookings' ? 'dashboard__menu-btn--active' : ''}`}
+                            onClick={() => setActiveTab('bookings')}
+                        >
+                            <span className="dashboard__icon">📅</span> Бронювання
+                        </button>
+                    </nav>
+                </aside>
+                <section className="dashboard__content">
+                    <div className="dashboard__card animate-fade-in">
+                        {activeTab === 'profile' && <DashProfile />}
+                        {activeTab === 'items' && <DashItems />}
+                        {activeTab === 'bookings' && <DashBookings />}
+                    </div>
+                </section>
             </div>
         </div>
     );

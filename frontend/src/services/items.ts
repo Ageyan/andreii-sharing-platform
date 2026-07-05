@@ -1,5 +1,5 @@
 import api from "./api";
-import type { Item } from "../types/items.types";
+import type { Item, CreateItem } from "../types/items.types";
 import type { AxiosRequestConfig } from "axios";
 
 export const getItems = async(config? : AxiosRequestConfig): Promise<Item[]> => {
@@ -14,6 +14,11 @@ export const getItemById = async( id : number): Promise<Item> => {
 
 export const getMyItems = async(config? : AxiosRequestConfig): Promise<Item[]> => {
     const { data } = await api.get<Item[]>('/items/my', config);
+    return data;
+}
+
+export const addItem = async(item: CreateItem): Promise<Item> => {
+    const { data } = await api.post<Item>('/items/add', item);
     return data;
 }
 

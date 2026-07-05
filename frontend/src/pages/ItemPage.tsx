@@ -50,7 +50,7 @@ const ItemPage = () => {
     };
 
     const imagesGallery =
-        item?.image_url && item.image_url.length > 0
+        Array.isArray(item?.image_url) && item.image_url.length > 0
             ? item.image_url
             : [
                   itemImage,
