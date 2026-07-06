@@ -2,6 +2,7 @@ import { query } from '../config/db';
 
 export const initDatabase = async () => {
   const createTablesSQL = `
+    
     -- 1. Таблиця користувачів
     CREATE TABLE IF NOT EXISTS users (
       id SERIAL PRIMARY KEY,
@@ -19,7 +20,7 @@ export const initDatabase = async () => {
       description TEXT,
       price_per_day DECIMAL(10, 2) NOT NULL,
       category VARCHAR(100) NOT NULL,
-      image_url TEXT,
+      image_url TEXT[],
       owner_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );

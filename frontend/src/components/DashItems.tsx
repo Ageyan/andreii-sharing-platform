@@ -4,6 +4,7 @@ import { getMyItems, deleteItem } from '../services/items';
 import ItemCard from './ItemCard';
 import AddItemForm from './AddItemForm';
 import axios from 'axios';
+import { MdDelete } from 'react-icons/md';
 
 const DashItems = () => {
     const [myItems, setMyItems] = useState<Item[]>([]);
@@ -60,39 +61,42 @@ const DashItems = () => {
             {error && <p>{error}</p>}
             {viewForm ? (
                 <button
-                    className="dash-items__toggle-btn dash-items__toggle-btn--cancel"
+                    className="dashboard-items__toggle-btn dashboard-items__toggle-btn--cancel"
                     onClick={() => setViewForm(!viewForm)}
                 >
                     Відмінити додавання речі
                 </button>
             ) : (
                 <button
-                    className="dash-items__toggle-btn dash-items__toggle-btn--add"
+                    className="dashboard-items__toggle-btn dashboard-items__toggle-btn--add"
                     onClick={() => setViewForm(!viewForm)}
                 >
                     Додати нову річ
                 </button>
             )}
-            {!error && !loader && viewForm ? (
-                <AddItemForm setViewForm={setViewForm} setMyItems={setMyItems} />
-            ) : (
-                myItems.map(i => (
-                    <ItemCard key={i.id} item={i}>
-                        <button
-                            onClick={e => {
-                                e.preventDefault();
-                                e.stopPropagation();
-                                handleDelete(i.id);
-                            }}
-                        >
-                            Видалити
-                        </button>
-                    </ItemCard>
-                ))
-            )}
-            {!error && !loader && myItems.length === 0 && !viewForm && (
-                <div>Поки у вас відсутні речі</div>
-            )}
+            <div className={viewForm ? '' : 'dashboard-items__list'}>
+                {!error && !loader && viewForm ? (
+                    <AddItemForm setViewForm={setViewForm} setMyItems={setMyItems} />
+                ) : (
+                    myItems.map(i => (
+                        <ItemCard key={i.id} item={i}>
+                            <button
+                                className="item-card__btn-delete"
+                                onClick={e => {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    handleDelete(i.id);
+                                }}
+                            >
+                                <MdDelete className="item-card__btn-delete-icon" />
+                            </button>
+                        </ItemCard>
+                    ))
+                )}
+                {!error && !loader && myItems.length === 0 && !viewForm && (
+                    <div>Поки у вас відсутні речі</div>
+                )}
+            </div>
         </div>
     );
 };

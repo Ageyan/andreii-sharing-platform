@@ -17,9 +17,25 @@ export const getMyItems = async(config? : AxiosRequestConfig): Promise<Item[]> =
     return data;
 }
 
-export const addItem = async(item: CreateItem): Promise<Item> => {
-    const { data } = await api.post<Item>('/items/add', item);
-    return data;
+export const addItem = async(itemData: CreateItem, files: File[]): Promise<Item> => {
+    const formData = new FormData();
+
+    formData.append('title', itemData.title);
+    formData.append('description', itemData.description);
+    formData.append('price_per_day', String(itemData.price_per_day));
+    formData.append('category', itemData.category);
+
+    files.forEach(file => {
+        formData.append('images', file);
+    })
+
+    const { data } = await api.post('/items/add', formData, {
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+    });
+
+    return data.item;
 }
 
 export const deleteItem = async(id: number): Promise<void> => {

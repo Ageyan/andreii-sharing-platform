@@ -3,9 +3,10 @@ import { AuthRequest } from '../middleware/authMiddleware';
 import { query } from '../config/db';
 
 export const createItem = async(req: AuthRequest, res: Response): Promise<void> => {
-    const {title, description, price_per_day, category, image_url} = req.body;
-
+    const { title, description, price_per_day, category } = req.body;
     const owner_id = req.user?.userId;
+    const files = req.files as Express.Multer.File[];
+    const imageUrls = files ? files.map(file => file.path) : [];
 
     try {
         const sqlQuery = `
@@ -19,7 +20,7 @@ export const createItem = async(req: AuthRequest, res: Response): Promise<void> 
             description,
             price_per_day,
             category,
-            image_url,
+            imageUrls,
             owner_id
         ]);
 

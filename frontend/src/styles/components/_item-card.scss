@@ -75,7 +75,8 @@
         line-height: 1.4;
         flex-grow: 1;
         display: -webkit-box;
-        line-clamp: 2;
+        line-clamp: 3;
+        -webkit-line-clamp: 3;
         -webkit-box-orient: vertical;
         overflow: hidden;
     }
@@ -96,6 +97,25 @@
             font-size: 1.2rem;
             font-weight: 700;
             color: $color-accent;
+        }
+    }
+
+    &__btn-delete {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+    }
+
+    &__btn-delete-icon {
+        width: 24px;
+        height: 24px;
+        color: $delete-color;
+        transition: all 0.3s ease-in-out;
+
+        &:hover {
+            color: $delete-color-active;
+            transform: scale(1.1);
         }
     }
 }

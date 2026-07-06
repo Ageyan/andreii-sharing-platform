@@ -13,8 +13,14 @@ const AddItemForm = ({ setViewForm, setMyItems }: AddFormProps) => {
     const [description, setDescription] = useState<string>('');
     const [price, setPrice] = useState<string>('');
     const [category, setCategory] = useState<string>('');
-    const [image, setImage] = useState<string>('');
+    const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
     const [error, setError] = useState<string>('');
+
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files) {
+            setSelectedFiles(Array.from(e.target.files));
+        }
+    };
 
     const addNewItem = async (event: React.SubmitEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -25,16 +31,15 @@ const AddItemForm = ({ setViewForm, setMyItems }: AddFormProps) => {
                 description: description,
                 price_per_day: Number(price),
                 category: category,
-                image_url: [image],
             };
 
-            const createdItem = await addItem(newItem);
+            const createdItem = await addItem(newItem, selectedFiles);
             setMyItems(prevItems => [createdItem, ...prevItems]);
             setTitle('');
             setDescription('');
             setPrice('');
             setCategory('');
-            setImage('');
+            setSelectedFiles([]);
             setViewForm(false);
         } catch (err) {
             if (axios.isCancel(err)) {
@@ -106,10 +111,11 @@ const AddItemForm = ({ setViewForm, setMyItems }: AddFormProps) => {
                     <label className="add-item-form__label">Посилання на зображення</label>
                     <input
                         className="add-item-form__input"
-                        type="text"
+                        type="file"
+                        multiple
+                        accept="image/*"
                         placeholder="https://example.com/image.jpg"
-                        value={image}
-                        onChange={e => setImage(e.target.value)}
+                        onChange={handleFileChange}
                     />
                 </div>
                 <button className="add-item-form__submit-btn" type="submit">

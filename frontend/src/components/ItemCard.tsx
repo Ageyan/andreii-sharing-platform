@@ -29,9 +29,9 @@ const ItemCard = ({ item, children }: ItemCardProps) => {
                     <span className="item-card__price">
                         <strong>{item.price_per_day}</strong> грн / день
                     </span>
+                    {children}
                 </div>
             </div>
-            {children}
         </Link>
     );
 };

@@ -1,7 +1,9 @@
-import React from 'react';
-
 const DashProfile = () => {
-    return <div>DashProfile</div>;
+    return (
+        <div className="profile-container">
+            <p></p>
+        </div>
+    );
 };
 
 export default DashProfile;

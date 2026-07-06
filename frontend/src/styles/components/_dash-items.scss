@@ -1,7 +1,8 @@
 @use '../utils/variables' as *;
 @use '../utils/mixins' as *;
 
-.dash-items {
+.dashboard-items {
+    
     &__toggle-btn {
         display: inline-flex;
         align-items: center;
@@ -20,7 +21,6 @@
             color: $white;
 
             &:hover {
-                background-color: darken($color-accent, 8%); 
                 transform: translateY(-1px);
             }
 
@@ -35,9 +35,19 @@
             border: 1px solid $border-color;
 
             &:hover {
-                background-color: darken($bg-main, 4%);
                 color: $black;
             }
         }
+    }
+
+    &__list {
+        width: 100%;
+        background-color: $white;
+        border: 1px solid $color-text-main;
+        border-radius: 12px;
+        display: grid;
+        padding: 20px 16px;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 30px;
     }
 }

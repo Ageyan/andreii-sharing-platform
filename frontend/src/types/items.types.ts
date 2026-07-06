@@ -9,7 +9,7 @@ export interface Item {
     owner_created_at: string
 }
 
-export type CreateItem = Omit<Item, 'id' | 'owner_name' | 'owner_created_at'>;
+export type CreateItem = Omit<Item, 'id' | 'owner_name' | 'owner_created_at' | 'image_url'>;
 
 export type ItemCategory = 'Усі речі' | 'Авто' | 'Електроніка' | 
 'Робота' | 'Запчастини' | 'Дім і сад' | 'Бізнес та послуги' | 'Дитячий світ' 
