@@ -4,13 +4,15 @@ import axios from 'axios';
 import { handleLogin, handleRegister } from '../services/auth';
 import { MdAlternateEmail, MdOutlineDriveFileRenameOutline } from 'react-icons/md';
 import { RiLockPasswordLine } from 'react-icons/ri';
+import { FaPhoneAlt } from 'react-icons/fa';
 
 const AuthPage = () => {
+    const [name, setName] = useState<string>('');
+    const [phone, setPhone] = useState<string>('');
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const [error, setError] = useState<string>('');
     const [isLogin, setIsLogin] = useState<boolean>(true);
-    const [name, setName] = useState<string>('');
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -31,7 +33,7 @@ const AuthPage = () => {
                     navigate(fromPage);
                 }
             } else {
-                const response = await handleRegister(name, email, password);
+                const response = await handleRegister(name, phone, email, password);
 
                 if (response) {
                     alert('Реєстрація успішна! Тепер увійдіть у свій аккаунт.');
@@ -56,17 +58,32 @@ const AuthPage = () => {
             {error && <p className="auth-page__error">{error}</p>}
             <form onSubmit={handlesSubmit} className="auth-page__form">
                 {!isLogin && (
-                    <div className="auth-page__input-container">
-                        <label>Name: </label>
-                        <div className="auth-page__input-container--icon">
-                            <MdOutlineDriveFileRenameOutline className="auth-page__input-icon" />
-                            <input
-                                className="auth-page__input"
-                                type="text"
-                                value={name}
-                                onChange={e => setName(e.target.value)}
-                                required
-                            />
+                    <div className="auth-page__register-container">
+                        <div className="auth-page__input-container">
+                            <label>Name: </label>
+                            <div className="auth-page__input-container--icon">
+                                <MdOutlineDriveFileRenameOutline className="auth-page__input-icon" />
+                                <input
+                                    className="auth-page__input"
+                                    type="text"
+                                    value={name}
+                                    onChange={e => setName(e.target.value)}
+                                    required
+                                />
+                            </div>
+                        </div>
+                        <div className="auth-page__input-container">
+                            <label>Phone: </label>
+                            <div className="auth-page__input-container--icon">
+                                <FaPhoneAlt className="auth-page__input-icon" />
+                                <input
+                                    className="auth-page__input"
+                                    type="tel"
+                                    value={phone}
+                                    onChange={e => setPhone(e.target.value)}
+                                    required
+                                />
+                            </div>
                         </div>
                     </div>
                 )}

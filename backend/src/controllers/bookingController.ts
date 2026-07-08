@@ -35,7 +35,12 @@ export const getMyBookings = async(req: AuthRequest, res: Response): Promise<voi
     const renter_id = req.user?.userId;
 
     try {
-        const sqlQuery = 'SELECT * FROM bookings WHERE renter_id = $1';
+        const sqlQuery = `
+            SELECT b.*, i.title, i.category, i.image_url 
+            FROM bookings b
+            INNER JOIN items i ON b.item_id = i.id
+            WHERE b.renter_id = $1
+        `;
 
         const result = await query(sqlQuery, [renter_id]);
 
@@ -50,7 +55,12 @@ export const getOwnerBookings = async(req: AuthRequest, res: Response): Promise<
     const owner_id = req.user?.userId;
 
     try {
-        const sqlQuery = 'SELECT * FROM bookings WHERE item_id IN(SELECT id FROM items WHERE owner_id = $1)';
+        const sqlQuery = `
+            SELECT b.*, i.title, i.category, i.image_url 
+            FROM bookings b
+            INNER JOIN items i ON b.item_id = i.id
+            WHERE i.owner_id = $1
+        `;
 
         const result = await query(sqlQuery, [owner_id]);
 

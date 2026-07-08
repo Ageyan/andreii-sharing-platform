@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken';
 import { query } from '../config/db';
 
 export const register = async(req: Request, res: Response): Promise<void> => {
-    const { name, email, password, phone } = req.body;
+    const { name,phone, email, password } = req.body;
         
     try {
         const userExist = await query('SELECT * FROM users WHERE email = $1', [email]);
@@ -18,12 +18,12 @@ export const register = async(req: Request, res: Response): Promise<void> => {
         const passwordHash = await bcrypt.hash(password, salt);
 
         const newUserQuery = `
-            INSERT INTO users (name, email, password_hash, phone)
+            INSERT INTO users (name, phone, email, password_hash )
             VALUES ($1, $2, $3, $4)
             RETURNING id, name, email, phone;
         `;
 
-        const newUser = await query(newUserQuery, [name, email, passwordHash, phone || null ]);
+        const newUser = await query(newUserQuery, [name, phone, email, passwordHash ]);
 
         res.status(201).json({
             message: 'Користувач успішно зареєстрований',

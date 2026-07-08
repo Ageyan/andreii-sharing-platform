@@ -6,7 +6,7 @@ export interface User {
     id: number;
     name: string;
     email: string;
-    phone?: string;
+    phone: string;
 }
 
 export interface RegisterResponse {

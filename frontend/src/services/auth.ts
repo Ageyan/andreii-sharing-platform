@@ -6,7 +6,7 @@ export const handleLogin = async(email: string, password: string): Promise<Login
     return data;
 }
 
-export const handleRegister = async(name: string, email: string, password: string): Promise<RegisterResponse> => {
-    const { data } = await api.post<RegisterResponse>('/auth/register', { name, email, password });
+export const handleRegister = async(name: string, phone: string, email: string, password: string): Promise<RegisterResponse> => {
+    const { data } = await api.post<RegisterResponse>('/auth/register', { name, phone, email, password });
     return data;
 };
