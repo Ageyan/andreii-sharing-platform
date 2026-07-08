@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
-import { getMyBookings, getOwnerBookings } from '../services/booking';
+import { getMyBookings, getOwnerBookings, updateBookingsStatus } from '../services/booking';
 import type { BookingResponse } from '../types/booking.types';
+import ProfileItemCard from './ProfileItemCard';
 import axios from 'axios';
 
 type ActiveTabInfo = 'my' | 'owner';
@@ -38,57 +39,82 @@ const DashBookings = () => {
         getBookingsItem();
     }, []);
 
+    const handleUpdateStatus = async (status: string, id: number) => {
+        try {
+            const statusBooking = await updateBookingsStatus(status, id);
+            setOwnerBookings(prev =>
+                prev.map(b => (b.id === id ? { ...b, status: statusBooking.status } : b)),
+            );
+        } catch (err) {
+            console.error('Статус не змінено', err);
+        }
+    };
+
     return (
-        <div>
-            {error && <p>{error}</p>}
-            {loader && <div>Сторінка бронювання завантажується...</div>}
+        <div className="dash-bookings">
+            {error && <p className="dash-bookings__error">{error}</p>}
+            {loader && (
+                <div className="dash-bookings__loader">Сторінка бронювання завантажується...</div>
+            )}
+
             {!error && !loader && (
-                <div>
-                    <div className="tabs-navigation">
-                        <button onClick={() => setActiveTab('my')}>
+                <div className="dash-bookings__container">
+                    <div className="dash-bookings__tabs">
+                        <button
+                            className={`dash-bookings__tab-btn ${activeTab === 'my' ? 'dash-bookings__tab-btn--active' : ''}`}
+                            onClick={() => setActiveTab('my')}
+                        >
                             Мої замовлення ({myBookings.length})
                         </button>
-                        <button onClick={() => setActiveTab('owner')}>
+                        <button
+                            className={`dash-bookings__tab-btn ${activeTab === 'owner' ? 'dash-bookings__tab-btn--active' : ''}`}
+                            onClick={() => setActiveTab('owner')}
+                        >
                             Запити на оренду ({ownerBookings.length})
                         </button>
                     </div>
-                    <div className="tabs-content">
+                    <div className="dash-bookings__content">
                         {activeTab === 'my' ? (
                             myBookings.length === 0 ? (
-                                <p>Ви ще нічого не орендували</p>
+                                <p className="dash-bookings__empty">Ви ще нічого не орендували</p>
                             ) : (
-                                myBookings.map(item => (
-                                    <div key={item.id}>
-                                        <p>Назва: {item.title}</p>
-                                        <img
-                                            src={item.image_url[0]}
-                                            alt={item.title}
-                                            style={{ width: '100px' }}
-                                        />
-                                        <p>Початок оренди: {item.start_date}</p>
-                                        <p>Кінець оренди: {item.end_date}</p>
-                                        <p>Загальна вартість: {item.total_price} грн</p>
-                                        <p>Статус: {item.status}</p>
-                                    </div>
-                                ))
+                                <div className="dash-bookings__grid">
+                                    {myBookings.map(item => (
+                                        <ProfileItemCard key={item.id} item={item} />
+                                    ))}
+                                </div>
                             )
                         ) : ownerBookings.length === 0 ? (
-                            <p>У вас поки немає запитів від інших користувачів</p>
+                            <p className="dash-bookings__empty">
+                                У вас поки немає запитів від інших користувачів
+                            </p>
                         ) : (
-                            ownerBookings.map(item => (
-                                <div key={item.id}>
-                                    <p>Назва: {item.title}</p>
-                                    <img
-                                        src={item.image_url[0]}
-                                        alt={item.title}
-                                        style={{ width: '100px' }}
-                                    />
-                                    <p>Початок оренди: {item.start_date}</p>
-                                    <p>Кінець оренди: {item.end_date}</p>
-                                    <p>Загальна вартість: {item.total_price} грн</p>
-                                    <p>Статус: {item.status}</p>
-                                </div>
-                            ))
+                            <div className="dash-bookings__grid">
+                                {ownerBookings.map(item => (
+                                    <ProfileItemCard key={item.id} item={item} priceLabel="Дохід:">
+                                        {item.status === 'pending' && (
+                                            <div className="profile-card__actions">
+                                                <button
+                                                    className="profile-card__btn profile-card__btn--confirm"
+                                                    onClick={() =>
+                                                        handleUpdateStatus('confirmed', item.id)
+                                                    }
+                                                >
+                                                    Підтвердити
+                                                </button>
+                                                <button
+                                                    className="profile-card__btn profile-card__btn--cancel"
+                                                    onClick={() =>
+                                                        handleUpdateStatus('cancelled', item.id)
+                                                    }
+                                                >
+                                                    Відхилити
+                                                </button>
+                                            </div>
+                                        )}
+                                    </ProfileItemCard>
+                                ))}
+                            </div>
                         )}
                     </div>
                 </div>

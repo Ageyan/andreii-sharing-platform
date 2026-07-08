@@ -1,5 +1,6 @@
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { getItemById } from '../services/items';
+import { createBooking } from '../services/booking';
 import { useEffect, useState } from 'react';
 import type { Item } from '../types/items.types';
 import axios from 'axios';
@@ -70,6 +71,28 @@ const ItemPage = () => {
     const [startDate, setStartDate] = useState<string>(today);
     const [endDate, setEndDate] = useState<string>(tomorrow);
 
+    const startBooking = async (event: React.SubmitEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        const start = new Date(startDate).getTime();
+        const end = new Date(endDate).getTime();
+        const totalDays = Math.ceil((end - start) / (1000 * 60 * 60 * 24));
+        const totalPrice = totalDays * Number(item!.price_per_day);
+        try {
+            await createBooking(item!.id, startDate, endDate, totalPrice);
+            alert('Річ успішно орендовано!');
+            navigate('/dashboard');
+        } catch (err) {
+            if (axios.isAxiosError(err)) {
+                const message =
+                    err.response?.data.message || 'Помилка при отриманні даних про користувача';
+                setError(message);
+            } else {
+                setError('Сталася непередбачувана помилка');
+                console.error('Невідома помилка:', err);
+            }
+        }
+    };
+
     return (
         <div className="item-page">
             {error && <p>Помилка при завантаженні сторінки</p>}
@@ -130,10 +153,7 @@ const ItemPage = () => {
                                         <strong>{item?.price_per_day}</strong> грн / доба
                                     </p>
                                 </div>
-                                <form
-                                    className="item-page__form"
-                                    onSubmit={e => e.preventDefault()}
-                                >
+                                <form className="item-page__form" onSubmit={startBooking}>
                                     <div className="item-page__input-group">
                                         <label className="item-page__label">Початок оренди</label>
                                         <input

@@ -1,0 +1,137 @@
+@use '../utils/variables' as *;
+@use '../utils/mixins' as *;
+
+.profile-card {
+    display: flex;
+    background-color: $white;
+    border: 1px solid $border-color;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+    overflow: hidden;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+
+    &:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+    }
+
+    &__image-wrapper {
+        width: 260px;
+        min-width: 180px;
+        height: auto;
+        background-color: $bg-main;
+    }
+
+    &__image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    &__info {
+        padding: 20px;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        gap: 10px;
+        flex-grow: 1;
+    }
+
+    &__title {
+        font-size: 1.15rem;
+        font-weight: 700;
+        color: $color-text-main;
+        margin: 0;
+    }
+
+    &__dates {
+        font-size: 0.9rem;
+        color: $color-text-muted;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    &__price {
+        font-size: 0.95rem;
+        color: $color-text-main;
+        margin: 0;
+
+        strong {
+            color: $color-text-main;
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+    }
+
+    &__status {
+        font-size: 0.8rem;
+        font-weight: 700;
+        padding: 6px 12px;
+        border-radius: 6px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+
+        &--pending {
+            background-color: rgba(#D97706, 0.1); 
+            color: #D97706;
+            border: 1px solid rgba(#D97706, 0.2);
+        }
+
+        &--confirmed {
+            background-color: rgba(#059669, 0.1); 
+            color: #059669;
+            border: 1px solid rgba(#059669, 0.2);
+        }
+
+        &--cancelled {
+            background-color: rgba($delete-color, 0.1); 
+            color: $delete-color;
+            border: 1px solid rgba($delete-color, 0.2);
+        }
+    }
+
+    &__actions {
+        display: flex;
+        gap: 10px;
+        margin-top: 5px;
+        border-top: 1px solid $border-color;
+        padding-top: 15px;
+    }
+
+    &__btn {
+        flex: 1;
+        border: none;
+        padding: 10px 16px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: all 0.2s ease-in-out;
+
+        &:active {
+            transform: translateY(1px);
+        }
+
+        &--confirm {
+            background-color: #059669;
+            color: $white;
+
+            &:hover {
+                background-color: #047857;
+                transform: translateY(-1px);
+            }
+        }
+
+        &--cancel {
+            background-color: $delete-color;
+            color: $white;
+
+            &:hover {
+                background-color: $delete-color-active;
+                transform: translateY(-1px);
+            }
+        }
+    }
+}

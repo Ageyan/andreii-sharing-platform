@@ -70,3 +70,40 @@ export const getOwnerBookings = async(req: AuthRequest, res: Response): Promise<
         res.status(500).json({message: 'Помилка сервера при отриманні речей які орендували'}); 
     }
 };
+
+export const updateBookingStatus = async(req: AuthRequest, res: Response): Promise<void> => {
+    const { status } = req.body;
+    const bookingId = req.params.id;
+    const userId = req.user?.userId;
+
+    try {
+        const checkQuery = `
+            SELECT i.owner_id 
+            FROM bookings b
+            INNER JOIN items i ON b.item_id = i.id
+            WHERE b.id = $1
+        `;
+        const checkResult = await query(checkQuery, [bookingId]);
+
+        if (checkResult.rows.length === 0) {
+            res.status(404).json({ message: 'Бронювання не знайдено' });
+            return;
+        }
+
+        const ownerId = checkResult.rows[0].owner_id;
+        
+        if (ownerId !== userId) {
+            res.status(403).json({ message: 'У вас немає прав для керування цим бронюванням' });
+            return;
+        }
+
+        const sqlQuery = "UPDATE bookings SET status = $1 WHERE id = $2 RETURNING *"
+
+        const result = await query(sqlQuery, [status, bookingId])
+
+        res.status(200).json(result.rows)
+    } catch(error) {
+        console.error('Помилка при зиіні стастусу оренди', error);
+        res.status(500).json({message: 'Помилка сервера при зміні статусу оренди'});
+    }
+};
