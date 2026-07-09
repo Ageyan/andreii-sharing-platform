@@ -12,14 +12,17 @@
 @use './pages/home-page';
 
 @use './components/add-item-form';
-@use './components/aside';
-@use './components/dash-booking';
-@use './components//dash-profile';
-@use './components/dash-items';
-@use './components/item-card';
 @use './components/category-container';
+@use './components/category-item';
+@use './components/dash-booking';
+@use './components/dash-items';
+@use './components//dash-profile';
+@use './components/footer';
+@use './components/header';
+@use './components/item-card';
 @use './components/profile-card';
 @use './components/search-input';
-@use './components/header';
-@use './components/category-item';
-@use './components/footer';
+@use './components/sort-container';
+@use './components/toats';
+
+

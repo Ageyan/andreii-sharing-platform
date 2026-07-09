@@ -3,8 +3,8 @@ import axios from 'axios';
 import type { Item, ItemCategory } from '../types/items.types';
 import { getItems } from '../services/items';
 import ItemCard from '../components/ItemCard';
-import Aside from '../components/Aside';
-import type { SortValue } from '../components/Aside';
+import SortContainer from '../components/SortContainer';
+import type { SortValue } from '../components/SortContainer';
 import SearchContainer from '../components/SearchContainer';
 import { useSearch } from '../context/SearchContext';
 
@@ -66,7 +66,7 @@ const HomePage = () => {
         <div className="home-page">
             <SearchContainer setSelectCategory={setSelectCategory} />
             <div className="home-page__main-layout">
-                <Aside
+                <SortContainer
                     setSerchTerm={setSearchTerm}
                     setSelectCategory={setSelectCategory}
                     sortBy={sortBy}

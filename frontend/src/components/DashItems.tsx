@@ -57,24 +57,26 @@ const DashItems = () => {
 
     return (
         <div className="dashboard-items">
-            {loader && <div>Список речей завантажуеться</div>}
-            {error && <p>{error}</p>}
-            {viewForm ? (
-                <button
-                    className="dashboard-items__toggle-btn dashboard-items__toggle-btn--cancel"
-                    onClick={() => setViewForm(!viewForm)}
-                >
-                    Відмінити додавання речі
-                </button>
-            ) : (
-                <button
-                    className="dashboard-items__toggle-btn dashboard-items__toggle-btn--add"
-                    onClick={() => setViewForm(!viewForm)}
-                >
-                    Додати нову річ
-                </button>
-            )}
+            <div className="dashboard-items__tabs">
+                {viewForm ? (
+                    <button
+                        className="dashboard-items__toggle-btn dashboard-items__toggle-btn--cancel"
+                        onClick={() => setViewForm(!viewForm)}
+                    >
+                        Відмінити додавання речі
+                    </button>
+                ) : (
+                    <button
+                        className="dashboard-items__toggle-btn dashboard-items__toggle-btn--add"
+                        onClick={() => setViewForm(!viewForm)}
+                    >
+                        Додати нову річ
+                    </button>
+                )}
+            </div>
             <div className={viewForm ? '' : 'dashboard-items__list'}>
+                {loader && <div>Список речей завантажуеться</div>}
+                {error && <p>{error}</p>}
                 {!error && !loader && viewForm ? (
                     <AddItemForm setViewForm={setViewForm} setMyItems={setMyItems} />
                 ) : (

@@ -3,7 +3,6 @@
 
 .dash-bookings {
     width: 100%;
-    padding: 20px 0;
 
     &__container {
         display: flex;
@@ -15,13 +14,13 @@
         display: flex;
         gap: 15px;
         border-bottom: 2px solid $border-color;
-        padding-bottom: 10px;
+        padding-bottom: 14px;
     }
 
     &__tab-btn {
         background: none;
         border: none;
-        padding: 10px 20px;
+        padding: 14px 20px;
         font-size: 1rem;
         font-weight: 600;
         color: $color-text-muted;
@@ -39,7 +38,7 @@
             &::after {
                 content: '';
                 position: absolute;
-                bottom: -12px;
+                bottom: -16px;
                 left: 0;
                 width: 100%;
                 height: 3px;

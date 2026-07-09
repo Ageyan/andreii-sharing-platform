@@ -14,3 +14,5 @@ export type CreateItem = Omit<Item, 'id' | 'owner_name' | 'owner_created_at' | '
 export type ItemCategory = 'Усі речі' | 'Авто' | 'Електроніка' | 
 'Робота' | 'Запчастини' | 'Дім і сад' | 'Бізнес та послуги' | 'Дитячий світ' 
 | 'Відпочинок і спорт' | 'Товари для геймерів' | 'Нерухомість';
+
+export type ItemCategoryAdd = Exclude<ItemCategory, 'Усі речі'> | 'Оберіть категорію';

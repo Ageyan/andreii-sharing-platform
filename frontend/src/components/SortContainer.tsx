@@ -17,33 +17,33 @@ const sorts: SortsList[] = [
     { id: 3, title: 'Спочатку дешевші', sort: 'price-asc' },
 ];
 
-interface AsideProps {
+interface SortProps {
     setSerchTerm: (value: string) => void;
     setSelectCategory: (value: ItemCategory) => void;
     sortBy: SortValue;
     setSortBy: (value: SortValue) => void;
 }
 
-const Aside = ({ setSerchTerm, setSelectCategory, sortBy, setSortBy }: AsideProps) => {
+const SortContainer = ({ setSerchTerm, setSelectCategory, sortBy, setSortBy }: SortProps) => {
     const [isOpen, setIsOpen] = useState<boolean>(false);
 
     return (
-        <aside className="aside">
+        <aside className="sort">
             <div
-                className="aside__sort-container"
+                className="sort__container"
                 onClick={e => {
                     setIsOpen(!isOpen);
-                    e.nativeEvent.stopImmediatePropagation();
+                    e.stopPropagation();
                 }}
             >
                 <span>{sorts.find(s => s.sort === sortBy)?.title}</span>
-                <IoIosArrowDown className={`aside__icon ${isOpen ? 'open' : ''}`} />
+                <IoIosArrowDown className={`sort__icon ${isOpen ? 'sort__icon--open' : ''}`} />
                 {isOpen && (
-                    <div className="aside__sort-options">
+                    <div className="sort__options">
                         {sorts.map(s => (
                             <div
                                 key={s.id}
-                                className={`aside__sort-option ${sortBy === s.sort ? 'selected' : ''}`}
+                                className={`sort__option ${sortBy === s.sort ? 'sort__option--selected' : ''}`}
                                 onClick={() => {
                                     setSortBy(s.sort);
                                     setIsOpen(false);
@@ -55,9 +55,8 @@ const Aside = ({ setSerchTerm, setSelectCategory, sortBy, setSortBy }: AsideProp
                     </div>
                 )}
             </div>
-
             <button
-                className="aside__clear-btn"
+                className="sort__clear-btn"
                 onClick={() => {
                     setSerchTerm('');
                     setSelectCategory('Усі речі');
@@ -69,4 +68,4 @@ const Aside = ({ setSerchTerm, setSelectCategory, sortBy, setSortBy }: AsideProp
         </aside>
     );
 };
-export default Aside;
+export default SortContainer;

@@ -5,7 +5,6 @@
     width: 100%;
     display: flex;
     justify-content: center; 
-    padding: 20px 0;
 }
 
 .add-item-form {
@@ -74,6 +73,72 @@
         min-height: 100px;
         resize: vertical;
         font-family: inherit;
+    }
+
+    &__category-container {
+        position: relative;
+        display: flex;
+        width: 100%;
+        border: 1px solid $border-color;
+        border-radius: 12px;
+        justify-content: space-between;
+        gap: 10px;
+        align-items: center;
+        padding: 14px 16px;
+        font-size: 0.95rem;
+        cursor: pointer;
+        color: $color-text-main;    
+        transition: all 0.3s ease-in-out;
+
+        &:hover {
+            color: $color-accent;
+            border-color: $color-accent;
+            box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.1);
+        }
+    }
+
+    &__category-icon {
+        width: 20px;
+        height: 20px;
+        transform: rotate(0);
+        transition: transform 0.3s ease-in-out;
+
+        &--open {
+            transform: rotateX(180deg);
+        }
+    }
+
+    &__category-options {
+        position: absolute;
+        top: calc(100% + 6px); 
+        left: 0;
+        max-height: 200px;
+        background-color: $white; 
+        border: 1px solid $border-color;
+        border-radius: 12px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        z-index: 10; 
+        overflow-y: auto;
+        width: 100%;
+    }
+
+    &__category-option {
+        padding: 12px 18px;
+        font-size: 0.85rem;
+        color: $color-text-main;
+        cursor: pointer;
+        transition: all 0.2s ease-in-out;
+
+         &:hover {
+            background-color: rgba($color-accent, 0.1); 
+            color: $color-accent;
+        }
+
+        &--selected {
+            font-weight: 600;
+            color: $color-accent;
+            background-color: rgba($color-accent, 0.05);
+        }
     }
 
     &__submit-btn {

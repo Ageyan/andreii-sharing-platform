@@ -4,12 +4,20 @@ import { createBooking } from '../services/booking';
 import { useEffect, useState } from 'react';
 import type { Item } from '../types/items.types';
 import axios from 'axios';
+import Toast from '../components/Toast';
+
+type ToastState = {
+    show: boolean;
+    message: string;
+    type: 'success' | 'error';
+};
 
 const ItemPage = () => {
     const [item, setItem] = useState<Item | null>(null);
     const [loader, setLoader] = useState<boolean>(false);
     const [error, setError] = useState<string>('');
     const [imageActive, setImageActive] = useState<string>('');
+    const [toast, setToast] = useState<ToastState>({ show: false, message: '', type: 'success' });
     const isAuthenticated = !!localStorage.getItem('token');
 
     const { id } = useParams<{ id: string }>();
@@ -79,17 +87,24 @@ const ItemPage = () => {
         const totalPrice = totalDays * Number(item!.price_per_day);
         try {
             await createBooking(item!.id, startDate, endDate, totalPrice);
-            alert('Річ успішно орендовано!');
-            navigate('/dashboard');
+            setToast({
+                show: true,
+                message: 'Річ успішно орендовано!',
+                type: 'success',
+            });
         } catch (err) {
+            const errorMessage = 'Сталася непередбачувана помилка';
             if (axios.isAxiosError(err)) {
                 const message =
                     err.response?.data.message || 'Помилка при отриманні даних про користувача';
                 setError(message);
-            } else {
-                setError('Сталася непередбачувана помилка');
-                console.error('Невідома помилка:', err);
             }
+
+            setToast({
+                show: true,
+                message: errorMessage,
+                type: 'error',
+            });
         }
     };
 
@@ -205,6 +220,22 @@ const ItemPage = () => {
                         </div>
                     </div>
                 </>
+            )}
+            {toast.show && (
+                <Toast
+                    message={toast.message}
+                    type={toast.type}
+                    onClose={() => setToast(prev => ({ ...prev, show: false }))}
+                >
+                    {toast.type === 'success' && (
+                        <button
+                            className="toast__link-btn"
+                            onClick={() => navigate('/dashboard/bookings')}
+                        >
+                            Перейти до кабінету &rarr;
+                        </button>
+                    )}
+                </Toast>
             )}
         </div>
     );

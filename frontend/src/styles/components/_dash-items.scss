@@ -2,6 +2,14 @@
 @use '../utils/mixins' as *;
 
 .dashboard-items {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+
+    &__tabs {
+        border-bottom: 2px solid $border-color;
+        padding-bottom: 18px;
+    }
     
     &__toggle-btn {
         display: inline-flex;
@@ -14,7 +22,6 @@
         border-radius: 10px;
         cursor: pointer;
         transition: all 0.2s ease-in-out;
-        margin-bottom: 24px;
 
         &--add {
             background-color: $color-accent;
@@ -43,10 +50,8 @@
     &__list {
         width: 100%;
         background-color: $white;
-        border: 1px solid $color-text-main;
         border-radius: 12px;
         display: grid;
-        padding: 20px 16px;
         grid-template-columns: repeat(4, 1fr);
         gap: 30px;
     }
