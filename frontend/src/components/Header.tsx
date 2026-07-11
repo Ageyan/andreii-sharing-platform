@@ -22,7 +22,7 @@ const Header = () => {
                         <Link className="header__nav--link" to="/">
                             Головна
                         </Link>
-                        <Link className="header__nav--link" to="/dashboard">
+                        <Link className="header__nav--link" to="/dashboard/profile">
                             Особистий кабінет
                         </Link>
                         <button className="header__btn-logout" onClick={handleLogout}>

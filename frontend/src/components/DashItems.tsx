@@ -2,15 +2,20 @@ import { useEffect, useState } from 'react';
 import type { Item } from '../types/items.types';
 import { getMyItems, deleteItem } from '../services/items';
 import ItemCard from './ItemCard';
-import AddItemForm from './AddItemForm';
+import ProfileItemForm from './ProfileItemForm';
 import axios from 'axios';
 import { MdDelete } from 'react-icons/md';
+import { MdModeEdit } from 'react-icons/md';
+import Toast from './Toast';
+import type { ToastState } from '../types/toast.types';
 
 const DashItems = () => {
     const [myItems, setMyItems] = useState<Item[]>([]);
     const [loader, setLoader] = useState<boolean>(false);
     const [viewForm, setViewForm] = useState<boolean>(false);
+    const [editingItem, setEditingItem] = useState<Item | null>(null);
     const [error, setError] = useState<string>('');
+    const [toast, setToast] = useState<ToastState>({ show: false, message: '', type: 'success' });
 
     useEffect(() => {
         const controller = new AbortController();
@@ -49,9 +54,20 @@ const DashItems = () => {
             await deleteItem(id);
 
             setMyItems(prevItems => prevItems.filter(i => i.id !== id));
+            setToast({ show: true, message: 'Річ успішно видалена!', type: 'success' });
         } catch (err) {
-            setError('Не вдалося видалити річ');
-            console.error(err);
+            let errorMessage = 'Сталася непередбачувана помилка';
+
+            if (axios.isAxiosError(err)) {
+                errorMessage = err.response?.data.message || 'Помилка при видаленні речі';
+                setError(errorMessage);
+            }
+
+            setToast({
+                show: true,
+                message: errorMessage,
+                type: 'error',
+            });
         }
     };
 
@@ -63,7 +79,7 @@ const DashItems = () => {
                         className="dashboard-items__toggle-btn dashboard-items__toggle-btn--cancel"
                         onClick={() => setViewForm(!viewForm)}
                     >
-                        Відмінити додавання речі
+                        {editingItem ? 'Відмінити редагування речі' : 'Відмінити додавання речі'}
                     </button>
                 ) : (
                     <button
@@ -78,20 +94,39 @@ const DashItems = () => {
                 {loader && <div>Список речей завантажуеться</div>}
                 {error && <p>{error}</p>}
                 {!error && !loader && viewForm ? (
-                    <AddItemForm setViewForm={setViewForm} setMyItems={setMyItems} />
+                    <ProfileItemForm
+                        setViewForm={setViewForm}
+                        setMyItems={setMyItems}
+                        editingItem={editingItem ? editingItem : null}
+                        setEditingItem={setEditingItem}
+                        setParentToast={setToast}
+                    />
                 ) : (
                     myItems.map(i => (
                         <ItemCard key={i.id} item={i}>
-                            <button
-                                className="item-card__btn-delete"
-                                onClick={e => {
-                                    e.preventDefault();
-                                    e.stopPropagation();
-                                    handleDelete(i.id);
-                                }}
-                            >
-                                <MdDelete className="item-card__btn-delete-icon" />
-                            </button>
+                            <div className="item-card__btn-container">
+                                <button
+                                    className="item-card__btn-edit"
+                                    onClick={e => {
+                                        e.preventDefault();
+                                        e.stopPropagation();
+                                        setEditingItem(i);
+                                        setViewForm(true);
+                                    }}
+                                >
+                                    <MdModeEdit className="item-card__btn-edit-icon" />
+                                </button>
+                                <button
+                                    className="item-card__btn-delete"
+                                    onClick={e => {
+                                        e.preventDefault();
+                                        e.stopPropagation();
+                                        handleDelete(i.id);
+                                    }}
+                                >
+                                    <MdDelete className="item-card__btn-delete-icon" />
+                                </button>
+                            </div>
                         </ItemCard>
                     ))
                 )}
@@ -99,6 +134,13 @@ const DashItems = () => {
                     <div>Поки у вас відсутні речі</div>
                 )}
             </div>
+            {toast.show && (
+                <Toast
+                    onClose={() => setToast(prev => ({ ...prev, show: false }))}
+                    message={toast.message}
+                    type={toast.type}
+                />
+            )}
         </div>
     );
 };

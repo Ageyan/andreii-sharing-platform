@@ -8,10 +8,10 @@
 
 @use './pages/auth-page';
 @use './pages/dashboard-page';
-@use './pages/item-page';
 @use './pages/home-page';
+@use './pages/item-page';
 
-@use './components/add-item-form';
+
 @use './components/category-container';
 @use './components/category-item';
 @use './components/dash-booking';
@@ -21,6 +21,7 @@
 @use './components/header';
 @use './components/item-card';
 @use './components/profile-card';
+@use './components/profile-item-form';
 @use './components/search-input';
 @use './components/sort-container';
 @use './components/toats';

@@ -24,7 +24,7 @@ const Toast = ({ message, type, onClose, children }: ToastProps) => {
                 {children && <div className="toast__actions">{children}</div>}
             </div>
             <button className="toast__close-btn" onClick={onClose} type="button">
-                <IoMdClose />
+                <IoMdClose className="toast__close-btn-icon" />
             </button>
         </div>
     );

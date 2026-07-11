@@ -90,31 +90,51 @@
     }
 
     &__price {
-        font-size: 1rem;
+        font-size: 0.95rem;
         color: $color-text-main;
 
         strong {
-            font-size: 1.2rem;
+            font-size: 1.15rem;
             font-weight: 700;
             color: $color-accent;
         }
     }
 
-    &__btn-delete {
+    &__btn-container {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    &__btn-delete, &__btn-edit {
         display: flex;
         align-items: center;
         justify-content: center;
+        padding: 0;
         cursor: pointer;
     }
 
-    &__btn-delete-icon {
-        width: 24px;
-        height: 24px;
-        color: $delete-color;
+    &__btn-delete-icon, &__btn-edit-icon {
+        width: 23px;
+        height: 23px;
         transition: all 0.3s ease-in-out;
+
+    }
+
+    &__btn-delete-icon {
+        color: $delete-color;
 
         &:hover {
             color: $delete-color-active;
+            transform: scale(1.1);
+        }
+    }
+
+    &__btn-edit-icon {
+        color: $color-text-muted;
+
+        &:hover {
+            color: $color-accent;
             transform: scale(1.1);
         }
     }

@@ -23,14 +23,16 @@ const DashBookings = () => {
                 setMyBookings(myRes);
                 setOwnerBookings(ownerRes);
             } catch (err) {
+                let errorMessage = 'Сталася непередбачувана помилка';
+
                 if (axios.isAxiosError(err)) {
-                    const message =
-                        err.response?.data.message || 'Помилка при отриманні даних про користувача';
-                    setError(message);
+                    errorMessage =
+                        err.response?.data.message || 'Помилка при отриманні списку бронювань';
                 } else {
-                    setError('Сталася непередбачувана помилка');
                     console.error('Невідома помилка:', err);
                 }
+
+                setError(errorMessage);
             } finally {
                 setLoader(false);
             }

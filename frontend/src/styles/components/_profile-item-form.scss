@@ -1,13 +1,13 @@
 @use '../utils/variables' as *;
 @use '../utils/mixins' as *;
 
-.add-item-box {
+.profile-item-box {
     width: 100%;
     display: flex;
     justify-content: center; 
 }
 
-.add-item-form {
+.profile-item-form {
     width: 100%;
     max-width: 750px; 
     background: $white;

@@ -5,12 +5,7 @@ import { useEffect, useState } from 'react';
 import type { Item } from '../types/items.types';
 import axios from 'axios';
 import Toast from '../components/Toast';
-
-type ToastState = {
-    show: boolean;
-    message: string;
-    type: 'success' | 'error';
-};
+import type { ToastState } from '../types/toast.types';
 
 const ItemPage = () => {
     const [item, setItem] = useState<Item | null>(null);
@@ -39,13 +34,15 @@ const ItemPage = () => {
                 setItem(res);
                 setImageActive(res?.image_url?.[0] || fallbackImage);
             } catch (err) {
+                let errorMessage = 'Сталася непередбачувана помилка';
+
                 if (axios.isAxiosError(err)) {
-                    const message = err.response?.data.message || 'Помилка при завантаженні товару';
-                    setError(message);
+                    errorMessage = err.response?.data.message || 'Помилка при завантаженні товару';
                 } else {
-                    setError('Сталася непередбачувана помилка');
                     console.error('Невідома помилка:', err);
                 }
+
+                setError(errorMessage);
             } finally {
                 setLoader(false);
             }
@@ -89,7 +86,7 @@ const ItemPage = () => {
             await createBooking(item!.id, startDate, endDate, totalPrice);
             setToast({
                 show: true,
-                message: 'Річ успішно орендовано!',
+                message: 'Запит на оренду надіслано! Очікуйте на підтвердження від власника',
                 type: 'success',
             });
         } catch (err) {

@@ -7,6 +7,9 @@ const HomePage = lazy(() => import('../pages/HomePage'));
 const DashboardPage = lazy(() => import('../pages/DashboardPage'));
 const ItemPage = lazy(() => import('../pages/ItemPage'));
 const AuthPage = lazy(() => import('../pages/AuthPage'));
+const DashProfile = lazy(() => import('../components/DashProfile'));
+const DashItems = lazy(() => import('../components/DashItems'));
+const DashBookings = lazy(() => import('../components/DashBookings'));
 
 const AppRouter = () => {
     return (
@@ -22,7 +25,12 @@ const AppRouter = () => {
                                     <DashboardPage />
                                 </ProtectedRoute>
                             }
-                        />
+                        >
+                            <Route index path="profile" element={<DashProfile />} />
+                            <Route path="profile" element={<DashProfile />} />
+                            <Route path="items" element={<DashItems />} />
+                            <Route path="bookings" element={<DashBookings />} />
+                        </Route>
                         <Route path="/items/:id" element={<ItemPage />} />
                         <Route path="/auth" element={<AuthPage />} />
                     </Route>

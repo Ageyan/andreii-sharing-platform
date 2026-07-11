@@ -34,6 +34,29 @@ export const createItem = async(req: AuthRequest, res: Response): Promise<void> 
     }
 };
 
+export const updateItem = async(req: AuthRequest, res: Response): Promise<void> => {
+    const { title, description, price_per_day, category } = req.body;
+    const files = req.files as Express.Multer.File[];
+    const image_url = files ? files.map(file => file.path) : [];
+    const id  = Number(req.params.id);
+    const owner_id = req.user?.userId;
+
+    try {
+        const sqlQuery = `
+            UPDATE items SET title = $1, description = $2, price_per_day = $3, category = $4, image_url = $5
+            WHERE id = $6 AND owner_id = $7
+            RETURNING id, title, description, price_per_day, category, image_url
+        `
+
+        const result = await query(sqlQuery, [title, description, price_per_day, category, image_url, id, owner_id])
+
+        res.status(200).json(result.rows[0]);
+    } catch (error) {
+        console.error('Помилка при отриманні данної речі', error);
+        res.status(500).json({message: 'Помилка сервера при отриманні данної речі'});
+    }
+}
+
 export const getItems = async(req: Request, res: Response): Promise<void> => {
     try {
         const sqlQuery = 'SELECT * FROM items';

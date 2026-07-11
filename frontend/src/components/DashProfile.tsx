@@ -3,6 +3,8 @@ import { getUserInfo, updateUserInfo } from '../services/user';
 import type { UserInfo } from '../types/user.types';
 import axios from 'axios';
 import { FaUser, FaEnvelope, FaPhoneAlt, FaCalendarAlt } from 'react-icons/fa';
+import Toast from './Toast';
+import type { ToastState } from '../types/toast.types';
 
 const DashProfile = () => {
     const [user, setUser] = useState<UserInfo | null>(null);
@@ -11,6 +13,7 @@ const DashProfile = () => {
     const [isEditing, setIsEditing] = useState<boolean>(false);
     const [loader, setLoader] = useState<boolean>(false);
     const [error, setError] = useState<string>('');
+    const [toast, setToast] = useState<ToastState>({ show: false, message: '', type: 'success' });
 
     useEffect(() => {
         const getUser = async () => {
@@ -50,15 +53,21 @@ const DashProfile = () => {
             const updateUser = await updateUserInfo(updateName, updatePhone);
             setUser(updateUser);
             setIsEditing(false);
+            setToast({ show: true, message: 'Ви успішно редагували дані!', type: 'success' });
         } catch (err) {
+            let errorMessage = 'Сталася непередбачувана помилка';
+
             if (axios.isAxiosError(err)) {
-                const message =
-                    err.response?.data.message || 'Помилка при отриманні даних про користувача';
-                setError(message);
-            } else {
-                setError('Сталася непередбачувана помилка');
-                console.error('Невідома помилка:', err);
+                errorMessage =
+                    err.response?.data.message || 'Помилка при оновленні даних користувача';
+                setError(errorMessage);
             }
+
+            setToast({
+                show: true,
+                message: errorMessage,
+                type: 'error',
+            });
         }
     };
 
@@ -160,6 +169,13 @@ const DashProfile = () => {
                         )}
                     </div>
                 </div>
+            )}
+            {toast.show && (
+                <Toast
+                    onClose={() => setToast(prev => ({ ...prev, show: false }))}
+                    message={toast.message}
+                    type={toast.type}
+                />
             )}
         </div>
     );

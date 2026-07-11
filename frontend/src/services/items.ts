@@ -38,6 +38,27 @@ export const addItem = async(itemData: CreateItem, files: File[]): Promise<Item>
     return data.item;
 }
 
+export const updateItem = async(id: number, itemData: CreateItem, files: File[]): Promise<Item> => {
+    const formData = new FormData();
+
+    formData.append('title', itemData.title);
+    formData.append('description', itemData.description);
+    formData.append('price_per_day', String(itemData.price_per_day));
+    formData.append('category', itemData.category);
+
+    files.forEach(file => {
+        formData.append('images', file);
+    })
+
+    const { data } = await api.put(`/items/my/update/${id}`, formData, {
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+    });
+
+    return data;
+}
+
 export const deleteItem = async(id: number): Promise<void> => {
     await api.delete(`/items/${id}`);
 }
