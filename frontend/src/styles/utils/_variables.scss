@@ -6,12 +6,19 @@ $color-accent: #3182CE;
 $border-color: #E2E8F0; 
 $bg-main: #e5edf1;
 $text-main: #2D3748;
+
+// delete color
 $delete-color: rgb(140, 30, 30);
 $delete-color-active: rgb(170, 30, 30);
 
-$bp-tablet: 768px;
-$bp-desktop: 1280px;
-$bp-large-desktop: 1440px;
+// error message
+$color-error-bg: #fdf2f2;
+$color-error-border: #f05252;
+$color-error-text: #c81e1e;
+
+// empty message
+$color-empty-bg: #f9fafb;
+$color-empty-border: #e5e7eb;
 
 // category color
 $all: aqua;
@@ -25,3 +32,8 @@ $kids: rgb(160, 213, 27);
 $sports: rgb(32, 206, 84);
 $gamer: rgb(110, 43, 202);
 $real-estate: rgb(203, 41, 112);
+
+// breakpoints 
+$bp-tablet: 768px;
+$bp-desktop: 1280px;
+$bp-large-desktop: 1440px;

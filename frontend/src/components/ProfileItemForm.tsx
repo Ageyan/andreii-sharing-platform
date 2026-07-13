@@ -4,6 +4,7 @@ import type { Item, ItemCategoryAdd } from '../types/items.types';
 import axios from 'axios';
 import { IoIosArrowDown } from 'react-icons/io';
 import type { ToastState } from '../types/toast.types';
+import Loader from './Loader';
 
 type AddFormProps = {
     setViewForm: (value: boolean) => void;
@@ -72,6 +73,7 @@ const ProfileItemForm = ({
     const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [error, setError] = useState<string>('');
+    const [btnLoader, setBtnLoader] = useState<boolean>(false);
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files) {
@@ -121,6 +123,8 @@ const ProfileItemForm = ({
             return;
         }
 
+        setBtnLoader(true);
+
         const isEditMode = !!editingItem;
 
         try {
@@ -147,7 +151,6 @@ const ProfileItemForm = ({
             let errorMessage = 'Сталася непередбачувана помилка';
             if (axios.isAxiosError(err)) {
                 errorMessage = err.response?.data.message || 'Помилка при обробці запиту';
-                setError(errorMessage);
             }
 
             setParentToast({
@@ -155,13 +158,17 @@ const ProfileItemForm = ({
                 message: errorMessage,
                 type: 'error',
             });
+        } finally {
+            setBtnLoader(false);
         }
     };
 
     return (
         <div className="profile-item-box">
             <form className="profile-item-form" onSubmit={handleSubmit}>
-                <h3 className="profile-item-form__title">Додати нову річ</h3>
+                <h3 className="profile-item-form__title">
+                    {editingItem ? 'Редагувати річ' : 'Додати нову річ'}
+                </h3>
                 <div className="profile-item-form__group">
                     <label className="profile-item-form__label">Назва речі</label>
                     <input
@@ -241,10 +248,24 @@ const ProfileItemForm = ({
                         onChange={handleFileChange}
                     />
                 </div>
-                <button className="profile-item-form__submit-btn" type="submit">
-                    {editingItem ? '💾 Зберегти зміни' : '🚀 Опублікувати річ'}
+                <button
+                    className="profile-item-form__submit-btn"
+                    type="submit"
+                    disabled={btnLoader}
+                >
+                    {btnLoader ? (
+                        <Loader />
+                    ) : editingItem ? (
+                        '💾 Зберегти зміни'
+                    ) : (
+                        '🚀 Опублікувати річ'
+                    )}
                 </button>
-                {error && <div className="profile-item-form__error-msg">{error}</div>}
+                {error && (
+                    <div className="error-banner">
+                        <span>⚠️</span> {error}
+                    </div>
+                )}
             </form>
         </div>
     );

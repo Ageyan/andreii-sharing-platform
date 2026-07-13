@@ -7,6 +7,7 @@ import SortContainer from '../components/SortContainer';
 import type { SortValue } from '../components/SortContainer';
 import SearchContainer from '../components/SearchContainer';
 import { useSearch } from '../context/SearchContext';
+import Loader from '../components/Loader';
 
 const HomePage = () => {
     const [items, setItems] = useState<Item[]>([]);
@@ -73,8 +74,12 @@ const HomePage = () => {
                     setSortBy={setSortBy}
                 />
                 <div className="home-page__item-list">
-                    {loader && <div className="text-loader">Завантаження товарів...</div>}
-                    {error && <div className="text-error">{error}</div>}
+                    {loader && <Loader />}
+                    {error && (
+                        <div className="error-banner">
+                            <span>⚠️</span> {error}
+                        </div>
+                    )}
                     {!loader &&
                         !error &&
                         filteredItems.map(item => <ItemCard key={item.id} item={item} />)}

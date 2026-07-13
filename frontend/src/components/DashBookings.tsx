@@ -1,15 +1,19 @@
 import { useState, useEffect } from 'react';
-import { getMyBookings, getOwnerBookings, updateBookingsStatus } from '../services/booking';
+import { getMyBookings, getOwnerBookings } from '../services/booking';
 import type { BookingResponse } from '../types/booking.types';
-import ProfileItemCard from './ProfileItemCard';
+import { NavLink, Outlet } from 'react-router-dom';
 import axios from 'axios';
+import Loader from './Loader';
 
-type ActiveTabInfo = 'my' | 'owner';
+export interface BookingsOwnerProps {
+    myBookings: BookingResponse[];
+    ownerBookings: BookingResponse[];
+    setOwnerBookings: React.Dispatch<React.SetStateAction<BookingResponse[]>>;
+}
 
 const DashBookings = () => {
     const [myBookings, setMyBookings] = useState<BookingResponse[]>([]);
     const [ownerBookings, setOwnerBookings] = useState<BookingResponse[]>([]);
-    const [activeTab, setActiveTab] = useState<ActiveTabInfo>('my');
     const [error, setError] = useState<string>('');
     const [loader, setLoader] = useState<boolean>(false);
 
@@ -41,83 +45,46 @@ const DashBookings = () => {
         getBookingsItem();
     }, []);
 
-    const handleUpdateStatus = async (status: string, id: number) => {
-        try {
-            const statusBooking = await updateBookingsStatus(status, id);
-            setOwnerBookings(prev =>
-                prev.map(b => (b.id === id ? { ...b, status: statusBooking.status } : b)),
-            );
-        } catch (err) {
-            console.error('Статус не змінено', err);
-        }
-    };
-
     return (
         <div className="dash-bookings">
-            {error && <p className="dash-bookings__error">{error}</p>}
-            {loader && (
-                <div className="dash-bookings__loader">Сторінка бронювання завантажується...</div>
+            {error && (
+                <div className="error-banner">
+                    <span>⚠️</span> {error}
+                </div>
             )}
-
+            {loader && <Loader />}
             {!error && !loader && (
                 <div className="dash-bookings__container">
                     <div className="dash-bookings__tabs">
-                        <button
-                            className={`dash-bookings__tab-btn ${activeTab === 'my' ? 'dash-bookings__tab-btn--active' : ''}`}
-                            onClick={() => setActiveTab('my')}
+                        <NavLink
+                            to="/dashboard/bookings/my"
+                            end
+                            className={({ isActive }) =>
+                                `dash-bookings__tab-btn ${isActive ? 'dash-bookings__tab-btn--active' : ''}`
+                            }
                         >
                             Мої замовлення ({myBookings.length})
-                        </button>
-                        <button
-                            className={`dash-bookings__tab-btn ${activeTab === 'owner' ? 'dash-bookings__tab-btn--active' : ''}`}
-                            onClick={() => setActiveTab('owner')}
+                        </NavLink>
+                        <NavLink
+                            to="/dashboard/bookings/owner"
+                            end
+                            className={({ isActive }) =>
+                                `dash-bookings__tab-btn ${isActive ? 'dash-bookings__tab-btn--active' : ''}`
+                            }
                         >
                             Запити на оренду ({ownerBookings.length})
-                        </button>
+                        </NavLink>
                     </div>
                     <div className="dash-bookings__content">
-                        {activeTab === 'my' ? (
-                            myBookings.length === 0 ? (
-                                <p className="dash-bookings__empty">Ви ще нічого не орендували</p>
-                            ) : (
-                                <div className="dash-bookings__grid">
-                                    {myBookings.map(item => (
-                                        <ProfileItemCard key={item.id} item={item} />
-                                    ))}
-                                </div>
-                            )
-                        ) : ownerBookings.length === 0 ? (
-                            <p className="dash-bookings__empty">
-                                У вас поки немає запитів від інших користувачів
-                            </p>
-                        ) : (
-                            <div className="dash-bookings__grid">
-                                {ownerBookings.map(item => (
-                                    <ProfileItemCard key={item.id} item={item} priceLabel="Дохід:">
-                                        {item.status === 'pending' && (
-                                            <div className="profile-card__actions">
-                                                <button
-                                                    className="profile-card__btn profile-card__btn--confirm"
-                                                    onClick={() =>
-                                                        handleUpdateStatus('confirmed', item.id)
-                                                    }
-                                                >
-                                                    Підтвердити
-                                                </button>
-                                                <button
-                                                    className="profile-card__btn profile-card__btn--cancel"
-                                                    onClick={() =>
-                                                        handleUpdateStatus('cancelled', item.id)
-                                                    }
-                                                >
-                                                    Відхилити
-                                                </button>
-                                            </div>
-                                        )}
-                                    </ProfileItemCard>
-                                ))}
-                            </div>
-                        )}
+                        <Outlet
+                            context={
+                                {
+                                    myBookings,
+                                    ownerBookings,
+                                    setOwnerBookings,
+                                } satisfies BookingsOwnerProps
+                            }
+                        />
                     </div>
                 </div>
             )}

@@ -5,6 +5,7 @@ import axios from 'axios';
 import { FaUser, FaEnvelope, FaPhoneAlt, FaCalendarAlt } from 'react-icons/fa';
 import Toast from './Toast';
 import type { ToastState } from '../types/toast.types';
+import Loader from './Loader';
 
 const DashProfile = () => {
     const [user, setUser] = useState<UserInfo | null>(null);
@@ -12,6 +13,7 @@ const DashProfile = () => {
     const [updatePhone, setUpdatePhone] = useState<string>('');
     const [isEditing, setIsEditing] = useState<boolean>(false);
     const [loader, setLoader] = useState<boolean>(false);
+    const [updateLoader, setUpdateLoader] = useState<boolean>(false);
     const [error, setError] = useState<string>('');
     const [toast, setToast] = useState<ToastState>({ show: false, message: '', type: 'success' });
 
@@ -49,6 +51,26 @@ const DashProfile = () => {
     };
 
     const handleUpdateUser = async () => {
+        if (updateName.trim() === '') {
+            setToast({
+                show: true,
+                message: 'Введіть ваше імʼя коректно',
+                type: 'error',
+            });
+            return;
+        }
+
+        if (updatePhone && updatePhone.trim().length < 9) {
+            setToast({
+                show: true,
+                message: 'Введіть коректний номер телефону',
+                type: 'error',
+            });
+            return;
+        }
+
+        setUpdateLoader(true);
+
         try {
             const updateUser = await updateUserInfo(updateName, updatePhone);
             setUser(updateUser);
@@ -60,7 +82,6 @@ const DashProfile = () => {
             if (axios.isAxiosError(err)) {
                 errorMessage =
                     err.response?.data.message || 'Помилка при оновленні даних користувача';
-                setError(errorMessage);
             }
 
             setToast({
@@ -68,16 +89,19 @@ const DashProfile = () => {
                 message: errorMessage,
                 type: 'error',
             });
+        } finally {
+            setUpdateLoader(false);
         }
     };
 
     return (
         <div className="dash-profile">
-            {error && <p className="dash-profile__error">{error}</p>}
-            {loader && (
-                <div className="dash-profile__loader">Завантаження даних про користувача...</div>
+            {error && (
+                <div className="error-banner">
+                    <span>⚠️</span> {error}
+                </div>
             )}
-
+            {loader && <Loader />}
             {!error && !loader && user && (
                 <div className="dash-profile__card">
                     <div className="dash-profile__header">
@@ -145,12 +169,14 @@ const DashProfile = () => {
                                 <button
                                     className="dash-profile__edit-btn"
                                     onClick={handleUpdateUser}
+                                    disabled={updateLoader}
                                 >
-                                    Зберегти
+                                    {updateLoader ? <Loader /> : 'Зберегти'}
                                 </button>
                                 <button
                                     className="dash-profile__edit-btn"
                                     onClick={() => setIsEditing(false)}
+                                    disabled={updateLoader}
                                 >
                                     Відмінити
                                 </button>

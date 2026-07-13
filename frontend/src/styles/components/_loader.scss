@@ -1,0 +1,50 @@
+@use '../utils/variables' as *;
+
+.loader-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    min-height: 200px; 
+    padding: 20px;
+
+    &--full {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-color: rgba(255, 255, 255, 0.8); 
+        z-index: 9999; 
+        min-height: auto;
+        padding: 0;
+    }
+}
+
+.loader-spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid $bg-main;
+    border-top: 3px solid $color-accent; 
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.auth-page__log-btn, .item-page__action-btn, .profile-card__btn,
+ .dash-profile__edit-btn, .profile-item-form__submit-btn {
+    .loader-container {
+        min-height: auto;
+        padding: 0;
+    }
+    .loader-spinner {
+        width: 20px; 
+        height: 20px;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        border-top: 2px solid #ffffff; 
+    }
+}

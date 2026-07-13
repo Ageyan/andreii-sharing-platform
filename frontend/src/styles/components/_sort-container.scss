@@ -8,7 +8,7 @@
     background-color: $white;
     border-bottom: 2px solid $border-color;
     position: sticky;
-    top: 90px;
+    top: 91px;
     z-index: 100;
 
     &__container {
@@ -76,8 +76,6 @@
     }
 
     &__clear-btn {
-        background: none;
-        border: none;
         cursor: pointer;
         display: flex;
         justify-content: space-between;

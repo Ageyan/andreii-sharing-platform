@@ -7,23 +7,6 @@
     margin: 0 auto;
     padding: 20px 0;
 
-    &__loader {
-        text-align: center;
-        color: $color-text-muted;
-        font-size: 1.1rem;
-        padding: 40px 0;
-    }
-
-    &__error {
-        background-color: rgba($delete-color, 0.1);
-        color: $delete-color;
-        padding: 12px 16px;
-        border-radius: 8px;
-        border: 1px solid rgba($delete-color, 0.2);
-        margin-bottom: 20px;
-        font-weight: 500;
-    }
-
     &__card {
         background-color: $white;
         border: 1px solid $border-color;
@@ -130,7 +113,6 @@
     &__edit-btn {
         background-color: $color-accent;
         color: $white;
-        border: none;
         padding: 12px 24px;
         font-size: 0.95rem;
         font-weight: 600;

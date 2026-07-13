@@ -6,10 +6,12 @@ import type { Item } from '../types/items.types';
 import axios from 'axios';
 import Toast from '../components/Toast';
 import type { ToastState } from '../types/toast.types';
+import Loader from '../components/Loader';
 
 const ItemPage = () => {
     const [item, setItem] = useState<Item | null>(null);
     const [loader, setLoader] = useState<boolean>(false);
+    const [bookingLoader, setBookingLoader] = useState<boolean>(false);
     const [error, setError] = useState<string>('');
     const [imageActive, setImageActive] = useState<string>('');
     const [toast, setToast] = useState<ToastState>({ show: false, message: '', type: 'success' });
@@ -82,6 +84,8 @@ const ItemPage = () => {
         const end = new Date(endDate).getTime();
         const totalDays = Math.ceil((end - start) / (1000 * 60 * 60 * 24));
         const totalPrice = totalDays * Number(item!.price_per_day);
+
+        setBookingLoader(true);
         try {
             await createBooking(item!.id, startDate, endDate, totalPrice);
             setToast({
@@ -90,25 +94,28 @@ const ItemPage = () => {
                 type: 'success',
             });
         } catch (err) {
-            const errorMessage = 'Сталася непередбачувана помилка';
+            let errorMessage = 'Сталася непередбачувана помилка';
             if (axios.isAxiosError(err)) {
-                const message =
-                    err.response?.data.message || 'Помилка при отриманні даних про користувача';
-                setError(message);
+                errorMessage = err.response?.data.message || 'Помилка при створенні бронювання';
             }
-
             setToast({
                 show: true,
                 message: errorMessage,
                 type: 'error',
             });
+        } finally {
+            setBookingLoader(false);
         }
     };
 
     return (
         <div className="item-page">
-            {error && <p>Помилка при завантаженні сторінки</p>}
-            {loader && <div>Сторінка завантажується...</div>}
+            {loader && <Loader />}
+            {error && (
+                <div className="error-banner">
+                    <span>⚠️</span> {error}
+                </div>
+            )}
             {!loader && !error && item && (
                 <>
                     <button className="item-page__back-btn" onClick={() => navigate(-1)}>
@@ -194,8 +201,12 @@ const ItemPage = () => {
                                         />
                                     </div>
                                     {isAuthenticated ? (
-                                        <button type="submit" className="item-page__action-btn">
-                                            Орендувати зараз
+                                        <button
+                                            type="submit"
+                                            className="item-page__action-btn"
+                                            disabled={bookingLoader}
+                                        >
+                                            {bookingLoader ? <Loader /> : 'Орендувати зараз'}
                                         </button>
                                     ) : (
                                         <button

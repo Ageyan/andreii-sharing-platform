@@ -17,15 +17,16 @@
 
     &__image-wrapper {
         width: 260px;
-        min-width: 180px;
-        height: auto;
+        min-width: 190px;
+        height: 180px;
         background-color: $bg-main;
+        overflow: hidden;
     }
 
     &__image {
         width: 100%;
         height: 100%;
-        object-fit: cover;
+        object-position: center;
     }
 
     &__info {
@@ -102,7 +103,6 @@
 
     &__btn {
         flex: 1;
-        border: none;
         padding: 10px 16px;
         font-size: 0.9rem;
         font-weight: 600;

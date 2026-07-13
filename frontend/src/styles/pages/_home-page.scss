@@ -20,5 +20,12 @@
         display: grid;
         grid-template-columns: repeat(5, 1fr);
         gap: 30px;
+
+        .loader-container,
+        .error-banner,
+        .empty-state {
+            grid-column: 1 / -1; 
+            justify-self: center;
+        }
     }
 }

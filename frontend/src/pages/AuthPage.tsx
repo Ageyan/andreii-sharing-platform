@@ -7,6 +7,7 @@ import { RiLockPasswordLine } from 'react-icons/ri';
 import { FaPhoneAlt } from 'react-icons/fa';
 import Toast from '../components/Toast';
 import type { ToastState } from '../types/toast.types';
+import Loader from '../components/Loader';
 
 const AuthPage = () => {
     const [name, setName] = useState<string>('');
@@ -14,6 +15,7 @@ const AuthPage = () => {
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const [isLogin, setIsLogin] = useState<boolean>(true);
+    const [loader, setLoader] = useState<boolean>(false);
     const [toast, setToast] = useState<ToastState>({ show: false, message: '', type: 'success' });
 
     const navigate = useNavigate();
@@ -21,8 +23,8 @@ const AuthPage = () => {
 
     const handlesSubmit = async (event: React.SubmitEvent<HTMLFormElement>) => {
         event.preventDefault();
-
         setToast(prev => ({ ...prev, show: false }));
+        setLoader(true);
 
         try {
             if (isLogin) {
@@ -33,8 +35,7 @@ const AuthPage = () => {
                     const fromPage = location.state?.from || '/dashboard/profile';
                     navigate(fromPage);
                 }
-            }
-            {
+            } else {
                 const response = await handleRegister(name, phone, email, password);
 
                 if (response) {
@@ -45,6 +46,8 @@ const AuthPage = () => {
                     });
                     setIsLogin(true);
                     setPassword('');
+                    setName('');
+                    setPhone('');
                 }
             }
         } catch (err) {
@@ -59,6 +62,8 @@ const AuthPage = () => {
                 message: errorMessage,
                 type: 'error',
             });
+        } finally {
+            setLoader(false);
         }
     };
 
@@ -69,7 +74,7 @@ const AuthPage = () => {
                 {!isLogin && (
                     <div className="auth-page__register-container">
                         <div className="auth-page__input-container">
-                            <label>Name: </label>
+                            <label>Імʼя: </label>
                             <div className="auth-page__input-container--icon">
                                 <MdOutlineDriveFileRenameOutline className="auth-page__input-icon" />
                                 <input
@@ -82,7 +87,7 @@ const AuthPage = () => {
                             </div>
                         </div>
                         <div className="auth-page__input-container">
-                            <label>Phone: </label>
+                            <label>Телефон: </label>
                             <div className="auth-page__input-container--icon">
                                 <FaPhoneAlt className="auth-page__input-icon" />
                                 <input
@@ -97,7 +102,7 @@ const AuthPage = () => {
                     </div>
                 )}
                 <div className="auth-page__input-container">
-                    <label>Email: </label>
+                    <label>Електронна пошта: </label>
                     <div className="auth-page__input-container--icon">
                         <MdAlternateEmail className="auth-page__input-icon" />
                         <input
@@ -110,7 +115,7 @@ const AuthPage = () => {
                     </div>
                 </div>
                 <div className="auth-page__input-container">
-                    <label>Password: </label>
+                    <label>Пароль: </label>
                     <div className="auth-page__input-container--icon">
                         <RiLockPasswordLine className="auth-page__input-icon" />
                         <input
@@ -122,12 +127,13 @@ const AuthPage = () => {
                         />
                     </div>
                 </div>
-                <button type="submit" className="auth-page__log-btn">
-                    {isLogin ? 'Ввійти' : 'Реєстрація'}
+                <button type="submit" className="auth-page__log-btn" disabled={loader}>
+                    {loader ? <Loader /> : isLogin ? 'Ввійти' : 'Реєстрація'}
                 </button>
                 <button
                     className="auth-page__change-btn"
                     type="button"
+                    disabled={loader}
                     onClick={() => {
                         setToast(prev => ({ ...prev, show: false }));
                         setEmail('');

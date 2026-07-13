@@ -28,7 +28,7 @@ const SortContainer = ({ setSerchTerm, setSelectCategory, sortBy, setSortBy }: S
     const [isOpen, setIsOpen] = useState<boolean>(false);
 
     return (
-        <aside className="sort">
+        <div className="sort">
             <div
                 className="sort__container"
                 onClick={e => {
@@ -65,7 +65,7 @@ const SortContainer = ({ setSerchTerm, setSelectCategory, sortBy, setSortBy }: S
             >
                 Скинути фільтри
             </button>
-        </aside>
+        </div>
     );
 };
 export default SortContainer;

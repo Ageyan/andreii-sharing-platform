@@ -2,6 +2,9 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { lazy, Suspense } from 'react';
 import MainLayout from '../layouts/MainLayout';
 import ProtectedRoute from '../routes/ProtectedRoute';
+import Loader from '../components/Loader';
+import BookingsMy from '../components/BookingsMy';
+import BookingsOwner from '../components/BookingsOwner';
 
 const HomePage = lazy(() => import('../pages/HomePage'));
 const DashboardPage = lazy(() => import('../pages/DashboardPage'));
@@ -14,7 +17,7 @@ const DashBookings = lazy(() => import('../components/DashBookings'));
 const AppRouter = () => {
     return (
         <BrowserRouter>
-            <Suspense fallback={<div>Loading Page</div>}>
+            <Suspense fallback={<Loader fullPage />}>
                 <Routes>
                     <Route element={<MainLayout />}>
                         <Route path="/" element={<HomePage />} />
@@ -26,10 +29,14 @@ const AppRouter = () => {
                                 </ProtectedRoute>
                             }
                         >
-                            <Route index path="profile" element={<DashProfile />} />
+                            <Route index element={<DashProfile />} />
                             <Route path="profile" element={<DashProfile />} />
                             <Route path="items" element={<DashItems />} />
-                            <Route path="bookings" element={<DashBookings />} />
+                            <Route path="bookings" element={<DashBookings />}>
+                                <Route index element={<BookingsMy />} />
+                                <Route path="my" element={<BookingsMy />} />
+                                <Route path="owner" element={<BookingsOwner />} />
+                            </Route>
                         </Route>
                         <Route path="/items/:id" element={<ItemPage />} />
                         <Route path="/auth" element={<AuthPage />} />
