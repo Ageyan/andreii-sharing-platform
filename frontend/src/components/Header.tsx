@@ -1,12 +1,32 @@
 import { Link, useNavigate } from 'react-router-dom';
 import SearchInput from './SearchInput';
 
+interface TawkWindow extends Window {
+    Tawk_API?: {
+        hideWidget?: () => void;
+        showWidget?: () => void;
+        onLoad?: () => void;
+        [key: string]: unknown;
+    };
+    Tawk_LoadStart?: Date;
+}
+
 const Header = () => {
     const isAuthenticated = !!localStorage.getItem('token');
     const navigate = useNavigate();
 
     const handleLogout = () => {
         localStorage.removeItem('token');
+
+        const tawkWindow = window as unknown as TawkWindow;
+        if (tawkWindow.Tawk_API && typeof tawkWindow.Tawk_API.endChat === 'function') {
+            try {
+                tawkWindow.Tawk_API.endChat();
+            } catch (error) {
+                console.error('Помилка при завершенні сесії чату:', error);
+            }
+        }
+
         navigate('/');
     };
 
