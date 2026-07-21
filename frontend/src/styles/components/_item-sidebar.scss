@@ -1,0 +1,98 @@
+@use '../utils/variables' as *;
+@use '../utils/mixins' as *;
+
+.item-sidebar {
+    &__widget {
+        background-color: $white;
+        border-radius: 16px;
+        padding: 24px;
+        
+        @include desktop {
+            border: 1px solid $color-text-muted;
+            padding: 32px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+        }
+    }
+
+    &__price-block {
+        margin-bottom: 24px;
+        
+        .item-sidebar__price-label {
+            font-size: 0.95rem;
+            color: $color-text-muted;
+        }
+
+        .item-sidebar__price {
+            font-size: 1.2rem;
+            margin-top: 4px;
+            color: $color-text-main;
+
+            strong {
+                font-size: 2rem;
+                font-weight: 700;
+                color: $color-accent;
+            }
+        }
+    }
+
+    &__form {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+    }
+
+    &__input-group {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+
+        .item-sidebar__label {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: $color-text-main;
+        }
+    }
+
+    &__date-input {
+        width: 100%;
+        padding: 12px;
+        border: 2px solid $color-text-muted;
+        border-radius: 10px;
+        font-size: 1rem;
+        font-family: inherit;
+        transition: border-color 0.2s ease;
+
+        &:focus {
+            border-color: $color-accent;
+        }
+    }
+
+    &__action-btn {
+        width: 100%;
+        background-color: $color-accent;
+        color: $white;
+        padding: 16px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        border-radius: 10px;
+        cursor: pointer;
+        margin-top: 12px;
+        transition: transform 0.1s ease, opacity 0.2s ease;
+
+        &:hover {
+            opacity: 0.9;
+        }
+
+        &:active {
+            transform: scale(0.98);
+        }
+    }
+
+    &__widget-note {
+        font-size: 0.8rem;
+        color: $color-text-muted;
+        text-align: center;
+        margin-top: 16px;
+        line-height: 1.4;
+    }
+}

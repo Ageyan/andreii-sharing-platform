@@ -69,82 +69,84 @@ const AuthPage = () => {
 
     return (
         <div className="auth-page">
-            <h2 className="auth-page__title">{isLogin ? 'Авторизація' : 'Зареєструватися'}</h2>
-            <form onSubmit={handlesSubmit} className="auth-page__form">
-                {!isLogin && (
-                    <div className="auth-page__register-container">
-                        <div className="auth-page__input-container">
-                            <label>Імʼя: </label>
-                            <div className="auth-page__input-container--icon">
-                                <MdOutlineDriveFileRenameOutline className="auth-page__input-icon" />
-                                <input
-                                    className="auth-page__input"
-                                    type="text"
-                                    value={name}
-                                    onChange={e => setName(e.target.value)}
-                                    required
-                                />
+            <div className="auth-page__container">
+                <h2 className="auth-page__title">{isLogin ? 'Авторизація' : 'Зареєструватися'}</h2>
+                <form onSubmit={handlesSubmit} className="auth-page__form">
+                    {!isLogin && (
+                        <div className="auth-page__register-container">
+                            <div className="auth-page__input-container">
+                                <label>Імʼя: </label>
+                                <div className="auth-page__input-container--icon">
+                                    <MdOutlineDriveFileRenameOutline className="auth-page__input-icon" />
+                                    <input
+                                        className="auth-page__input"
+                                        type="text"
+                                        value={name}
+                                        onChange={e => setName(e.target.value)}
+                                        required
+                                    />
+                                </div>
+                            </div>
+                            <div className="auth-page__input-container">
+                                <label>Телефон: </label>
+                                <div className="auth-page__input-container--icon">
+                                    <FaPhoneAlt className="auth-page__input-icon" />
+                                    <input
+                                        className="auth-page__input"
+                                        type="tel"
+                                        value={phone}
+                                        onChange={e => setPhone(e.target.value)}
+                                        required
+                                    />
+                                </div>
                             </div>
                         </div>
-                        <div className="auth-page__input-container">
-                            <label>Телефон: </label>
-                            <div className="auth-page__input-container--icon">
-                                <FaPhoneAlt className="auth-page__input-icon" />
-                                <input
-                                    className="auth-page__input"
-                                    type="tel"
-                                    value={phone}
-                                    onChange={e => setPhone(e.target.value)}
-                                    required
-                                />
-                            </div>
+                    )}
+                    <div className="auth-page__input-container">
+                        <label>Електронна пошта: </label>
+                        <div className="auth-page__input-container--icon">
+                            <MdAlternateEmail className="auth-page__input-icon" />
+                            <input
+                                className="auth-page__input"
+                                type="email"
+                                value={email}
+                                onChange={e => setEmail(e.target.value)}
+                                required
+                            />
                         </div>
                     </div>
-                )}
-                <div className="auth-page__input-container">
-                    <label>Електронна пошта: </label>
-                    <div className="auth-page__input-container--icon">
-                        <MdAlternateEmail className="auth-page__input-icon" />
-                        <input
-                            className="auth-page__input"
-                            type="email"
-                            value={email}
-                            onChange={e => setEmail(e.target.value)}
-                            required
-                        />
+                    <div className="auth-page__input-container">
+                        <label>Пароль: </label>
+                        <div className="auth-page__input-container--icon">
+                            <RiLockPasswordLine className="auth-page__input-icon" />
+                            <input
+                                className="auth-page__input"
+                                type="password"
+                                value={password}
+                                onChange={e => setPassword(e.target.value)}
+                                required
+                            />
+                        </div>
                     </div>
-                </div>
-                <div className="auth-page__input-container">
-                    <label>Пароль: </label>
-                    <div className="auth-page__input-container--icon">
-                        <RiLockPasswordLine className="auth-page__input-icon" />
-                        <input
-                            className="auth-page__input"
-                            type="password"
-                            value={password}
-                            onChange={e => setPassword(e.target.value)}
-                            required
-                        />
-                    </div>
-                </div>
-                <button type="submit" className="auth-page__log-btn" disabled={loader}>
-                    {loader ? <Loader /> : isLogin ? 'Ввійти' : 'Реєстрація'}
-                </button>
-                <button
-                    className="auth-page__change-btn"
-                    type="button"
-                    disabled={loader}
-                    onClick={() => {
-                        setToast(prev => ({ ...prev, show: false }));
-                        setEmail('');
-                        setPassword('');
-                        setName('');
-                        setIsLogin(!isLogin);
-                    }}
-                >
-                    {isLogin ? 'Немає аккаунта? Зареєструйся' : 'Вже є аккаунт? Увійди'}
-                </button>
-            </form>
+                    <button type="submit" className="auth-page__log-btn" disabled={loader}>
+                        {loader ? <Loader /> : isLogin ? 'Ввійти' : 'Реєстрація'}
+                    </button>
+                    <button
+                        className="auth-page__change-btn"
+                        type="button"
+                        disabled={loader}
+                        onClick={() => {
+                            setToast(prev => ({ ...prev, show: false }));
+                            setEmail('');
+                            setPassword('');
+                            setName('');
+                            setIsLogin(!isLogin);
+                        }}
+                    >
+                        {isLogin ? 'Немає аккаунта? Зареєструйся' : 'Вже є аккаунт? Увійди'}
+                    </button>
+                </form>
+            </div>
             {toast.show && (
                 <Toast
                     message={toast.message}

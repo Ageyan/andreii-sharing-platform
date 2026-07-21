@@ -7,8 +7,8 @@ export const getItems = async(config? : AxiosRequestConfig): Promise<Item[]> => 
     return data;
 };
 
-export const getItemById = async( id : number): Promise<Item> => {
-    const { data } = await api.get<Item>(`/items/${id}`);
+export const getItemById = async( id : number, config? : AxiosRequestConfig): Promise<Item> => {
+    const { data } = await api.get<Item>(`/items/${id}`, config);
     return data;
 }
 

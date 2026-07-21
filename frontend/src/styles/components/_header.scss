@@ -5,20 +5,57 @@
     width: 100%;
     background-color: $white; 
     border-bottom: 1px solid $border-color; 
-    padding: 20px 0; 
     position: sticky;
     top: 0;
-    z-index: 100;
+    z-index: 102;
 
     &__container {
         @include container;
         display: flex;
         justify-content: space-between;
         align-items: center; 
+        padding-top: 14px;
+        padding-bottom: 14px;
+
+        @include tablet {
+            min-height: 90px;
+            padding-top: 20px;
+            padding-bottom: 20px;
+        }
+    }
+
+    &__desktop-search {
+        display: none;
+        
+        @include desktop {
+            display: flex;
+            align-items: center;
+            justify-content: center; 
+            flex: 1;
+            width: 100%;
+            margin: 0 30px; 
+        }
+    }
+
+    &__mobile-search {
+        position: absolute; 
+        top: 100%; 
+        left: 0;
+        width: 100%;
+        z-index: 101; 
+        padding: 10px 12px 10px 12px;
+        background-color: $white;
+        border-top: 1px solid rgba(0,0,0,0.05); 
+        box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+        animation: slideDown 0.3s ease forwards;
+
+        @include desktop {
+            display: none; 
+        }
     }
 
     &__logo {
-        font-size: 1.4rem; 
+        font-size: 1rem; 
         font-weight: 700;
         font-family: 'Montserrat', sans-serif;
         color: $color-text-main;
@@ -26,6 +63,16 @@
         letter-spacing: -0.5px; 
         transition: opacity 0.2s ease;
         text-transform: uppercase;
+        max-width: 100px;
+
+        @include tablet {
+            font-size: 1.2rem;
+            max-width: fit-content;
+        }
+
+        @include desktop {
+            font-size: 1.4rem;
+        }
 
         &:hover {
             opacity: 0.8;
@@ -39,23 +86,49 @@
     &__nav {
         display: flex;
         align-items: center;
-        gap: 24px;
+        gap: 14px;
+
+        @include tablet {
+            gap: 24px;
+        }
 
         &--link {
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: 500;
             color: $color-text-muted;
             text-decoration: none;
             transition: color 0.2s ease;
 
+            @include tablet {
+                font-size: 1.1rem;
+            }
+
             &:hover {
                 color: $color-text-main; 
+            }
+        }
+
+        &--search-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 22px;
+            height: 22px;
+            color: $black;
+            cursor: pointer;
+
+            &--active {
+                color: $color-accent;
+            }
+
+            @include desktop {
+                display: none;
             }
         }
     }
 
     &__btn-logout {
-        font-size: 1.1rem;
+        font-size: 1rem;
         font-weight: 500;
         color: #E53E3E;
         cursor: pointer;
@@ -63,8 +136,23 @@
         border-radius: 6px;
         transition: all 0.2s ease;
 
+        @include tablet {
+            font-size: 1.1rem;
+        }
+
         &:hover {
             background-color: #FFF5F5; 
         }
+    }
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
 }

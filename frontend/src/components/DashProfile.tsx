@@ -174,7 +174,7 @@ const DashProfile = () => {
                                     {updateLoader ? <Loader /> : 'Зберегти'}
                                 </button>
                                 <button
-                                    className="dash-profile__edit-btn"
+                                    className="dash-profile__edit-btn dash-profile__edit-btn--cancel"
                                     onClick={() => setIsEditing(false)}
                                     disabled={updateLoader}
                                 >

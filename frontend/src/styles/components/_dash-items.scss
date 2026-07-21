@@ -4,16 +4,26 @@
 .dashboard-items {
     display: flex;
     flex-direction: column;
-    gap: 25px;
+    gap: 18px;
+
+    @include desktop {
+        gap: 25px;
+    }
 
     &__tabs {
         border-bottom: 2px solid $border-color;
-        padding-bottom: 18px;
+        padding: 16px 32px;
+
+        @include desktop {
+            padding: 0 0 18px;
+        }
     }
     
     &__toggle-btn {
-        display: inline-flex;
+        display: flex;
+        justify-content: center;
         align-items: center;
+        width: 100%;
         gap: 8px;
         padding: 12px 20px;
         font-size: 0.95rem;
@@ -21,6 +31,11 @@
         border-radius: 10px;
         cursor: pointer;
         transition: all 0.2s ease-in-out;
+
+        @include desktop {
+            width: auto;
+            display: inline-flex;
+        }
 
         &--add {
             background-color: $color-accent;
@@ -51,8 +66,13 @@
         background-color: $white;
         border-radius: 12px;
         display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 30px;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+
+        @include desktop {
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+        }
 
         .loader-container,
         .error-banner,

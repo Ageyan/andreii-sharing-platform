@@ -11,13 +11,18 @@
     width: 100%;
     max-width: 750px; 
     background: $white;
-    padding: 40px;
-    border-radius: 20px;
-    border: 1px solid $border-color;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.03);
+    padding: 14px 8px 20px;
+    border-radius: 0 0 16px 16px;
     display: flex;
     flex-direction: column;
     gap: 20px;
+
+    @include desktop {
+        padding: 40px;
+        border-radius: 20px;
+        border: 1px solid $border-color;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.03);
+    }
 
     &__title {
         font-size: 1.6rem;
@@ -37,7 +42,16 @@
 
     &__row {
         display: flex;
+        flex-direction: column;
         gap: 20px;
+
+        @include desktop {
+            flex-direction: row; 
+            
+            .profile-item-form__group {
+                flex: 1; 
+            }
+        }
     }
 
     &__label {

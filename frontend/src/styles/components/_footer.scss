@@ -4,7 +4,11 @@
 .footer {
     flex: 0 0 auto;
     background-color: $color-accent; 
-    padding: 28px 0;
+    padding: 24px 0;
+
+    @include desktop {
+        padding: 28px 0; 
+    }
 
     &__container {
         @include container;
@@ -14,16 +18,24 @@
     }
 
     &__text {
-        font-size: 1rem;
+        font-size: 0.8rem;
         font-weight: 700;
         letter-spacing: 1px;
         text-transform: uppercase;
         color: $white;
         font-family: 'Montserrat', sans-serif;
+
+        @include desktop {
+            font-size: 1rem; 
+        }
     }
 
     &__copy {
-        font-size: 0.8rem;
+        font-size: 0.65rem;
         color: $color-text-main;
+
+        @include desktop {
+            font-size: 0.8rem; 
+        }
     }
 }

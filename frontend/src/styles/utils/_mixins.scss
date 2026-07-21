@@ -1,12 +1,5 @@
 @use '../utils/variables' as *;
 
-@mixin container {
-    max-width: 1440px;
-    width: 100%;
-    padding: 0 24px;
-    margin: 0 auto;
-}
-
 @mixin tablet {
     @media (min-width: $bp-tablet) {
         @content;
@@ -24,3 +17,14 @@
         @content;
     }
 };
+
+@mixin container {
+    max-width: 1440px;
+    width: 100%;
+    padding: 0 12px;
+    margin: 0 auto;
+
+    @include tablet {
+        padding: 0 24px;
+    }
+}

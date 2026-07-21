@@ -1,0 +1,115 @@
+@use '../utils/variables' as *;
+@use '../utils/mixins' as *;
+
+.profile-sidebar {
+    background: $white;
+    border-radius: 16px 16px 0 0;
+    padding: 12px;
+    padding-bottom: calc(12px + env(safe-area-inset-bottom));
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+    height: fit-content;
+    border: 1px solid $border-color;
+
+    @include desktop {
+        padding: 24px;
+        border-radius: 16px;
+    }
+
+    &__user-card {
+        display: none;
+
+        @include desktop {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding-bottom: 20px;
+            margin-bottom: 20px;
+            border-bottom: 1px solid $border-color;
+        }
+    }
+
+    &__avatar-placeholder {
+        width: 48px;
+        height: 48px;
+        background: $color-accent;
+        color: $white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+        font-size: 1.2rem;
+    }
+
+    &__user-name {
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: $text-main;
+        margin: 0;
+    }
+
+    &__menu {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 0 8px;
+
+        @include desktop {
+            flex-direction: column;
+        }
+    }
+
+    &__menu-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex: 1;
+        padding: 16px 12px;
+        background: transparent;
+        border-radius: 12px;
+        font-size: 0.9rem;
+        font-weight: 500;
+        color: $color-text-muted;
+        text-align: left;
+        text-decoration: none;
+        cursor: pointer;
+        transition: all 0.2s ease;
+
+        @include desktop {
+            font-size: 1rem;
+            gap: 12px;
+            min-width: auto;
+            justify-content: flex-start;
+        }
+
+        &:hover {
+            background-color: $bg-main;
+            color: $text-main;
+        }
+
+        &--active {
+            background: $color-accent;
+            color: $white;
+            font-weight: 600;
+            transform: scale(1.1) translateY(-3px);
+
+            @include desktop {
+                transform: none;
+            }
+
+            &:hover {
+                background: $color-accent;
+                color: $white;
+            }
+        }
+    }
+
+    &__icon {
+        display: none;
+
+        @include desktop {
+            display: block;
+            font-size: 1.1rem;
+        }
+    }
+}

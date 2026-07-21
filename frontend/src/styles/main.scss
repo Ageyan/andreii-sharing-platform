@@ -16,11 +16,13 @@
 @use './components/category-item';
 @use './components/dash-booking';
 @use './components/dash-items';
+@use './components//dash-profile-sidebar';
 @use './components//dash-profile';
 @use './components/error-empty-message';
 @use './components/footer';
 @use './components/header';
 @use './components/item-card';
+@use './components/item-sidebar';
 @use './components/loader';
 @use './components/profile-card';
 @use './components/profile-item-form';

@@ -6,24 +6,31 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    max-width: 700px;
+    max-width: 650px;
     width: 100%;
+    
 
     &__icon {
         position: absolute;
         top: 50%;
         left: 16px;
         transform: translate(0, -50%);
+        color: $color-accent;
     }
 
     &__field {
         background-color: $white;
-        padding: 10px 24px 10px 48px;
+        padding: 8px 20px 8px 42px;
         border-radius: 12px;
         color: inherit;
-        font-size: 1.4rem;
+        font-size: 1.1rem;
         width: 100%;
         border: 2px solid $color-text-muted;
+
+        @include desktop {
+            padding: 10px 24px 10px 48px;
+            font-size: 1.4rem;
+        }
 
         &:focus {
             border-color: $color-accent;

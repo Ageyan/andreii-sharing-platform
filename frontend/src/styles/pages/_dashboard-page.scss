@@ -2,96 +2,33 @@
 @use '../utils/mixins' as *;
 
 .dashboard {
-    padding: 40px 0px;
-    min-height: calc(100vh - 80px);
+    padding: 28px 0px;
+    min-height: calc(100vh - 170px);
     background-color: $bg-main;
+
+    @include desktop {
+        padding: 40px 0px;
+    }
 
     &__container {
         width: 100%;
         display: grid;
-        grid-template-columns: 280px 1fr;
-        gap: 30px;
-    }
+        grid-template-columns: 1fr;
 
-    &__sidebar {
-        background: $white;
-        border-radius: 16px;
-        padding: 24px;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
-        height: fit-content;
-        border: 1px solid $border-color;
-    }
-
-    &__user-card {
-        display: flex;
-        align-items: center;
-        gap: 16px;
-        padding-bottom: 20px;
-        margin-bottom: 20px;
-        border-bottom: 1px solid $border-color;
-    }
-
-    &__avatar-placeholder {
-        width: 48px;
-        height: 48px;
-        background: $color-accent;
-        color: $white;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: 600;
-        font-size: 1.2rem;
-    }
-
-    &__user-name {
-        font-size: 1.1rem;
-        font-weight: 600;
-        color: $text-main;
-        margin: 0;
-    }
-
-    &__menu {
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
-    }
-
-    &__menu-btn {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        width: 100%;
-        padding: 12px 16px;
-        background: transparent;
-        border-radius: 12px;
-        font-size: 1rem;
-        font-weight: 500;
-        color: $color-text-muted;
-        text-align: left;
-        text-decoration: none;
-        cursor: pointer;
-        transition: all 0.2s ease;
-
-        &:hover {
-            background-color: $bg-main;
-            color: $text-main;
-        }
-
-        &--active {
-            background: $color-accent;
-            color: $white;
-            font-weight: 600;
-
-            &:hover {
-                background: $color-accent;
-                color: $white;
-            }
+        @include desktop {
+            gap: 30px;
+            grid-template-columns: 280px 1fr;
         }
     }
 
-    &__icon {
-        font-size: 1.1rem;
+    &__desktop-sidebar {
+        display: none;
+
+        @include desktop {
+            display: block;
+            width: 100%;
+            height: fit-content;
+        }
     }
 
     &__content {
@@ -101,9 +38,35 @@
     &__card {
         background: $white;
         border-radius: 16px;
-        padding: 30px;
+        padding: 0px;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
         border: 1px solid $border-color;
+
+        @include desktop {
+            padding: 30px;
+        }
+    }
+
+    &__mobile-sidebar {
+        display: block;
+        width: 100%;
+        height: fit-content;
+        position: fixed;
+        z-index: 90;
+        left: 0;
+        bottom: 0;
+
+        @include desktop {
+            display: none;
+        }
+    }
+}
+
+.app-container.has-mobile-padding {
+    padding-bottom: 82px;
+
+    @include tablet {
+        padding-bottom: 0px;
     }
 }
 

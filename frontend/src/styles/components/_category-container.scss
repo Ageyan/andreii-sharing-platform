@@ -7,11 +7,17 @@
     width: 100%;
     justify-content: space-between;
     align-items: center;
-    padding: 22px 16px 12px;
+    padding: 18px 10px 6px;
     flex-wrap: nowrap;
     overflow-x: auto;
-    margin-bottom: 40px;
+    margin-bottom: 24px;
     background-color: $white;
     border: 1px solid $color-text-main;
     border-radius: 12px;
+    gap: 12px;
+
+    @include desktop {
+        padding: 22px 16px 12px;
+        margin-bottom: 40px;
+    }
 }

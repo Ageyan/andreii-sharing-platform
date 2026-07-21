@@ -110,7 +110,7 @@ const DashItems = () => {
                     <ProfileItemForm
                         setViewForm={setViewForm}
                         setMyItems={setMyItems}
-                        editingItem={editingItem ? editingItem : null}
+                        editingItem={editingItem}
                         setEditingItem={setEditingItem}
                         setParentToast={setToast}
                     />
