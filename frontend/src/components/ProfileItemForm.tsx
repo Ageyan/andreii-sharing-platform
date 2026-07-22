@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { addItem, updateItem } from '../services/items';
 import type { Item, ItemCategoryAdd } from '../types/items.types';
 import axios from 'axios';
 import { IoIosArrowDown } from 'react-icons/io';
 import type { ToastState } from '../types/toast.types';
 import Loader from './Loader';
+import { useOutsideClick } from '../hooks/useOutsideClick';
 
 type AddFormProps = {
     setViewForm: (value: boolean) => void;
@@ -74,6 +75,9 @@ const ProfileItemForm = ({
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [error, setError] = useState<string>('');
     const [btnLoader, setBtnLoader] = useState<boolean>(false);
+    const categoryRef = useRef<HTMLDivElement>(null);
+
+    useOutsideClick(categoryRef, () => setIsOpen(false));
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.files) {
@@ -207,6 +211,7 @@ const ProfileItemForm = ({
                     <div className="profile-item-form__group">
                         <label className="profile-item-form__label">Категорія</label>
                         <div
+                            ref={categoryRef}
                             className="profile-item-form__category-container"
                             onClick={() => setIsOpen(!isOpen)}
                         >

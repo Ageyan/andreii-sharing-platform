@@ -4,6 +4,7 @@ import { useOutletContext } from 'react-router-dom';
 import type { BookingsOwnerProps } from './DashBookings';
 import { useState } from 'react';
 import Loader from './Loader';
+import { MdDone, MdClose } from 'react-icons/md';
 
 const BookingsOwner = () => {
     const [loadingId, setLoadingId] = useState<number | null>(null);
@@ -45,14 +46,32 @@ const BookingsOwner = () => {
                                             disabled={loadingId !== null}
                                             onClick={() => handleUpdateStatus('confirmed', item.id)}
                                         >
-                                            {isCurrentLoading ? <Loader /> : 'Підтвердити'}
+                                            {isCurrentLoading ? (
+                                                <Loader />
+                                            ) : (
+                                                <>
+                                                    <MdDone className="profile-card__btn-icon" />
+                                                    <span className="profile-card__btn-text">
+                                                        Підтвердити
+                                                    </span>
+                                                </>
+                                            )}
                                         </button>
                                         <button
                                             className="profile-card__btn profile-card__btn--cancel"
                                             disabled={loadingId !== null}
                                             onClick={() => handleUpdateStatus('cancelled', item.id)}
                                         >
-                                            {isCurrentLoading ? <Loader /> : 'Відхилити'}
+                                            {isCurrentLoading ? (
+                                                <Loader />
+                                            ) : (
+                                                <>
+                                                    <MdClose className="profile-card__btn-icon" />
+                                                    <span className="profile-card__btn-text">
+                                                        Відхилити
+                                                    </span>
+                                                </>
+                                            )}
                                         </button>
                                     </div>
                                 )}

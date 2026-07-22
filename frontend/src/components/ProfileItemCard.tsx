@@ -1,4 +1,5 @@
 import type { BookingResponse } from '../types/booking.types';
+import { MdOutlineArrowRightAlt } from 'react-icons/md';
 
 interface ProfileCardProps {
     item: BookingResponse;
@@ -37,7 +38,8 @@ const ProfileItemCard = ({ item, children, priceLabel = 'Всього:' }: Profi
             <div className="profile-card__info">
                 <h3 className="profile-card__title">{item.title}</h3>
                 <div className="profile-card__dates">
-                    <span>{formatDate(item.start_date)}</span> &rarr;{' '}
+                    <span>{formatDate(item.start_date)}</span>
+                    <MdOutlineArrowRightAlt className="profile-card__dates-icon" />
                     <span>{formatDate(item.end_date)}</span>
                 </div>
                 <p className="profile-card__price">

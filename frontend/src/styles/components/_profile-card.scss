@@ -3,12 +3,18 @@
 
 .profile-card {
     display: flex;
+    align-items: center;
     background-color: $white;
+    flex-direction: column;
     border: 1px solid $border-color;
     border-radius: 16px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
     overflow: hidden;
     transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+
+    @include desktop {
+        flex-direction: row;
+    }
 
     &:hover {
         transform: translateY(-2px);
@@ -16,11 +22,17 @@
     }
 
     &__image-wrapper {
-        width: 260px;
-        min-width: 190px;
-        height: 180px;
+        width: 100%;
+        height: 150px;
         background-color: $bg-main;
         overflow: hidden;
+
+        @include desktop {
+            width: 240px;
+            min-width: 240px;
+            height: 215px;
+            min-height: 215px;
+        }
     }
 
     &__image {
@@ -30,28 +42,57 @@
     }
 
     &__info {
-        padding: 20px;
+        padding: 12px 14px 12px 6px;
         display: flex;
         align-items: center;
         flex-direction: column;
-        gap: 10px;
+        gap: 8px;
         flex-grow: 1;
+
+        @include desktop {
+            gap: 10px;
+            padding: 20px;
+        }
     }
 
     &__title {
-        font-size: 1.15rem;
+        font-size: 1.05rem;
         font-weight: 700;
         color: $color-text-main;
         margin: 0;
+
+        @include desktop {
+            font-size: 1.15rem;
+        }
     }
 
     &__dates {
         font-size: 0.9rem;
         color: $color-text-muted;
         font-weight: 500;
+        flex-direction: column;
         display: flex;
         align-items: center;
-        gap: 8px;
+
+        @include desktop {
+            gap: 6px;
+            flex-direction: row;
+        }
+
+        &-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 18px;
+            height: 18px;
+            transform: rotate(90deg);
+
+            @include desktop {
+                transform: rotate(0);
+                width: 22px;
+                height: 22px;
+            }
+        }
     }
 
     &__price {
@@ -61,18 +102,27 @@
 
         strong {
             color: $color-text-main;
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: 700;
+
+            @include desktop {
+                font-size: 1.1rem;
+            }
         }
     }
 
     &__status {
-        font-size: 0.8rem;
+        font-size: 0.6rem;
         font-weight: 700;
-        padding: 6px 12px;
+        padding: 4px 8px;
         border-radius: 6px;
         text-transform: uppercase;
         letter-spacing: 0.5px;
+
+        @include desktop {
+            font-size: 0.8rem;
+            padding: 6px 12px;
+        }
 
         &--pending {
             background-color: rgba(#D97706, 0.1); 
@@ -98,10 +148,17 @@
         gap: 10px;
         margin-top: 5px;
         border-top: 1px solid $border-color;
-        padding-top: 15px;
+        padding-top: 10px;
+
+        @include desktop {
+            padding-top: 15px;
+        }
     }
 
     &__btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
         flex: 1;
         padding: 10px 16px;
         font-size: 0.9rem;
@@ -109,6 +166,10 @@
         border-radius: 10px;
         cursor: pointer;
         transition: all 0.2s ease-in-out;
+
+        @include desktop {
+            padding: 10px 16px;
+        }
 
         &:active {
             transform: translateY(1px);
@@ -131,6 +192,23 @@
             &:hover {
                 background-color: $delete-color-active;
                 transform: translateY(-1px);
+            }
+        }
+
+        &-icon {
+            font-size: 1.4rem;
+            display: block; // На телефоне показываем крупную иконку
+
+            @include desktop {
+                display: none; // На десктопе прячем иконку (или можешь удалить эту строку, если хочешь иконка + текст)
+            }
+        }
+
+        &-text {
+            display: none; // На телефоне прячем длинный текст
+
+            @include desktop {
+                display: block; // На десктопе возвращаем текст
             }
         }
     }
