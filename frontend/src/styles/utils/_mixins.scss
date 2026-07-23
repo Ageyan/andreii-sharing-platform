@@ -6,6 +6,12 @@
     }
 };
 
+@mixin large-tablet {
+    @media (min-width: $bp-large-tablet) {
+        @content;
+    }
+}
+
 @mixin desktop {
     @media (min-width: $bp-desktop) {
         @content;

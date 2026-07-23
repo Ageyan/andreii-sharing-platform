@@ -6,6 +6,10 @@
         background-color: $white;
         border-radius: 16px;
         padding: 24px;
+
+        @include tablet {
+            padding: 26px 24px 34px;
+        }
         
         @include desktop {
             border: 1px solid $color-text-muted;
@@ -43,6 +47,8 @@
 
     &__input-group {
         display: flex;
+        align-items: center;
+        justify-content: center;
         flex-direction: column;
         gap: 6px;
 
@@ -50,6 +56,10 @@
             font-size: 0.9rem;
             font-weight: 600;
             color: $color-text-main;
+
+            @include tablet {
+                font-size: 1.1rem;
+            }
         }
     }
 
@@ -61,6 +71,11 @@
         font-size: 1rem;
         font-family: inherit;
         transition: border-color 0.2s ease;
+
+        @include tablet {
+            max-width: 500px;
+            font-size: 1.1rem;
+        }
 
         &:focus {
             border-color: $color-accent;
@@ -79,6 +94,11 @@
         margin-top: 12px;
         transition: transform 0.1s ease, opacity 0.2s ease;
 
+        @include tablet {
+            max-width: 540px;
+            margin: 16px auto 0;
+        }
+
         &:hover {
             opacity: 0.9;
         }
@@ -94,5 +114,9 @@
         text-align: center;
         margin-top: 16px;
         line-height: 1.4;
+
+        @include tablet {
+            font-size: 0.95rem;
+        }
     }
 }

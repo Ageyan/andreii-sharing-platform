@@ -16,6 +16,11 @@
     border-radius: 12px;
     gap: 12px;
 
+    @include tablet {
+        padding: 20px 14px 10px;
+        margin-bottom: 32px;
+    }
+
     @include desktop {
         padding: 22px 16px 12px;
         margin-bottom: 40px;

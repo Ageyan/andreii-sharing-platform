@@ -9,7 +9,6 @@
     max-width: 650px;
     width: 100%;
     
-
     &__icon {
         position: absolute;
         top: 50%;
@@ -27,8 +26,12 @@
         width: 100%;
         border: 2px solid $color-text-muted;
 
-        @include desktop {
+        @include tablet {
             padding: 10px 24px 10px 48px;
+            font-size: 1.2rem;
+        }
+
+        @include desktop {
             font-size: 1.4rem;
         }
 

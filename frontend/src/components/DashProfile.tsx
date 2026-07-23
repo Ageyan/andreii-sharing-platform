@@ -6,6 +6,7 @@ import { FaUser, FaEnvelope, FaPhoneAlt, FaCalendarAlt } from 'react-icons/fa';
 import Toast from './Toast';
 import type { ToastState } from '../types/toast.types';
 import Loader from './Loader';
+import { MdOutlineManageAccounts } from 'react-icons/md';
 
 const DashProfile = () => {
     const [user, setUser] = useState<UserInfo | null>(null);
@@ -190,6 +191,7 @@ const DashProfile = () => {
                                 }}
                                 className="dash-profile__edit-btn"
                             >
+                                <MdOutlineManageAccounts className="dash-profile__edit-btn-icon" />{' '}
                                 Редагувати профіль
                             </button>
                         )}

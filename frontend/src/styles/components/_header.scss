@@ -39,6 +39,9 @@
 
     &__mobile-search {
         position: absolute; 
+        display: flex;
+        align-items: center;
+        justify-content: center;
         top: 100%; 
         left: 0;
         width: 100%;
@@ -48,6 +51,10 @@
         border-top: 1px solid rgba(0,0,0,0.05); 
         box-shadow: 0 10px 15px rgba(0,0,0,0.1);
         animation: slideDown 0.3s ease forwards;
+
+        @include tablet {
+            padding: 14px; 
+        }
 
         @include desktop {
             display: none; 
@@ -119,6 +126,38 @@
 
             &--active {
                 color: $color-accent;
+            }
+
+            @include tablet {
+                width: 26px;
+                height: 26px;
+            }
+
+            @include desktop {
+                display: none;
+            }
+        }
+
+        &--text {
+            display: none;
+
+            @include desktop {
+                display: block;
+            }
+        }
+
+        &--icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 30px;
+            height: 30px;
+            color: $black;
+            cursor: pointer;
+
+            @include tablet {
+                width: 34px;
+                height: 34px;
             }
 
             @include desktop {

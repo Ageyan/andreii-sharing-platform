@@ -15,7 +15,8 @@ const DashProfileSidebar = () => {
                         `profile-sidebar__menu-btn ${isActive ? 'profile-sidebar__menu-btn--active' : ''}`
                     }
                 >
-                    <span className="profile-sidebar__icon">👤</span> Профіль
+                    <span className="profile-sidebar__icon">👤</span>
+                    <span className="profile-sidebar__title">Профіль</span>
                 </NavLink>
                 <NavLink
                     to="/dashboard/items"
@@ -23,7 +24,8 @@ const DashProfileSidebar = () => {
                         `profile-sidebar__menu-btn ${isActive ? 'profile-sidebar__menu-btn--active' : ''}`
                     }
                 >
-                    <span className="profile-sidebar__icon">📦</span> Речі
+                    <span className="profile-sidebar__icon">📦</span>
+                    <span className="profile-sidebar__title">Речі</span>
                 </NavLink>
                 <NavLink
                     to="/dashboard/bookings"
@@ -31,7 +33,8 @@ const DashProfileSidebar = () => {
                         `profile-sidebar__menu-btn ${isActive ? 'profile-sidebar__menu-btn--active' : ''}`
                     }
                 >
-                    <span className="profile-sidebar__icon">📅</span> Бронювання
+                    <span className="profile-sidebar__icon">📅</span>
+                    <span className="profile-sidebar__title">Бронювання</span>
                 </NavLink>
             </nav>
         </aside>

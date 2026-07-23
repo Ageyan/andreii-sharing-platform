@@ -59,13 +59,23 @@
         }
     }
 
+    &__title {
+        display: none;
+
+        @include desktop {
+            display: block;
+        }
+    }
+
     &__menu-btn {
         display: flex;
         align-items: center;
         justify-content: center;
+        flex-direction: column;
         flex: 1;
-        padding: 16px 12px;
         background: transparent;
+        gap: 2px;
+        padding: 6px 12px;
         border-radius: 12px;
         font-size: 0.9rem;
         font-weight: 500;
@@ -75,10 +85,17 @@
         cursor: pointer;
         transition: all 0.2s ease;
 
-        @include desktop {
+        @include tablet {
+            padding: 10px 14px;
+            gap: 4px;
             font-size: 1rem;
+        }
+
+        @include desktop {
             gap: 12px;
+            padding: 16px 12px;
             min-width: auto;
+            flex-direction: row;
             justify-content: flex-start;
         }
 
@@ -93,6 +110,10 @@
             font-weight: 600;
             transform: scale(1.1) translateY(-3px);
 
+            & .profile-sidebar__title {
+                display: block;
+            }
+
             @include desktop {
                 transform: none;
             }
@@ -105,10 +126,14 @@
     }
 
     &__icon {
-        display: none;
+        display: block;
+        font-size: 1.3rem;
+
+        @include tablet {
+            font-size: 1.4rem;
+        }
 
         @include desktop {
-            display: block;
             font-size: 1.1rem;
         }
     }

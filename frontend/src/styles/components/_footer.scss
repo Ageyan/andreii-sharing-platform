@@ -6,8 +6,8 @@
     background-color: $color-accent; 
     padding: 24px 0;
 
-    @include desktop {
-        padding: 28px 0; 
+    @include tablet{
+        padding: 30px 0; 
     }
 
     &__container {
@@ -25,16 +25,16 @@
         color: $white;
         font-family: 'Montserrat', sans-serif;
 
-        @include desktop {
+        @include tablet {
             font-size: 1rem; 
         }
     }
 
     &__copy {
         font-size: 0.65rem;
-        color: $color-text-main;
+        color: $white;
 
-        @include desktop {
+        @include tablet{
             font-size: 0.8rem; 
         }
     }

@@ -2,6 +2,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import SearchInput from './SearchInput';
 import { BsSearch } from 'react-icons/bs';
 import { useState } from 'react';
+import { MdAccountCircle } from 'react-icons/md';
 
 interface TawkWindow extends Window {
     Tawk_API?: {
@@ -64,7 +65,8 @@ const Header = () => {
                         <>
                             {!isPersonalAccount && (
                                 <Link className="header__nav--link" to="/dashboard/profile">
-                                    Особистий кабінет
+                                    <span className="header__nav--text">Особистий кабінет</span>
+                                    <MdAccountCircle className="header__nav--icon" />
                                 </Link>
                             )}
                             <button className="header__btn-logout" onClick={handleLogout}>

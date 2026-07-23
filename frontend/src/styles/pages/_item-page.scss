@@ -17,7 +17,7 @@
         margin-bottom: 24px;
         transition: color 0.2s ease;
 
-        @include desktop {
+        @include tablet {
             font-size: 1rem;
         }
 
@@ -53,8 +53,8 @@
         gap: 12px;
         padding: 14px 10px 0;
 
-        @include desktop {
-            padding-top: 18px;
+        @include tablet {
+            padding-top: 20px;
         }
     }
 
@@ -62,6 +62,10 @@
         font-size: 1.8rem;
         font-weight: 700;
         color: $color-text-main;
+
+        @include tablet {
+            font-size: 2rem;
+        }
 
         @include desktop {
             font-size: 2.2rem;
@@ -76,7 +80,7 @@
         color: $color-accent;
         letter-spacing: 0.5px;
 
-        @include desktop {
+        @include tablet {
             font-size: 0.85rem;
         }
     }
@@ -86,7 +90,7 @@
         padding: 18px 8px; 
         background-color: $white;
 
-        @include desktop {
+        @include tablet {
             padding: 24px; 
         }
     }
@@ -98,6 +102,10 @@
         overflow: hidden;
         background-color: #f0f2f5;
         margin-bottom: 16px; 
+
+        @include tablet {
+            height: 420px; 
+        }
 
         @include desktop {
             height: 500px; 
@@ -115,6 +123,10 @@
         gap: 6px;
         flex-wrap: wrap; 
         overflow-x: auto;
+
+        @include tablet {
+            gap: 10px; 
+        }
 
         @include desktop {
             gap: 12px; 
@@ -149,7 +161,7 @@
     &__info-block {
         padding: 18px 8px;
 
-        @include desktop {
+        @include tablet {
             padding: 24px; 
         }
     }
@@ -193,7 +205,7 @@
         border-top: 1px solid rgba($color-text-muted, 0.3);
         margin: 18px 0;
 
-        @include desktop {
+        @include tablet {
             margin: 22px 0; 
         }
     }
@@ -234,6 +246,10 @@
         background-color: $white;
         box-shadow: 0 -4px 15px rgba(0,0,0,0.08);
 
+        @include tablet {
+            padding: 24px 32px;
+        }
+
         @include desktop {
             display: none; 
         }
@@ -241,21 +257,37 @@
         span {
             font-size: 0.85rem;
             color: $color-text-muted;
+
+            @include tablet {
+                font-size: 0.95rem;
+            }
         }
 
         div {
             display: flex;
             flex-direction: column;
             gap: 4px;
+
+            @include tablet {
+                gap: 6px;
+            }
         }
 
         p {
             font-size: 1rem;
             color: $color-text-main;
+
+            @include tablet {
+                font-size: 1.2rem;
+            }
             
             strong {
                 font-size: 1.2rem;
                 color: $color-accent;
+
+                @include tablet {
+                    font-size: 1.4rem;
+                }
             }
         }
     }
@@ -267,6 +299,10 @@
         border-radius: 8px;
         font-weight: 600;
         cursor: pointer;
+
+        @include tablet {
+            padding: 16px 28px;
+        }
     }
 
     &__mobile-backdrop {
@@ -327,6 +363,10 @@
     padding-bottom: 86px;
 
     @include tablet {
+        padding-bottom: 110px;
+    }
+
+    @include desktop {
         padding-bottom: 0px;
     }
 }

@@ -27,6 +27,10 @@
         background-color: $bg-main;
         overflow: hidden;
 
+        @include tablet {
+            height: 180px;
+        }
+
         @include desktop {
             width: 240px;
             min-width: 240px;
@@ -49,7 +53,7 @@
         gap: 8px;
         flex-grow: 1;
 
-        @include desktop {
+        @include tablet {
             gap: 10px;
             padding: 20px;
         }
@@ -61,7 +65,7 @@
         color: $color-text-main;
         margin: 0;
 
-        @include desktop {
+        @include tablet {
             font-size: 1.15rem;
         }
     }
@@ -87,6 +91,11 @@
             height: 18px;
             transform: rotate(90deg);
 
+            @include tablet {
+                width: 20px;
+                height: 20px;
+            }
+
             @include desktop {
                 transform: rotate(0);
                 width: 22px;
@@ -105,7 +114,7 @@
             font-size: 1rem;
             font-weight: 700;
 
-            @include desktop {
+            @include tablet {
                 font-size: 1.1rem;
             }
         }
@@ -119,7 +128,7 @@
         text-transform: uppercase;
         letter-spacing: 0.5px;
 
-        @include desktop {
+        @include tablet {
             font-size: 0.8rem;
             padding: 6px 12px;
         }
@@ -197,18 +206,18 @@
 
         &-icon {
             font-size: 1.4rem;
-            display: block; // На телефоне показываем крупную иконку
+            display: block; 
 
             @include desktop {
-                display: none; // На десктопе прячем иконку (или можешь удалить эту строку, если хочешь иконка + текст)
+                display: none; 
             }
         }
 
         &-text {
-            display: none; // На телефоне прячем длинный текст
+            display: none; 
 
             @include desktop {
-                display: block; // На десктопе возвращаем текст
+                display: block; 
             }
         }
     }

@@ -22,6 +22,10 @@
         border: 1px solid $color-text-muted;
         box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05); 
 
+        @include tablet {
+            padding: 32px;
+        }
+
         @include desktop {
             padding: 40px;
         }
@@ -34,6 +38,11 @@
         margin-bottom: 24px;
         color: $color-text-main;
 
+        @include tablet {
+            font-size: 1.6rem;
+            margin-bottom: 28px;
+        }
+
         @include desktop {
             font-size: 1.8rem;
             margin-bottom: 32px;
@@ -45,7 +54,7 @@
         flex-direction: column;
         gap: 16px; 
 
-        @include desktop {
+        @include tablet {
             gap: 20px;
         }
     }
@@ -56,7 +65,7 @@
         flex-direction: column;
         gap: 16px;
 
-        @include desktop {
+        @include tablet {
             gap: 20px;
         }
     }

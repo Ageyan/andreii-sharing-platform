@@ -6,15 +6,22 @@
     flex-direction: column;
     gap: 18px;
 
+    @include tablet {
+        gap: 22px;
+    }
+
     @include desktop {
         gap: 25px;
     }
 
     &__tabs {
+        display: flex;
+        align-items: center;
+        justify-content: center;
         border-bottom: 2px solid $border-color;
         padding: 16px 32px;
 
-        @include desktop {
+        @include tablet {
             padding: 0 0 18px;
         }
     }
@@ -31,6 +38,10 @@
         border-radius: 10px;
         cursor: pointer;
         transition: all 0.2s ease-in-out;
+
+        @include tablet {
+            max-width: 400px;
+        }
 
         @include desktop {
             width: auto;
@@ -70,10 +81,18 @@
         grid-template-columns: repeat(2, 1fr);
         gap: 10px;
 
-        @include desktop {
-            grid-template-columns: repeat(4, 1fr);
-            gap: 30px;
+        @include tablet {
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
             padding: 0;
+        }
+
+        @include large-tablet {
+            grid-template-columns: repeat(4, 1fr);
+        }
+
+        @include desktop {
+            gap: 30px;
         }
 
         .loader-container,

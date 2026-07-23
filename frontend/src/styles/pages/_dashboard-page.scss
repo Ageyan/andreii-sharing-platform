@@ -3,8 +3,12 @@
 
 .dashboard {
     padding: 20px 0px;
-    min-height: calc(100vh - 170px);
+    flex: 1;
     background-color: $bg-main;
+
+    @include tablet {
+        padding: 32px 0px;
+    }
 
     @include desktop {
         padding: 40px 0px;
@@ -42,6 +46,10 @@
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
         border: 1px solid $border-color;
 
+        @include tablet {
+            padding: 24px 14px;
+        }
+
         @include desktop {
             padding: 30px;
         }
@@ -66,6 +74,10 @@
     padding-bottom: 82px;
 
     @include tablet {
+        padding-bottom: 126px;
+    }
+
+    @include desktop {
         padding-bottom: 0px;
     }
 }

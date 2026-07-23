@@ -17,6 +17,10 @@
     flex-direction: column;
     gap: 20px;
 
+    @include tablet {
+        padding: 28px;
+    }
+
     @include desktop {
         padding: 40px;
         border-radius: 20px;

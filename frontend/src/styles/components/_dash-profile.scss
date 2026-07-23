@@ -7,7 +7,7 @@
     margin: 0 auto;
     padding: 0;
 
-    @include desktop {
+    @include tablet {
         padding: 20px 0;
     }
 
@@ -17,6 +17,10 @@
         border-radius: 16px;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
         padding: 14px 8px;
+
+        @include tablet {
+            padding: 24px;
+        }
 
         @include desktop {
             padding: 30px;
@@ -119,8 +123,11 @@
     }
 
     &__edit-btn {
+        display: flex;
+        align-items: center;
         background-color: $color-accent;
         color: $white;
+        gap: 8px;
         padding: 12px 24px;
         font-size: 0.95rem;
         font-weight: 600;
@@ -134,6 +141,14 @@
 
         &:active {
             transform: translateY(0);
+        }
+
+        &-icon {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 22px;
+            height: 22px;
         }
 
         &--cancel {
