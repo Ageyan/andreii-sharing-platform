@@ -1,7 +1,7 @@
 import express, { Request, Response } from 'express';
 import 'dotenv/config';
 import cors from 'cors';
-import { initDatabase } from '../src/models/initDB';
+import { initDatabase } from './models/initDB';
 import authRoutes from './routes/authRoutes';
 import itemRoutes from './routes/itemRoutes';
 import bookingRoutes from './routes/bookingRoutes';
