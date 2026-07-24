@@ -85,7 +85,7 @@ const HomePage = () => {
                         filteredItems.map(item => <ItemCard key={item.id} item={item} />)}
 
                     {!loader && !error && filteredItems.length === 0 && (
-                        <div className="text-empty">Нічого не знайдено за вашим запитом</div>
+                        <div className="empty-state">Нічого не знайдено за вашим запитом</div>
                     )}
                 </div>
             </div>
