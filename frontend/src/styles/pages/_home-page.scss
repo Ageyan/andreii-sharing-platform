@@ -14,9 +14,9 @@
 
     &__main-layout {
         display: flex;
-        border: 1px solid $color-text-main;
         background-color: $white;
         border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
         flex-direction: column;
         padding: 12px 10px;
         gap: 16px;
@@ -52,7 +52,7 @@
         .loader-container,
         .error-banner,
         .empty-state {
-            grid-column: 1 / -1; 
+            grid-column: 1 / -1;
             justify-self: center;
         }
     }

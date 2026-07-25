@@ -73,7 +73,7 @@
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         gap: 10px;
-        padding: 0 8px;
+        padding: 0 8px 12px;
 
         @include large-tablet {
             grid-template-columns: repeat(3, 1fr);

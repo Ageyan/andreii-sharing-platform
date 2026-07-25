@@ -5,7 +5,7 @@
     background: $white;
     border-radius: 16px 16px 0 0;
     padding: 12px;
-    padding-bottom: calc(12px + env(safe-area-inset-bottom));
+    padding-bottom: calc(4px + env(safe-area-inset-bottom));
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
     height: fit-content;
     border: 1px solid $border-color;
@@ -127,7 +127,7 @@
 
     &__icon {
         display: block;
-        font-size: 1.3rem;
+        font-size: 1.2rem;
 
         @include tablet {
             font-size: 1.4rem;

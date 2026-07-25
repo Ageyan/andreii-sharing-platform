@@ -26,9 +26,12 @@ const ItemCard = ({ item, children }: ItemCardProps) => {
                 </p>
 
                 <div className="item-card__footer">
-                    <span className="item-card__price">
-                        <strong>{item.price_per_day}</strong> грн / день
-                    </span>
+                    <div
+                        className={`item-card__price ${children ? 'item-card__price--compact' : ''}`}
+                    >
+                        <strong>{item.price_per_day}</strong>
+                        <span>грн / день</span>
+                    </div>
                     {children}
                 </div>
             </div>

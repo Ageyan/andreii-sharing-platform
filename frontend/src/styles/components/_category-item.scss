@@ -24,26 +24,54 @@
 
     &__icon-wrapper {
         border-radius: 50%;
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.24);
         width: 80px;
         height: 80px;
         overflow: hidden;
+        transition: box-shadow 0.3s ease-in-out;
+
+        &:hover {
+            box-shadow: 0 12px 28px rgba($color-accent, 0.5);
+        }
 
         @include desktop {
             width: 90px;
             height: 90px;
         }
 
-        &.all {background-color: $all;}
-        &.auto {background-color: $auto;}
-        &.electronics {background-color: $electronics;}
-        &.work {background-color: $work;}
-        &.spare-parts {background-color: $spare-parts;}
-        &.house {background-color: $house;}
-        &.business {background-color: $business;}
-        &.kids {background-color: $kids;}
-        &.sports {background-color: $sports;}
-        &.gamer {background-color: $gamer;}
-        &.real-estate {background-color: $real-estate;}
+        &.all {
+            background-color: $all;
+        }
+        &.auto {
+            background-color: $auto;
+        }
+        &.electronics {
+            background-color: $electronics;
+        }
+        &.work {
+            background-color: $work;
+        }
+        &.spare-parts {
+            background-color: $spare-parts;
+        }
+        &.house {
+            background-color: $house;
+        }
+        &.business {
+            background-color: $business;
+        }
+        &.kids {
+            background-color: $kids;
+        }
+        &.sports {
+            background-color: $sports;
+        }
+        &.gamer {
+            background-color: $gamer;
+        }
+        &.real-estate {
+            background-color: $real-estate;
+        }
     }
 
     &__img {

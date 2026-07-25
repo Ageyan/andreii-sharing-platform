@@ -5,23 +5,24 @@
     display: flex;
     flex-direction: column;
     background-color: $white;
-    border: 1px solid $color-text-muted; 
     border-radius: 12px;
     overflow: hidden;
     text-decoration: none;
-    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.16);
+    transition:
+        transform 0.2s ease-in-out,
+        box-shadow 0.2s ease-in-out;
     cursor: pointer;
 
     &:hover {
-        transform: translateY(-4px); 
-        box-shadow: 0 12px 20px rgba(0, 0, 0, 0.08);
-        border-color: $color-accent;
+        transform: translateY(-4px);
+        box-shadow: 0 12px 28px rgba($color-accent, 0.3);
     }
 
     &__image-wrapper {
         position: relative;
         width: 100%;
-        height: 180px; 
+        height: 180px;
         background-color: $bg-main;
         overflow: hidden;
     }
@@ -32,7 +33,7 @@
         transition: transform 0.3s ease-in-out;
 
         .item-card:hover & {
-            transform: scale(1.05); 
+            transform: scale(1.05);
         }
     }
 
@@ -41,7 +42,7 @@
         bottom: 10px;
         left: 10px;
         background-color: rgba($white, 0.9);
-        backdrop-filter: blur(4px); 
+        backdrop-filter: blur(4px);
         color: $color-text-main;
         padding: 4px 8px;
         font-size: 0.75rem;
@@ -54,7 +55,7 @@
         display: flex;
         flex-direction: column;
         padding: 10px;
-        flex-grow: 1; 
+        flex-grow: 1;
 
         @include tablet {
             padding: 16px;
@@ -100,11 +101,16 @@
         justify-content: space-between;
         align-items: center;
         padding-top: 12px;
+        gap: 8px;
         border-top: 1px solid rgba($color-text-muted, 0.3);
+        margin-top: auto;
     }
 
     &__price {
-        font-size: 0.85rem;
+        display: flex;
+        align-items: baseline;
+        gap: 4px;
+        font-size: 0.75rem;
         color: $color-text-main;
 
         @include tablet {
@@ -120,6 +126,16 @@
                 font-size: 1.15rem;
             }
         }
+
+        &--compact {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 2px;
+
+            @include tablet {
+                gap: 4px;
+            }
+        }
     }
 
     &__btn-container {
@@ -128,7 +144,8 @@
         gap: 6px;
     }
 
-    &__btn-delete, &__btn-edit {
+    &__btn-delete,
+    &__btn-edit {
         display: flex;
         align-items: center;
         justify-content: center;
@@ -142,7 +159,8 @@
         }
     }
 
-    &__btn-delete-icon, &__btn-edit-icon {
+    &__btn-delete-icon,
+    &__btn-edit-icon {
         width: 23px;
         height: 23px;
         transition: all 0.3s ease-in-out;
