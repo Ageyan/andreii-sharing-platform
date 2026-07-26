@@ -8,12 +8,19 @@
     align-items: center;
     padding: 18px 10px 6px;
     flex-wrap: nowrap;
-    overflow-x: auto;
     margin-bottom: 24px;
     background-color: $white;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
     border-radius: 12px;
     gap: 12px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    overscroll-behavior-y: contain;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
 
     @include tablet {
         padding: 20px 14px 10px;

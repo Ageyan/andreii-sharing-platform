@@ -9,14 +9,23 @@ cloudinary.config({
 });
 
 const storage = new CloudinaryStorage({
-  cloudinary: cloudinary,
-  params: async (req, file) => {
-    return {
-      folder: 'sharing_platform_items', 
-      allowed_formats: ['jpg', 'png', 'jpeg', 'webp'], 
-      transformation: [{ width: 800, height: 600, crop: 'limit' }], 
-    };
-  },
+    cloudinary: cloudinary,
+    params: async (req, file) => {
+        if (file.fieldname === 'avatar') {
+            return {
+                folder: 'sharing_platform_avatars', 
+                allowed_formats: ['jpg', 'png', 'jpeg', 'webp'],
+                // Аватарки делаем квадратными 400x400
+                transformation: [{ width: 200, height: 200, crop: 'fill', gravity: 'face' }], 
+            };
+        }
+        
+        return {
+            folder: 'sharing_platform_items', 
+            allowed_formats: ['jpg', 'png', 'jpeg', 'webp'],
+            transformation: [{ width: 800, height: 600, crop: 'limit' }], 
+        };
+    },
 });
 
 export const upload = multer({storage: storage});
