@@ -2,8 +2,6 @@ import { query } from '../config/db';
 
 export const initDatabase = async () => {
   const createTablesSQL = `
-
-    DROP TABLE IF EXISTS reviews, bookings, items, users CASCADE;
     
     -- 1. Таблиця користувачів
     CREATE TABLE IF NOT EXISTS users (
