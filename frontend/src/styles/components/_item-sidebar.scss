@@ -10,7 +10,7 @@
         @include tablet {
             padding: 26px 24px 34px;
         }
-        
+
         @include desktop {
             border: 1px solid $color-text-muted;
             padding: 32px;
@@ -20,7 +20,7 @@
 
     &__price-block {
         margin-bottom: 24px;
-        
+
         .item-sidebar__price-label {
             font-size: 0.95rem;
             color: $color-text-muted;
@@ -92,7 +92,14 @@
         border-radius: 10px;
         cursor: pointer;
         margin-top: 12px;
-        transition: transform 0.1s ease, opacity 0.2s ease;
+        transition:
+            transform 0.1s ease,
+            opacity 0.2s ease;
+
+        &--disabled {
+            background: $color-text-muted;
+            pointer-events: none;
+        }
 
         @include tablet {
             max-width: 540px;

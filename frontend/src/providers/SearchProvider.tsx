@@ -1,5 +1,5 @@
 import { useState, type ReactNode } from 'react';
-import { SearchContext } from '../context/SearchContext'; // путь к первому файлу
+import { SearchContext } from '../context/SearchContext';
 
 export const SearchProvider = ({ children }: { children: ReactNode }) => {
     const [searchTerm, setSearchTerm] = useState<string>('');

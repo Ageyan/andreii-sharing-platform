@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import type { ToastState } from '../types/toast.types';
 import type { Item } from '../types/items.types';
 import { createBooking } from '../services/booking';
+import { useUserInfo } from '../context/UserContext';
 import axios from 'axios';
 import Loader from './Loader';
 
@@ -16,6 +17,9 @@ const ItemPageSidebar = ({ item, setToast }: ItemPageSidebarProps) => {
     const isAuthenticated = !!localStorage.getItem('token');
     const navigate = useNavigate();
     const location = useLocation();
+    const { user } = useUserInfo();
+
+    const myItem = user?.id === item?.owner_id;
 
     const authNavigate = () => {
         navigate('/auth', { state: { from: location.pathname } });
@@ -108,8 +112,8 @@ const ItemPageSidebar = ({ item, setToast }: ItemPageSidebarProps) => {
                 {isAuthenticated ? (
                     <button
                         type="submit"
-                        className="item-sidebar__action-btn"
-                        disabled={bookingLoader}
+                        className={`item-sidebar__action-btn ${myItem ? 'item-sidebar__action-btn--disabled' : ''}`}
+                        disabled={bookingLoader || myItem}
                     >
                         {bookingLoader ? <Loader /> : 'Орендувати зараз'}
                     </button>
@@ -125,8 +129,10 @@ const ItemPageSidebar = ({ item, setToast }: ItemPageSidebarProps) => {
             </form>
             <p className="item-sidebar__widget-note">
                 {isAuthenticated
-                    ? `* Ви зможете скасувати бронь безкоштовно за 24 години до початку
-            оренди.`
+                    ? myItem
+                        ? 'Ви не можете орендувати власні речі'
+                        : `* Ви зможете скасувати бронь безкоштовно після 3-х годин від початку
+                        оренди.`
                     : `* Для орендування необхідно здійснити вхід у особистий кабінет`}
             </p>
         </div>

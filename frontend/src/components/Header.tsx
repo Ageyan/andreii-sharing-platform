@@ -3,37 +3,20 @@ import SearchInput from './SearchInput';
 import { BsSearch } from 'react-icons/bs';
 import { useState } from 'react';
 import { MdAccountCircle } from 'react-icons/md';
-
-interface TawkWindow extends Window {
-    Tawk_API?: {
-        hideWidget?: () => void;
-        showWidget?: () => void;
-        onLoad?: () => void;
-        [key: string]: unknown;
-    };
-    Tawk_LoadStart?: Date;
-}
+import { useUserInfo } from '../context/UserContext';
 
 const Header = () => {
     const [isSearchOpen, setIsSearchOpen] = useState<boolean>(false);
     const isAuthenticated = !!localStorage.getItem('token');
     const navigate = useNavigate();
     const location = useLocation();
+    const { user } = useUserInfo();
 
     const isHomePage = location.pathname === '/';
     const isPersonalAccount = location.pathname.startsWith('/dashboard');
 
     const handleLogout = () => {
         localStorage.removeItem('token');
-
-        const tawkWindow = window as unknown as TawkWindow;
-        if (tawkWindow.Tawk_API && typeof tawkWindow.Tawk_API.endChat === 'function') {
-            try {
-                tawkWindow.Tawk_API.endChat();
-            } catch (error) {
-                console.error('Помилка при завершенні сесії чату:', error);
-            }
-        }
 
         navigate('/');
     };
@@ -66,7 +49,17 @@ const Header = () => {
                             {!isPersonalAccount && (
                                 <Link className="header__nav--link" to="/dashboard/profile">
                                     <span className="header__nav--text">Особистий кабінет</span>
-                                    <MdAccountCircle className="header__nav--icon" />
+                                    {user?.avatar_url ? (
+                                        <div className="header__nav--avatar-placeholder">
+                                            <img
+                                                src={user.avatar_url}
+                                                alt="User avatar"
+                                                style={{ width: '100%', height: '100%' }}
+                                            />
+                                        </div>
+                                    ) : (
+                                        <MdAccountCircle className="header__nav--icon" />
+                                    )}
                                 </Link>
                             )}
                             <button className="header__btn-logout" onClick={handleLogout}>

@@ -97,13 +97,38 @@ export const updateBookingStatus = async(req: AuthRequest, res: Response): Promi
             return;
         }
 
-        const sqlQuery = "UPDATE bookings SET status = $1 WHERE id = $2 RETURNING *"
+        const sqlQuery = "UPDATE bookings SET status = $1 WHERE id = $2 RETURNING id, status"
 
         const result = await query(sqlQuery, [status, bookingId])
 
-        res.status(200).json(result.rows)
+        res.status(200).json(result.rows[0])
     } catch(error) {
-        console.error('Помилка при зиіні стастусу оренди', error);
+        console.error('Помилка при зміні стастусу оренди', error);
         res.status(500).json({message: 'Помилка сервера при зміні статусу оренди'});
+    }
+};
+
+export const cancelBooking = async (req: AuthRequest, res: Response): Promise<void> => {
+    const renter_id = req.user?.userId;
+    const id = req.params.id
+
+    try {
+        const sqlQuery = `
+            UPDATE bookings SET status = 'cancelled'
+            WHERE id = $1 AND renter_id = $2
+            RETURNING id, status
+        `
+        
+        const result = await query(sqlQuery, [id, renter_id]);
+
+        if (result.rows.length === 0) {
+            res.status(404).json({ message: 'Бронювання не знайдено, або ви не маєте прав для зміни статусу' });
+            return;
+        }
+
+        res.status(200).json(result.rows[0]);
+    } catch (error) {
+        console.error('Помилка при спробі відмінити бронювання', error);
+        res.status(500).json({ message: 'Помилка сервера при спробі відмінити бронювання' });
     }
 };

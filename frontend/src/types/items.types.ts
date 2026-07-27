@@ -7,6 +7,7 @@ export interface Item {
     image_url: string[]
     owner_name: string 
     owner_created_at: string
+    owner_id: number
 }
 
 export type CreateItem = Omit<Item, 'id' | 'owner_name' | 'owner_created_at' | 'image_url'>;
@@ -16,3 +17,4 @@ export type ItemCategory = 'Усі речі' | 'Авто' | 'Електроні�
 | 'Відпочинок і спорт' | 'Товари для геймерів' | 'Нерухомість';
 
 export type ItemCategoryAdd = Exclude<ItemCategory, 'Усі речі'> | 'Оберіть категорію';
+

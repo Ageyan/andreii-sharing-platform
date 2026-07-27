@@ -15,7 +15,6 @@ const storage = new CloudinaryStorage({
             return {
                 folder: 'sharing_platform_avatars', 
                 allowed_formats: ['jpg', 'png', 'jpeg', 'webp'],
-                // Аватарки делаем квадратными 400x400
                 transformation: [{ width: 200, height: 200, crop: 'fill', gravity: 'face' }], 
             };
         }

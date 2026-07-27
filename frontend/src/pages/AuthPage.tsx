@@ -7,6 +7,8 @@ import { RiLockPasswordLine } from 'react-icons/ri';
 import { FaPhoneAlt } from 'react-icons/fa';
 import Toast from '../components/Toast';
 import type { ToastState } from '../types/toast.types';
+import { useUserInfo } from '../context/UserContext';
+import { getUserInfo } from '../services/user';
 import Loader from '../components/Loader';
 
 const AuthPage = () => {
@@ -17,6 +19,7 @@ const AuthPage = () => {
     const [isLogin, setIsLogin] = useState<boolean>(true);
     const [loader, setLoader] = useState<boolean>(false);
     const [toast, setToast] = useState<ToastState>({ show: false, message: '', type: 'success' });
+    const { setUser } = useUserInfo();
 
     const navigate = useNavigate();
     const location = useLocation();
@@ -33,6 +36,8 @@ const AuthPage = () => {
                 if (response && response.token) {
                     localStorage.setItem('token', response.token);
                     const fromPage = location.state?.from || '/dashboard/profile';
+                    const userData = await getUserInfo();
+                    setUser(userData);
                     navigate(fromPage);
                 }
             } else {

@@ -1,10 +1,23 @@
 import { NavLink } from 'react-router-dom';
+import { useUserInfo } from '../context/UserContext';
 
 const DashProfileSidebar = () => {
+    const { user } = useUserInfo();
+
     return (
         <aside className="profile-sidebar">
             <div className="profile-sidebar__user-card">
-                <div className="profile-sidebar__avatar-placeholder">A</div>
+                <div className="profile-sidebar__avatar-placeholder">
+                    {user?.avatar_url ? (
+                        <img
+                            src={user.avatar_url}
+                            alt="User avatar"
+                            style={{ width: '100%', height: '100%' }}
+                        />
+                    ) : (
+                        user?.name?.charAt(0).toUpperCase() || 'U'
+                    )}
+                </div>
                 <h2 className="profile-sidebar__user-name">Мій Акаунт</h2>
             </div>
             <nav className="profile-sidebar__menu">

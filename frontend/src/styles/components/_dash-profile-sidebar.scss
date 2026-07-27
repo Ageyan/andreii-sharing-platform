@@ -29,8 +29,8 @@
     }
 
     &__avatar-placeholder {
-        width: 48px;
-        height: 48px;
+        width: 52px;
+        height: 52px;
         background: $color-accent;
         color: $white;
         border-radius: 50%;
@@ -39,6 +39,7 @@
         justify-content: center;
         font-weight: 600;
         font-size: 1.2rem;
+        overflow: hidden;
     }
 
     &__user-name {

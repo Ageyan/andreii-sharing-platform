@@ -23,6 +23,11 @@ export interface BookingResponse {
     created_at: string;
     title: string;
     category: string;
-    image_url: string[]; // Помнишь, у нас теперь это массив!
+    image_url: string[]; 
+}
+
+export interface BookingStatusResponse {
+    id: number;
+    status: 'pending' | 'confirmed' | 'cancelled';
 }
 

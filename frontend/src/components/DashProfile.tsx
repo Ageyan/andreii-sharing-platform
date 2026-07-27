@@ -1,46 +1,22 @@
-import { useState, useEffect } from 'react';
-import { getUserInfo, updateUserInfo } from '../services/user';
-import type { UserInfo } from '../types/user.types';
+import { useState, useRef } from 'react';
+import { updateUserInfo, updateUserAvatar } from '../services/user';
+import { useUserInfo } from '../context/UserContext';
 import axios from 'axios';
 import { FaUser, FaEnvelope, FaPhoneAlt, FaCalendarAlt } from 'react-icons/fa';
 import Toast from './Toast';
 import type { ToastState } from '../types/toast.types';
 import Loader from './Loader';
 import { MdOutlineManageAccounts } from 'react-icons/md';
+import { IoCameraReverse } from 'react-icons/io5';
 
 const DashProfile = () => {
-    const [user, setUser] = useState<UserInfo | null>(null);
     const [updateName, setUpdateName] = useState<string>('');
     const [updatePhone, setUpdatePhone] = useState<string>('');
     const [isEditing, setIsEditing] = useState<boolean>(false);
-    const [loader, setLoader] = useState<boolean>(false);
     const [updateLoader, setUpdateLoader] = useState<boolean>(false);
-    const [error, setError] = useState<string>('');
     const [toast, setToast] = useState<ToastState>({ show: false, message: '', type: 'success' });
-
-    useEffect(() => {
-        const getUser = async () => {
-            setLoader(true);
-            setError('');
-            try {
-                const res = await getUserInfo();
-                setUser(res);
-            } catch (err) {
-                if (axios.isAxiosError(err)) {
-                    const message =
-                        err.response?.data.message || 'Помилка при отриманні даних про користувача';
-                    setError(message);
-                } else {
-                    setError('Сталася непередбачувана помилка');
-                    console.error('Невідома помилка:', err);
-                }
-            } finally {
-                setLoader(false);
-            }
-        };
-
-        getUser();
-    }, []);
+    const inputRef = useRef<HTMLInputElement>(null);
+    const { user, setUser, loader, error } = useUserInfo();
 
     const formatDate = (dateString: string | undefined) => {
         if (!dateString) return '';
@@ -49,6 +25,24 @@ const DashProfile = () => {
             month: 'long',
             year: 'numeric',
         });
+    };
+
+    const handleAvatarChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+
+        try {
+            setToast({ show: true, message: 'Завантаження фото...', type: 'success' });
+
+            const newAvatarUrl = await updateUserAvatar(file);
+
+            setUser(prev => (prev ? { ...prev, avatar_url: newAvatarUrl } : null));
+
+            setToast({ show: true, message: 'Фото профілю успішно оновлено!', type: 'success' });
+        } catch (err) {
+            console.error(err);
+            setToast({ show: true, message: 'Помилка при завантаженні фото', type: 'error' });
+        }
     };
 
     const handleUpdateUser = async () => {
@@ -106,8 +100,29 @@ const DashProfile = () => {
             {!error && !loader && user && (
                 <div className="dash-profile__card">
                     <div className="dash-profile__header">
-                        <div className="dash-profile__avatar-placeholder">
-                            {user.name.charAt(0).toUpperCase()}
+                        <div
+                            onClick={() => inputRef.current?.click()}
+                            className="dash-profile__avatar-placeholder"
+                        >
+                            <div className="dash-profile__avatar-placeholder--back">
+                                <IoCameraReverse />
+                            </div>
+                            <input
+                                ref={inputRef}
+                                type="file"
+                                accept="image/*"
+                                style={{ display: 'none' }}
+                                onChange={handleAvatarChange}
+                            />
+                            {user.avatar_url ? (
+                                <img
+                                    src={user.avatar_url}
+                                    alt="User avatar"
+                                    style={{ width: '100%', height: '100%' }}
+                                />
+                            ) : (
+                                user.name.charAt(0).toUpperCase()
+                            )}
                         </div>
                         <div className="dash-profile__meta">
                             <h2 className="dash-profile__username">{user.name}</h2>

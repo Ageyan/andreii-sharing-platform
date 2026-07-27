@@ -3,8 +3,8 @@
 
 .header {
     width: 100%;
-    background-color: $white; 
-    border-bottom: 1px solid $border-color; 
+    background-color: $white;
+    border-bottom: 1px solid $border-color;
     position: sticky;
     top: 0;
     z-index: 102;
@@ -13,7 +13,7 @@
         @include container;
         display: flex;
         justify-content: space-between;
-        align-items: center; 
+        align-items: center;
         padding-top: 14px;
         padding-bottom: 14px;
 
@@ -26,48 +26,48 @@
 
     &__desktop-search {
         display: none;
-        
+
         @include desktop {
             display: flex;
             align-items: center;
-            justify-content: center; 
+            justify-content: center;
             flex: 1;
             width: 100%;
-            margin: 0 30px; 
+            margin: 0 30px;
         }
     }
 
     &__mobile-search {
-        position: absolute; 
+        position: absolute;
         display: flex;
         align-items: center;
         justify-content: center;
-        top: 100%; 
+        top: 100%;
         left: 0;
         width: 100%;
-        z-index: 101; 
+        z-index: 101;
         padding: 10px 12px 10px 12px;
         background-color: $white;
-        border-top: 1px solid rgba(0,0,0,0.05); 
-        box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+        border-top: 1px solid rgba(0, 0, 0, 0.05);
+        box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
         animation: slideDown 0.3s ease forwards;
 
         @include tablet {
-            padding: 14px; 
+            padding: 14px;
         }
 
         @include desktop {
-            display: none; 
+            display: none;
         }
     }
 
     &__logo {
-        font-size: 1rem; 
+        font-size: 1rem;
         font-weight: 700;
         font-family: 'Montserrat', sans-serif;
         color: $color-text-main;
         text-decoration: none;
-        letter-spacing: -0.5px; 
+        letter-spacing: -0.5px;
         transition: opacity 0.2s ease;
         text-transform: uppercase;
         max-width: 100px;
@@ -86,7 +86,7 @@
         }
 
         span {
-            color: $color-accent; 
+            color: $color-accent;
         }
     }
 
@@ -111,7 +111,7 @@
             }
 
             &:hover {
-                color: $color-text-main; 
+                color: $color-text-main;
             }
         }
 
@@ -146,6 +146,18 @@
             }
         }
 
+        &--avatar-placeholder {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            overflow: hidden;
+            cursor: pointer;
+
+            @include desktop {
+                display: none;
+            }
+        }
+
         &--icon {
             display: flex;
             align-items: center;
@@ -169,7 +181,7 @@
     &__btn-logout {
         font-size: 1rem;
         font-weight: 500;
-        color: #E53E3E;
+        color: #e53e3e;
         cursor: pointer;
         padding: 6px 12px;
         border-radius: 6px;
@@ -180,7 +192,7 @@
         }
 
         &:hover {
-            background-color: #FFF5F5; 
+            background-color: #fff5f5;
         }
     }
 }

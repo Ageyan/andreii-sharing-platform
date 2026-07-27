@@ -13,4 +13,3 @@ export const query = (text: string, params?: any[]) => {
 };
 
 export default pool;
-

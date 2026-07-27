@@ -1,4 +1,4 @@
-import type { CreateBookingResponse, BookingResponse } from "../types/booking.types";
+import type { CreateBookingResponse, BookingResponse, BookingStatusResponse } from "../types/booking.types";
 import api from "./api";
 
 export const createBooking = async(item_id: number, start_date: string, end_date: string, total_price: number): Promise<CreateBookingResponse> => {
@@ -16,7 +16,12 @@ export const getOwnerBookings = async(): Promise<BookingResponse[]> => {
     return data;
 }
 
-export const updateBookingsStatus = async(status: string, id: number): Promise<BookingResponse> => {
-    const { data } = await api.put<BookingResponse>(`/bookings/${id}/status`, { status });
+export const updateBookingsStatus = async(status: string, id: number): Promise<BookingStatusResponse> => {
+    const { data } = await api.put<BookingStatusResponse>(`/bookings/${id}/status`, { status });
+    return data;
+}
+
+export const cancelBookingRequest = async (id: number): Promise<BookingStatusResponse> => {
+    const { data } = await api.patch<BookingStatusResponse>(`/bookings/${id}/cancel`);
     return data;
 }
