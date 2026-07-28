@@ -19,7 +19,7 @@ export interface BookingResponse {
     start_date: string;
     end_date: string;
     total_price: string; 
-    status: 'pending' | 'confirmed' | 'cancelled'; 
+    status: 'pending' | 'confirmed' | 'cancelled_by_owner' | 'cancelled_by_renter'; 
     created_at: string;
     title: string;
     category: string;
@@ -28,6 +28,6 @@ export interface BookingResponse {
 
 export interface BookingStatusResponse {
     id: number;
-    status: 'pending' | 'confirmed' | 'cancelled';
+    status: 'pending' | 'confirmed' | 'cancelled_by_owner' | 'cancelled_by_renter';
 }
 

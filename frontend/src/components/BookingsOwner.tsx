@@ -11,7 +11,7 @@ const BookingsOwner = () => {
     const { ownerBookings, setOwnerBookings } = useOutletContext<BookingsOwnerProps>();
 
     const handleUpdateStatus = async (
-        status: 'pending' | 'confirmed' | 'cancelled',
+        status: 'pending' | 'confirmed' | 'cancelled_by_owner' | 'cancelled_by_renter',
         id: number,
     ) => {
         setLoadingId(id);
@@ -60,7 +60,9 @@ const BookingsOwner = () => {
                                         <button
                                             className="profile-card__btn profile-card__btn--cancel"
                                             disabled={loadingId !== null}
-                                            onClick={() => handleUpdateStatus('cancelled', item.id)}
+                                            onClick={() =>
+                                                handleUpdateStatus('cancelled_by_owner', item.id)
+                                            }
                                         >
                                             {isCurrentLoading ? (
                                                 <Loader />

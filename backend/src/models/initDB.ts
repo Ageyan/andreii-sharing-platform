@@ -3,6 +3,7 @@ import { query } from '../config/db';
 export const initDatabase = async () => {
   const createTablesSQL = `
     
+    DROP TABLE bookings CASCADE;
     -- 1. Таблиця користувачів
     CREATE TABLE IF NOT EXISTS users (
       id SERIAL PRIMARY KEY,
@@ -34,7 +35,7 @@ export const initDatabase = async () => {
       start_date DATE NOT NULL,
       end_date DATE NOT NULL,
       total_price DECIMAL(10, 2) NOT NULL,
-      status VARCHAR(50) DEFAULT 'pending', -- pending, confirmed, cancelled
+      status VARCHAR(50) DEFAULT 'pending', -- pending, confirmed, cancelled_by_owner, cancelled_by_renter
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     );
 

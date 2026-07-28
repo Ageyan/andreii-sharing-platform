@@ -23,8 +23,10 @@ const ProfileItemCard = ({ item, children, priceLabel = 'Всього:' }: Profi
                 return 'Очікує підтвердження';
             case 'confirmed':
                 return 'Підтверджено';
-            case 'cancelled':
-                return 'Відхилено';
+            case 'cancelled_by_owner':
+                return 'Відхилено власником';
+            case 'cancelled_by_renter':
+                return 'Скасовано замовником';
             default:
                 return status;
         }
