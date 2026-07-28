@@ -2,7 +2,7 @@ import { query } from '../config/db';
 
 export const initDatabase = async () => {
   const createTablesSQL = `
-    
+    DROP TABLE reviews, bookings, items, users CASCADE;
     -- 1. Таблиця користувачів
     CREATE TABLE IF NOT EXISTS users (
       id SERIAL PRIMARY KEY,
@@ -45,7 +45,7 @@ export const initDatabase = async () => {
       renter_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
       owner_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
       created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
-      UNIQUE(item_id, renter_id) -- Захист від дублікатів: один чат для однієї речі між двома юзерами
+      UNIQUE(item_id, renter_id) 
     );
 
     -- 5. Таблиця повідомлень
@@ -54,7 +54,7 @@ export const initDatabase = async () => {
       chat_id INTEGER REFERENCES chats(id) ON DELETE CASCADE,
       sender_id INTEGER REFERENCES users(id) ON DELETE CASCADE,
       text TEXT NOT NULL,
-      is_read BOOLEAN DEFAULT FALSE, -- 👈 Магія для нашого кружечка-сповіщення!
+      is_read BOOLEAN DEFAULT FALSE, 
       created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
     );
 
