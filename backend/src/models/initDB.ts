@@ -2,7 +2,7 @@ import { query } from '../config/db';
 
 export const initDatabase = async () => {
   const createTablesSQL = `
-    DROP TABLE reviews, bookings, items, users CASCADE;
+    
     -- 1. Таблиця користувачів
     CREATE TABLE IF NOT EXISTS users (
       id SERIAL PRIMARY KEY,
