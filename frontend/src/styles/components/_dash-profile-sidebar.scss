@@ -6,7 +6,7 @@
     border-radius: 16px 16px 0 0;
     padding: 12px;
     padding-bottom: calc(4px + env(safe-area-inset-bottom));
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
     height: fit-content;
     border: 1px solid $border-color;
 
@@ -136,6 +136,22 @@
 
         @include desktop {
             font-size: 1.1rem;
+        }
+    }
+
+    &__bookings-owner {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        color: $white;
+        background-color: $pending-color;
+        width: 16px;
+        height: 16px;
+        font-size: 0.6rem;
+
+        &--hidden {
+            display: none;
         }
     }
 }

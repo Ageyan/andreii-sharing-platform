@@ -7,6 +7,18 @@ export const createBooking = async(req: AuthRequest, res: Response): Promise<voi
     const renter_id = req.user?.userId;
 
     try {
+        const checkQuery = `
+            SELECT id FROM bookings
+            WHERE item_id = $1 AND renter_id = $2 AND status IN ('pending', 'confirmed')
+        `
+
+        const checkBooking = await query(checkQuery, [item_id, renter_id])
+
+        if (checkBooking.rows.length > 0) {
+            res.status(409).json({ message: 'Ви вже маєте активний запит на оренду цієї речі' });
+            return;
+        }
+
         const sqlQuery = `
             INSERT INTO bookings (item_id, start_date, end_date, renter_id, total_price)
             VALUES ($1, $2, $3, $4, $5)
@@ -114,7 +126,7 @@ export const cancelBooking = async (req: AuthRequest, res: Response): Promise<vo
 
     try {
         const sqlQuery = `
-            UPDATE bookings SET status = 'cancelled'
+            UPDATE bookings SET status = 'cancelled_by_renter'
             WHERE id = $1 AND renter_id = $2
             RETURNING id, status
         `

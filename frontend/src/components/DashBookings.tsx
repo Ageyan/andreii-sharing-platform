@@ -1,49 +1,9 @@
-import { useState, useEffect } from 'react';
-import { getMyBookings, getOwnerBookings } from '../services/booking';
-import type { BookingResponse } from '../types/booking.types';
 import { NavLink, Outlet } from 'react-router-dom';
-import axios from 'axios';
+import { useBookings } from '../context/BookingsContext';
 import Loader from './Loader';
 
-export interface BookingsOwnerProps {
-    myBookings: BookingResponse[];
-    ownerBookings: BookingResponse[];
-    setOwnerBookings: React.Dispatch<React.SetStateAction<BookingResponse[]>>;
-}
-
 const DashBookings = () => {
-    const [myBookings, setMyBookings] = useState<BookingResponse[]>([]);
-    const [ownerBookings, setOwnerBookings] = useState<BookingResponse[]>([]);
-    const [error, setError] = useState<string>('');
-    const [loader, setLoader] = useState<boolean>(false);
-
-    useEffect(() => {
-        const getBookingsItem = async () => {
-            setLoader(true);
-            setError('');
-            try {
-                const myRes = await getMyBookings();
-                const ownerRes = await getOwnerBookings();
-                setMyBookings(myRes);
-                setOwnerBookings(ownerRes);
-            } catch (err) {
-                let errorMessage = 'Сталася непередбачувана помилка';
-
-                if (axios.isAxiosError(err)) {
-                    errorMessage =
-                        err.response?.data.message || 'Помилка при отриманні списку бронювань';
-                } else {
-                    console.error('Невідома помилка:', err);
-                }
-
-                setError(errorMessage);
-            } finally {
-                setLoader(false);
-            }
-        };
-
-        getBookingsItem();
-    }, []);
+    const { myBookings, ownerBookings, loader, error } = useBookings();
 
     return (
         <div className="dash-bookings">
@@ -76,15 +36,7 @@ const DashBookings = () => {
                         </NavLink>
                     </div>
                     <div className="dash-bookings__content">
-                        <Outlet
-                            context={
-                                {
-                                    myBookings,
-                                    ownerBookings,
-                                    setOwnerBookings,
-                                } satisfies BookingsOwnerProps
-                            }
-                        />
+                        <Outlet />
                     </div>
                 </div>
             )}

@@ -8,7 +8,7 @@
     display: flex;
     flex-direction: column;
     align-items: start;
-    
+
     &__back-btn {
         color: $color-text-muted;
         font-size: 0.9rem;
@@ -29,19 +29,19 @@
     &__layout {
         width: 100%;
         display: grid;
-        grid-template-columns: 1fr; 
+        grid-template-columns: 1fr;
         align-items: flex-start;
 
         @include desktop {
-            grid-template-columns: 1fr 380px; 
-            gap: 32px; 
+            grid-template-columns: 1fr 380px;
+            gap: 32px;
         }
     }
 
     &__main-content {
         background-color: $white;
         border-radius: 16px;
-        border: 1px solid $color-text-muted;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
         overflow: hidden;
     }
 
@@ -87,11 +87,11 @@
 
     &__gallery {
         width: 100%;
-        padding: 18px 8px; 
+        padding: 18px 8px;
         background-color: $white;
 
         @include tablet {
-            padding: 24px; 
+            padding: 24px;
         }
     }
 
@@ -101,35 +101,35 @@
         border-radius: 12px;
         overflow: hidden;
         background-color: #f0f2f5;
-        margin-bottom: 16px; 
+        margin-bottom: 16px;
 
         @include tablet {
-            height: 420px; 
+            height: 420px;
         }
 
         @include desktop {
-            height: 500px; 
+            height: 500px;
         }
     }
 
     &__main-img {
         width: 100%;
         height: 100%;
-        object-fit: contain; 
+        object-fit: contain;
     }
 
     &__thumbs {
         display: flex;
         gap: 6px;
-        flex-wrap: wrap; 
+        flex-wrap: wrap;
         overflow-x: auto;
 
         @include tablet {
-            gap: 10px; 
+            gap: 10px;
         }
 
         @include desktop {
-            gap: 12px; 
+            gap: 12px;
         }
     }
 
@@ -138,10 +138,12 @@
         height: 80px;
         border-radius: 8px;
         overflow: hidden;
-        border: 2px solid transparent; 
+        border: 2px solid transparent;
         cursor: pointer;
         background-color: #f0f2f5;
-        transition: border-color 0.2s ease, transform 0.1s ease;
+        transition:
+            border-color 0.2s ease,
+            transform 0.1s ease;
 
         img {
             width: 100%;
@@ -162,7 +164,7 @@
         padding: 18px 8px;
 
         @include tablet {
-            padding: 24px; 
+            padding: 24px;
         }
     }
 
@@ -206,7 +208,7 @@
         margin: 18px 0;
 
         @include tablet {
-            margin: 22px 0; 
+            margin: 22px 0;
         }
     }
 
@@ -224,12 +226,12 @@
     }
 
     &__desktop-sidebar {
-        display: none; 
+        display: none;
 
         @include desktop {
             display: block;
             position: sticky;
-            top: 100px; 
+            top: 100px;
         }
     }
 
@@ -244,14 +246,14 @@
         justify-content: space-between;
         align-items: center;
         background-color: $white;
-        box-shadow: 0 -4px 15px rgba(0,0,0,0.08);
+        box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.08);
 
         @include tablet {
             padding: 24px 32px;
         }
 
         @include desktop {
-            display: none; 
+            display: none;
         }
 
         span {
@@ -280,7 +282,7 @@
             @include tablet {
                 font-size: 1.2rem;
             }
-            
+
             strong {
                 font-size: 1.2rem;
                 color: $color-accent;
@@ -314,10 +316,10 @@
         z-index: 999;
         display: flex;
         justify-content: center;
-        align-items: flex-end; 
-        background: rgba(0, 0, 0, 0.6); 
-        backdrop-filter: blur(4px); 
-        
+        align-items: flex-end;
+        background: rgba(0, 0, 0, 0.6);
+        backdrop-filter: blur(4px);
+
         @include desktop {
             display: none;
         }
@@ -326,7 +328,7 @@
     &__mobile-modal {
         background-color: $white;
         width: 100%;
-        border-radius: 20px 20px 0 0; 
+        border-radius: 20px 20px 0 0;
         padding-bottom: 20px;
         animation: slideUp 0.3s ease-out forwards;
     }

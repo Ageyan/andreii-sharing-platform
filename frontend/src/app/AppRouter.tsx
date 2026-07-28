@@ -1,5 +1,6 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { lazy, Suspense } from 'react';
+import { BookingsProvider } from '../providers/BookingsProvider';
 import MainLayout from '../layouts/MainLayout';
 import ProtectedRoute from '../routes/ProtectedRoute';
 import Loader from '../components/Loader';
@@ -25,7 +26,9 @@ const AppRouter = () => {
                             path="/dashboard"
                             element={
                                 <ProtectedRoute>
-                                    <DashboardPage />
+                                    <BookingsProvider>
+                                        <DashboardPage />
+                                    </BookingsProvider>
                                 </ProtectedRoute>
                             }
                         >

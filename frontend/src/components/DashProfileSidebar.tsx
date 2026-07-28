@@ -1,7 +1,9 @@
 import { NavLink } from 'react-router-dom';
 import { useUserInfo } from '../context/UserContext';
+import { useBookings } from '../context/BookingsContext';
 
 const DashProfileSidebar = () => {
+    const { ownerBookings } = useBookings();
     const { user } = useUserInfo();
 
     return (
@@ -48,6 +50,16 @@ const DashProfileSidebar = () => {
                 >
                     <span className="profile-sidebar__icon">📅</span>
                     <span className="profile-sidebar__title">Бронювання</span>
+                    <span
+                        className={`profile-sidebar__bookings-owner 
+                            ${
+                                ownerBookings.filter(i => i.status === 'pending').length === 0
+                                    ? 'profile-sidebar__bookings-owner--hidden'
+                                    : ''
+                            }`}
+                    >
+                        {ownerBookings.filter(i => i.status === 'pending').length}
+                    </span>
                 </NavLink>
             </nav>
         </aside>

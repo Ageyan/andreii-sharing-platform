@@ -1,14 +1,13 @@
 import { updateBookingsStatus } from '../services/booking';
 import ProfileItemCard from './ProfileItemCard';
-import { useOutletContext } from 'react-router-dom';
-import type { BookingsOwnerProps } from './DashBookings';
+import { useBookings } from '../context/BookingsContext';
 import { useState } from 'react';
 import Loader from './Loader';
 import { MdDone, MdClose } from 'react-icons/md';
 
 const BookingsOwner = () => {
     const [loadingId, setLoadingId] = useState<number | null>(null);
-    const { ownerBookings, setOwnerBookings } = useOutletContext<BookingsOwnerProps>();
+    const { ownerBookings, setOwnerBookings } = useBookings();
 
     const handleUpdateStatus = async (
         status: 'pending' | 'confirmed' | 'cancelled_by_owner' | 'cancelled_by_renter',
