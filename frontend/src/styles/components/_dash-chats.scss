@@ -1,0 +1,100 @@
+@use '../utils/variables' as *;
+@use '../utils/mixins' as *;
+
+.dash-chats {
+    display: flex;
+    flex: 1;
+    min-height: 600px;
+    background: $white;
+    border-radius: 12px;
+    border: 1px solid $border-color;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+
+    &__sidebar {
+        width: 320px;
+        border-right: 1px solid $border-color;
+        display: flex;
+        flex-direction: column;
+        background: $white;
+    }
+
+    &__title {
+        padding: 20px;
+        margin: 0;
+        font-size: 1.2rem;
+        border-bottom: 1px solid $border-color;
+        color: $color-text-main;
+    }
+
+    &__list {
+        flex: 1;
+        overflow-y: auto;
+    }
+
+    &__item {
+        display: flex;
+        align-items: center;
+        padding: 15px 20px;
+        cursor: pointer;
+        border-bottom: 1px solid $border-color;
+        transition: background 0.2s ease;
+
+        &:hover {
+            background: $bg-main;
+        }
+
+        &--active {
+            background: rgba($color-accent, 0.08);
+            border-left: 4px solid $color-accent;
+        }
+    }
+
+    &__item-img {
+        width: 50px;
+        height: 50px;
+        border-radius: 8px;
+        object-fit: cover;
+        margin-right: 15px;
+        border: 1px solid $border-color;
+    }
+
+    &__item-info {
+        display: flex;
+        flex-direction: column;
+    }
+
+    &__item-name {
+        margin: 0 0 5px 0;
+        font-size: 1rem;
+        color: $color-text-main;
+        font-weight: 600;
+    }
+
+    &__item-role {
+        font-size: 0.8rem;
+        color: $color-text-muted;
+    }
+
+    &__main {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        background: $bg-main;
+    }
+
+    &__empty {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        color: $color-text-muted;
+
+        &-icon {
+            font-size: 4rem;
+            margin-bottom: 15px;
+            opacity: 0.3;
+        }
+    }
+}

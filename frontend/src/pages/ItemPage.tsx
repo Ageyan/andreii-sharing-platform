@@ -1,4 +1,4 @@
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { getItemById } from '../services/items';
 import { useEffect, useState } from 'react';
 import type { Item } from '../types/items.types';
@@ -7,6 +7,8 @@ import Toast from '../components/Toast';
 import type { ToastState } from '../types/toast.types';
 import Loader from '../components/Loader';
 import ItemPageSidebar from '../components/ItemPageSidebar';
+import { BsFillChatDotsFill } from 'react-icons/bs';
+import { getOrCreateChat } from '../services/chat';
 
 const ItemPage = () => {
     const [item, setItem] = useState<Item | null>(null);
@@ -18,6 +20,7 @@ const ItemPage = () => {
 
     const { id } = useParams<{ id: string }>();
     const navigate = useNavigate();
+    const location = useLocation();
 
     const fallbackImage =
         'https://wezom.com.ua/Media/filemanager/blog/struktura-internet-magazina-klyuchevye-momenty-sozdaniya/original/rEd1gfWUQnNVLIM0caWoMcl8aDVQ27G6372YEQYQ.jpg';
@@ -79,6 +82,16 @@ const ItemPage = () => {
                   'https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?q=80&w=200&auto=format&fit=crop',
               ];
 
+    const handleChat = async () => {
+        if (!item) return;
+
+        const chatData = await getOrCreateChat(item.id, item.owner_id);
+        navigate('/dashboard/chats', {
+            state: { from: location.pathname, activeChatId: chatData.id },
+        });
+        console.log('Дані чату:', chatData);
+    };
+
     return (
         <div className="item-page">
             {loader && <Loader />}
@@ -129,6 +142,9 @@ const ItemPage = () => {
                                             На платформі з 2026 року
                                         </p>
                                     </div>
+                                    <button className="item-page__owner-chat" onClick={handleChat}>
+                                        <BsFillChatDotsFill className="item-page__chat-icon" />
+                                    </button>
                                 </div>
                                 <hr className="item-page__divider" />
                                 <div className="item-page__description-wrapper">

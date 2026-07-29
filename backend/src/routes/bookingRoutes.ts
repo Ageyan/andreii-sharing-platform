@@ -4,10 +4,10 @@ import { protect } from "../middleware/authMiddleware";
 
 const router = Router();
 
-router.post('/', protect as any, createBooking);
-router.get('/my', protect as any, getMyBookings);
-router.get('/owner', protect as any, getOwnerBookings);
-router.put('/:id/status', protect as any, updateBookingStatus);
-router.patch('/:id/cancel', protect as any, cancelBooking);
+router.post('/', protect, createBooking);
+router.get('/my', protect, getMyBookings);
+router.get('/owner', protect, getOwnerBookings);
+router.put('/:id/status', protect, updateBookingStatus);
+router.patch('/:id/cancel', protect, cancelBooking);
 
 export default router;

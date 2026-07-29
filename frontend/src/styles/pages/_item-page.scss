@@ -202,6 +202,26 @@
         }
     }
 
+    &__owner-chat {
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    &__chat-icon {
+        width: 32px;
+        height: 32px;
+        color: $color-text-muted;
+        transform: translateY(0);
+        transition: all 0.3s ease-in-out;
+
+        &:hover {
+            color: $color-accent;
+            transform: translateY(-3px);
+        }
+    }
+
     &__divider {
         border: none;
         border-top: 1px solid rgba($color-text-muted, 0.3);

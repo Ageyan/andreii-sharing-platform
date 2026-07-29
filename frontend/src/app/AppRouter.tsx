@@ -14,6 +14,7 @@ const AuthPage = lazy(() => import('../pages/AuthPage'));
 const DashProfile = lazy(() => import('../components/DashProfile'));
 const DashItems = lazy(() => import('../components/DashItems'));
 const DashBookings = lazy(() => import('../components/DashBookings'));
+const DashChats = lazy(() => import('../components/DashChats'));
 
 const AppRouter = () => {
     return (
@@ -40,6 +41,7 @@ const AppRouter = () => {
                                 <Route path="my" element={<BookingsMy />} />
                                 <Route path="owner" element={<BookingsOwner />} />
                             </Route>
+                            <Route path="chats" element={<DashChats />} />
                         </Route>
                         <Route path="/items/:id" element={<ItemPage />} />
                         <Route path="/auth" element={<AuthPage />} />

@@ -1,8 +1,7 @@
-import { Response } from 'express';
-import { AuthRequest } from '../middleware/authMiddleware';
+import { Request, Response } from 'express';
 import { query } from '../config/db';
 
-export const getUserInfo = async(req: AuthRequest, res: Response ): Promise<void> => {
+export const getUserInfo = async(req: Request, res: Response ): Promise<void> => {
     const userId = req.user?.userId;
 
     try {
@@ -22,7 +21,7 @@ export const getUserInfo = async(req: AuthRequest, res: Response ): Promise<void
     }
 };
 
-export const putUserUpdate = async(req: AuthRequest, res: Response): Promise<void> => {
+export const putUserUpdate = async(req: Request, res: Response): Promise<void> => {
     const userId = req.user?.userId;
     const { name, phone } = req.body;
 
@@ -47,7 +46,7 @@ export const putUserUpdate = async(req: AuthRequest, res: Response): Promise<voi
     }
 };
 
-export const updateAvatar = async (req: AuthRequest, res: Response): Promise<void> => {
+export const updateAvatar = async (req: Request, res: Response): Promise<void> => {
     const userId = req.user?.userId;
     const file = req.file?.path;
 

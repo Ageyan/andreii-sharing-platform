@@ -1,8 +1,7 @@
 import { Request, Response } from 'express';
-import { AuthRequest } from '../middleware/authMiddleware';
 import { query } from '../config/db';
 
-export const createItem = async(req: AuthRequest, res: Response): Promise<void> => {
+export const createItem = async(req: Request, res: Response): Promise<void> => {
     const { title, description, price_per_day, category } = req.body;
     const owner_id = req.user?.userId;
     const files = req.files as Express.Multer.File[];
@@ -34,7 +33,7 @@ export const createItem = async(req: AuthRequest, res: Response): Promise<void> 
     }
 };
 
-export const updateItem = async(req: AuthRequest, res: Response): Promise<void> => {
+export const updateItem = async(req: Request, res: Response): Promise<void> => {
     const { title, description, price_per_day, category } = req.body;
     const files = req.files as Express.Multer.File[];
     const image_url = files ? files.map(file => file.path) : [];
@@ -95,7 +94,7 @@ export const getItemById = async(req: Request, res: Response): Promise<void> => 
     }
 };
 
-export const deleteItemById = async(req: AuthRequest, res: Response): Promise<void> => {
+export const deleteItemById = async(req: Request, res: Response): Promise<void> => {
     const { id } = req.params;
     const owner_id = req?.user?.userId;
 
@@ -116,7 +115,7 @@ export const deleteItemById = async(req: AuthRequest, res: Response): Promise<vo
     }
 };
 
-export const getMyItems = async(req: AuthRequest, res: Response): Promise<void> => {
+export const getMyItems = async(req: Request, res: Response): Promise<void> => {
     const owner_id = req?.user?.userId
 
     try {

@@ -61,6 +61,15 @@ const DashProfileSidebar = () => {
                         {ownerBookings.filter(i => i.status === 'pending').length}
                     </span>
                 </NavLink>
+                <NavLink
+                    to="/dashboard/chats"
+                    className={({ isActive }) =>
+                        `profile-sidebar__menu-btn ${isActive ? 'profile-sidebar__menu-btn--active' : ''}`
+                    }
+                >
+                    <span className="profile-sidebar__icon">💬</span>
+                    <span className="profile-sidebar__title">Чати</span>
+                </NavLink>
             </nav>
         </aside>
     );

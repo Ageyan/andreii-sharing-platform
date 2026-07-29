@@ -1,11 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import jwt from 'jsonwebtoken';
 
-export interface AuthRequest extends Request {
-    user?: {userId: number}
-}
-
-export const protect = async(req: AuthRequest, res: Response, next: NextFunction): Promise<void> => {
+export const protect = async(req: Request, res: Response, next: NextFunction): Promise<void> => {
     let token;
 
     if(req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {

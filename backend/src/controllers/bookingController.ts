@@ -1,8 +1,7 @@
-import { Response } from "express";
-import { AuthRequest } from "../middleware/authMiddleware";
+import { Request, Response } from "express";
 import { query } from "../config/db";
 
-export const createBooking = async(req: AuthRequest, res: Response): Promise<void> => {
+export const createBooking = async(req: Request, res: Response): Promise<void> => {
     const { item_id, start_date, end_date, total_price } = req.body;
     const renter_id = req.user?.userId;
 
@@ -43,7 +42,7 @@ export const createBooking = async(req: AuthRequest, res: Response): Promise<voi
     }
 };
 
-export const getMyBookings = async(req: AuthRequest, res: Response): Promise<void> => {
+export const getMyBookings = async(req: Request, res: Response): Promise<void> => {
     const renter_id = req.user?.userId;
 
     try {
@@ -63,7 +62,7 @@ export const getMyBookings = async(req: AuthRequest, res: Response): Promise<voi
     }
 };
 
-export const getOwnerBookings = async(req: AuthRequest, res: Response): Promise<void> => {
+export const getOwnerBookings = async(req: Request, res: Response): Promise<void> => {
     const owner_id = req.user?.userId;
 
     try {
@@ -83,7 +82,7 @@ export const getOwnerBookings = async(req: AuthRequest, res: Response): Promise<
     }
 };
 
-export const updateBookingStatus = async(req: AuthRequest, res: Response): Promise<void> => {
+export const updateBookingStatus = async(req: Request, res: Response): Promise<void> => {
     const { status } = req.body;
     const bookingId = req.params.id;
     const userId = req.user?.userId;
@@ -120,7 +119,7 @@ export const updateBookingStatus = async(req: AuthRequest, res: Response): Promi
     }
 };
 
-export const cancelBooking = async (req: AuthRequest, res: Response): Promise<void> => {
+export const cancelBooking = async (req: Request, res: Response): Promise<void> => {
     const renter_id = req.user?.userId;
     const id = req.params.id
 
