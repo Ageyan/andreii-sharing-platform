@@ -14,3 +14,12 @@ export interface GetUserChatsProps {
     item_title: string;
     item_image: string;
 }
+
+export interface GetUserMessage {
+    id: number;
+    chat_id: number;
+    sender_id: number;
+    text: string;
+    is_read: boolean;
+    created_at: string;
+}

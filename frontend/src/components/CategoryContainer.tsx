@@ -77,11 +77,11 @@ const categories: CategoryList[] = [
     },
 ];
 
-interface SearchContainerProps {
+interface CategoryContainerProps {
     setSelectCategory: (value: ItemCategory) => void;
 }
 
-const SearchContainer = ({ setSelectCategory }: SearchContainerProps) => {
+const CategoryContainer = ({ setSelectCategory }: CategoryContainerProps) => {
     return (
         <div className="category-container">
             {categories.map(category => (
@@ -95,4 +95,4 @@ const SearchContainer = ({ setSelectCategory }: SearchContainerProps) => {
     );
 };
 
-export default SearchContainer;
+export default CategoryContainer;

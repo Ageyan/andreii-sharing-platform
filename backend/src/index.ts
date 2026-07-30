@@ -10,6 +10,7 @@ import bookingRoutes from './routes/bookingRoutes';
 import userRoutes from './routes/userRoutes';
 import chatAiRoutes from './routes/chatAiRoutes';
 import chatRoutes from './routes/chatRoutes';
+import { query } from './config/db';
 
 const app = express();
 const port = process.env.PORT || 8000;
@@ -45,10 +46,27 @@ const io = new Server(httpServer, {
 })
 
 io.on('connection', (socket) => {
-    console.log(`🟢 Користувач підключився: ${socket.id}`)
+    socket.on('join_chat', (chatId) => {
+        socket.join(chatId.toString());
+    })
 
-    socket.on('disconnect', () => {
-        console.log(`🔴 Користувач відключився: ${socket.id}`);
+    socket.on('send_message', async(data) => {
+        const { chat_id, sender_id, text } = data;
+
+        try {
+            const sqlQuerry = `
+                INSERT INTO messages (chat_id, sender_id, text)
+                VALUES ($1, $2, $3)
+                RETURNING *
+            `
+
+            const result = await query(sqlQuerry, [chat_id, sender_id, text])
+
+            io.to(data.chat_id.toString()).emit('receive_message', result.rows[0]);
+        } catch (error) {
+            console.error('Помилка при отриманні чатів', error);
+            io.to(data.chat_id.toString()).emit('error', error);
+        }
     })
 });
 

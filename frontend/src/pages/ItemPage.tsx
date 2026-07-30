@@ -89,7 +89,6 @@ const ItemPage = () => {
         navigate('/dashboard/chats', {
             state: { from: location.pathname, activeChatId: chatData.id },
         });
-        console.log('Дані чату:', chatData);
     };
 
     return (
