@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import type { GetUserChatsProps, GetUserMessage } from '../types/chat.types';
-import { getUserChats, getUserMessages } from '../services/chat';
+import { getUserChats, getUserMessages, updateStatusMessage } from '../services/chat';
 import { useLocation } from 'react-router-dom';
 import Loader from './Loader';
 import axios from 'axios';
@@ -71,6 +71,7 @@ const DashChats = () => {
                 const messagesData = await getUserMessages(activeChat, {
                     signal: controller.signal,
                 });
+                updateStatusMessage(activeChat).catch(console.error);
                 setMessages(messagesData);
             } catch (err) {
                 if (axios.isCancel(err)) {
@@ -156,7 +157,9 @@ const DashChats = () => {
                                 />
                                 <div className="dash-chats__item-info">
                                     <h4 className="dash-chats__item-name">{c.item_title}</h4>
-                                    <span className="dash-chats__item-role">Орендар</span>
+                                    <span className="dash-chats__item-role">
+                                        {user?.id === c.owner_id ? 'Орендар' : 'Власник'}
+                                    </span>
                                 </div>
                             </div>
                         ))}

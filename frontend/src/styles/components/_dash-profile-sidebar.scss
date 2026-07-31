@@ -139,7 +139,8 @@
         }
     }
 
-    &__bookings-owner {
+    &__bookings-owner,
+    &__bookings-unread {
         display: flex;
         align-items: center;
         justify-content: center;

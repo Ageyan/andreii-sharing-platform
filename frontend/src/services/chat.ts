@@ -16,3 +16,12 @@ export const getUserMessages = async (chatId: number, config: AxiosRequestConfig
     const { data } = await api.get<GetUserMessage[]>(`/chats/${chatId}/messages`, config);
     return data;
 }
+
+export const getUnreadMessages = async (config: AxiosRequestConfig): Promise<number> => {
+    const { data } = await api.get<number>('/chats/messages/unread', config);
+    return data;
+}
+
+export const updateStatusMessage = async (chatId: number): Promise<void> => {
+    await api.patch(`chats/${chatId}/messages/read`);
+}
