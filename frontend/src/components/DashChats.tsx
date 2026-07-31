@@ -5,6 +5,11 @@ import { useLocation } from 'react-router-dom';
 import Loader from './Loader';
 import axios from 'axios';
 import { useUserInfo } from '../context/UserContext';
+import { socket } from '../services/socket';
+import Toast from './Toast';
+import type { ToastState } from '../types/toast.types';
+import { useRef } from 'react';
+import { formatTime } from '../utils/date.utils';
 
 const DashChats = () => {
     const [chats, setChats] = useState<GetUserChatsProps[]>([]);
@@ -13,9 +18,12 @@ const DashChats = () => {
     const [error, setError] = useState<string>('');
     const [isChatsLoading, setIsChatsLoading] = useState<boolean>(false);
     const [isMessagesLoading, setIsMessagesLoading] = useState<boolean>(false);
+    const [newMessage, setNewMessage] = useState<string>('');
+    const [toast, setToast] = useState<ToastState>({ show: false, message: '', type: 'success' });
 
     const { user } = useUserInfo();
     const location = useLocation();
+    const messagesRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         const controller = new AbortController();
@@ -55,6 +63,7 @@ const DashChats = () => {
     useEffect(() => {
         const controller = new AbortController();
         if (!activeChat) return;
+
         const getMessages = async () => {
             setIsMessagesLoading(true);
             setError('');
@@ -85,8 +94,34 @@ const DashChats = () => {
 
         getMessages();
 
-        return () => controller.abort();
+        socket.emit('join_chat', activeChat);
+        socket.on('receive_message', message => {
+            setMessages(prev => [...prev, message]);
+        });
+
+        return () => {
+            controller.abort();
+            socket.off('receive_message');
+        };
     }, [activeChat]);
+
+    useEffect(() => {
+        messagesRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }, [messages]);
+
+    const handleSendMessage = () => {
+        if (!newMessage.trim()) {
+            setToast({
+                show: true,
+                message: 'Повідомлення порожнє',
+                type: 'error',
+            });
+            return;
+        }
+
+        socket.emit('send_message', { chat_id: activeChat, sender_id: user?.id, text: newMessage });
+        setNewMessage('');
+    };
 
     const currentChat = chats.find(c => c.chat_id === activeChat);
 
@@ -159,18 +194,28 @@ const DashChats = () => {
                                     >
                                         <div className="dash-chats__message-text">{m.text}</div>
                                         <span className="dash-chats__message-time">
-                                            {m.created_at}
+                                            {formatTime(m.created_at)}
                                         </span>
                                     </div>
                                 ))}
+                            <div ref={messagesRef}></div>
                         </div>
                         <div className="dash-chats__input-area">
                             <input
                                 type="text"
                                 className="dash-chats__input"
                                 placeholder="Напишіть повідомлення..."
+                                value={newMessage}
+                                onChange={e => setNewMessage(e.target.value)}
+                                onKeyDown={e => {
+                                    if (e.key === 'Enter') {
+                                        handleSendMessage();
+                                    }
+                                }}
                             />
-                            <button className="dash-chats__send-btn">Відправити</button>
+                            <button className="dash-chats__send-btn" onClick={handleSendMessage}>
+                                Відправити
+                            </button>
                         </div>
                     </div>
                 ) : (
@@ -180,6 +225,13 @@ const DashChats = () => {
                     </div>
                 )}
             </div>
+            {toast.show && (
+                <Toast
+                    message={toast.message}
+                    type={toast.type}
+                    onClose={() => setToast(prev => ({ ...prev, show: false }))}
+                ></Toast>
+            )}
         </div>
     );
 };

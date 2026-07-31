@@ -41,7 +41,8 @@ const httpServer = http.createServer(app);
 const io = new Server(httpServer, {
     cors: {
         origin: ['http://localhost:5173', 'https://andreii-sharing-platform.vercel.app'],
-        methods: ['GET', 'POST']
+        methods: ['GET', 'POST'],
+        credentials: true 
     }
 })
 

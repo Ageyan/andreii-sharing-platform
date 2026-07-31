@@ -4,6 +4,7 @@ import type { ToastState } from '../types/toast.types';
 import type { Item } from '../types/items.types';
 import { createBooking } from '../services/booking';
 import { useUserInfo } from '../context/UserContext';
+import { getLocalDateString, getNextDay } from '../utils/date.utils';
 import axios from 'axios';
 import Loader from './Loader';
 
@@ -23,18 +24,6 @@ const ItemPageSidebar = ({ item, setToast }: ItemPageSidebarProps) => {
 
     const authNavigate = () => {
         navigate('/auth', { state: { from: location.pathname } });
-    };
-
-    const getLocalDateString = (date: Date) => {
-        const offset = date.getTimezoneOffset();
-        const localDate = new Date(date.getTime() - offset * 60 * 1000);
-        return localDate.toISOString().split('T')[0];
-    };
-
-    const getNextDay = (dateString: string) => {
-        const date = new Date(dateString);
-        date.setDate(date.getDate() + 1);
-        return getLocalDateString(date);
     };
 
     const today = getLocalDateString(new Date());
