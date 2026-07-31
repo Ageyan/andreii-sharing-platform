@@ -1,5 +1,9 @@
 import { io } from 'socket.io-client';
 
-export const socket = io(import.meta.env.VITE_API_URL || 'http://localhost:8000', {
-    transports: ['websocket'],
+const rawUrl = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+
+const socketUrl = rawUrl.replace('/api', '');
+
+export const socket = io(socketUrl, {
+    transports: ['websocket']
 });
