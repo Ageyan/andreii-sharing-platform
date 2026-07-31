@@ -45,7 +45,7 @@ export const getUserChats = async (req: Request, res: Response): Promise<void> =
                 c.owner_id,
                 c.created_at,
                 i.title AS item_title,
-                i.image_url AS item_image
+                i.image_url[1] AS item_image
             FROM chats c
             JOIN items i ON c.item_id = i.id
             WHERE c.renter_id = $1 OR c.owner_id = $1
