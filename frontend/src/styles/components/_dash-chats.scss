@@ -4,19 +4,66 @@
 .dash-chats {
     display: flex;
     flex: 1;
-    min-height: 600px;
+    height: 100%;
     background: $white;
     border-radius: 12px;
     border: 1px solid $border-color;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
     overflow: hidden;
 
+    &.is-chat-open {
+        // 1. Вырываем чат из карточки дашборда на мобилке
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100dvh;
+        z-index: 9999; // Гарантированно перекрываем шапку и меню
+        border-radius: 0;
+        border: none;
+        margin: 0;
+
+        // 2. На десктопе отменяем "вырыв" и возвращаем чат в карточку
+        @include desktop {
+            position: static;
+            height: 100%;
+            border-radius: 12px;
+            border: 1px solid $border-color;
+            z-index: auto;
+        }
+
+        // 3. Управление боковым меню (сайдбаром)
+        .dash-chats__sidebar {
+            display: none; // На мобилке скрываем список диалогов
+
+            @include desktop {
+                display: flex; // На десктопе возвращаем список
+            }
+        }
+
+        // 4. Управление главным окном (сообщениями)
+        .dash-chats__main {
+            display: flex; // ВАЖНО: только flex, чтобы сообщения не сплющило!
+            flex-direction: column;
+            width: 100%; // На мобилке занимаем весь экран
+
+            @include desktop {
+                flex: 1; // На десктопе занимаем оставшееся место рядом с меню
+                width: auto;
+            }
+        }
+    }
+
     &__sidebar {
-        width: 320px;
+        width: 100%;
         border-right: 1px solid $border-color;
         display: flex;
         flex-direction: column;
         background: $white;
+
+        @include desktop {
+            width: 320px;
+        }
     }
 
     &__title-container {
@@ -83,10 +130,14 @@
     }
 
     &__main {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        background: $bg-main;
+        display: none;
+
+        @include desktop {
+            display: flex;
+            flex: 1;
+            flex-direction: column;
+            background: $bg-main;
+        }
     }
 
     &__empty {
@@ -107,6 +158,7 @@
     &__window {
         display: flex;
         flex-direction: column;
+        width: 100%;
         height: 100%;
     }
 
@@ -114,21 +166,45 @@
         display: flex;
         align-items: center;
         min-height: 80px;
-        padding: 15px 20px;
+        padding: 12px 16px;
         background: $white;
         border-bottom: 1px solid $border-color;
+        gap: 15px;
+
+        @include tablet {
+            padding: 15px 20px;
+        }
+
+        &--icon {
+            color: $color-text-muted;
+            width: 26px;
+            height: 26px;
+            transition: color 0.3s ease;
+
+            &:hover {
+                color: $color-accent;
+            }
+
+            @include desktop {
+                display: none;
+            }
+        }
 
         &-img {
             width: 45px;
             height: 45px;
             border-radius: 50%;
-            object-fit: cover;
-            margin-right: 15px;
             border: 1px solid $border-color;
         }
 
+        &-info {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 4px;
+        }
+
         &-title {
-            margin: 0 0 4px 0;
             font-size: 1.1rem;
             color: $color-text-main;
         }
@@ -136,17 +212,29 @@
         &-status {
             font-size: 0.8rem;
             color: $color-accent;
+
+            &.online {
+                color: $color-accent;
+            }
+
+            &.offline {
+                color: $color-text-muted;
+            }
         }
     }
 
     &__messages {
         flex: 1;
-        padding: 20px;
+        padding: 16px;
         overflow-y: auto;
         display: flex;
         flex-direction: column;
         gap: 15px;
         background: $bg-main;
+
+        @include tablet {
+            padding: 20px;
+        }
     }
 
     &__message {
@@ -193,19 +281,27 @@
 
     &__input-area {
         display: flex;
-        padding: 20px;
+        padding: 16px;
         background: $white;
         border-top: 1px solid $border-color;
         gap: 15px;
+
+        @include tablet {
+            padding: 20px;
+        }
     }
 
     &__input {
         flex: 1;
-        padding: 12px 20px;
+        padding: 10px 16px;
         border: 1px solid $border-color;
         border-radius: 25px;
         font-size: 1rem;
         transition: border-color 0.2s ease;
+
+        @include tablet {
+            padding: 12px 20px;
+        }
 
         &:focus {
             border-color: $color-accent;
@@ -213,14 +309,39 @@
     }
 
     &__send-btn {
-        padding: 6px 18px;
-        font-size: 1.1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 4px 14px;
+        font-size: 1rem;
         background: $color-accent;
         color: $white;
         border-radius: 25px;
         font-weight: 600;
         cursor: pointer;
         transition: opacity 0.2s ease;
+
+        @include tablet {
+            padding: 6px 18px;
+            font-size: 1.1rem;
+        }
+
+        &--icon {
+            width: 22px;
+            height: 22px;
+
+            @include desktop {
+                display: none;
+            }
+        }
+
+        &--text {
+            display: none;
+
+            @include desktop {
+                display: block;
+            }
+        }
 
         &:hover {
             opacity: 0.9;

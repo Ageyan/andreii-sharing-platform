@@ -2,23 +2,28 @@
 @use '../utils/mixins' as *;
 
 .item-page {
-    padding: 28px 0;
+    padding: 20px 0;
     background-color: $bg-main;
     min-height: calc(100vh - 80px);
     display: flex;
     flex-direction: column;
     align-items: start;
 
+    @include tablet {
+        padding: 28px 0;
+    }
+
     &__back-btn {
         color: $color-text-muted;
         font-size: 0.9rem;
         font-weight: 500;
         cursor: pointer;
-        margin-bottom: 24px;
+        margin-bottom: 20px;
         transition: color 0.2s ease;
 
         @include tablet {
             font-size: 1rem;
+            margin-bottom: 24px;
         }
 
         &:hover {
@@ -188,6 +193,7 @@
         justify-content: center;
         font-weight: 700;
         font-size: 1.2rem;
+        overflow: hidden;
     }
 
     &__owner-info {
@@ -203,10 +209,13 @@
     }
 
     &__owner-chat {
-        cursor: pointer;
         display: flex;
         align-items: center;
         justify-content: center;
+
+        &.active {
+            cursor: pointer;
+        }
     }
 
     &__chat-icon {
@@ -216,7 +225,7 @@
         transform: translateY(0);
         transition: all 0.3s ease-in-out;
 
-        &:hover {
+        &.active:hover {
             color: $color-accent;
             transform: translateY(-3px);
         }

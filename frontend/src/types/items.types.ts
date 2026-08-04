@@ -8,9 +8,10 @@ export interface Item {
     owner_name: string 
     owner_created_at: string
     owner_id: number
+    owner_avatar?: string
 }
 
-export type CreateItem = Omit<Item, 'id' | 'owner_name' | 'owner_created_at' | 'image_url' | 'owner_id'>;
+export type CreateItem = Omit<Item, 'id' | 'owner_name' | 'owner_created_at' | 'image_url' | 'owner_id' | 'owner_avatar'>;
 
 export type ItemCategory = 'Усі речі' | 'Авто' | 'Електроніка' | 
 'Робота' | 'Запчастини' | 'Дім і сад' | 'Бізнес та послуги' | 'Дитячий світ' 

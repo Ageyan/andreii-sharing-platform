@@ -10,6 +10,8 @@ import Toast from './Toast';
 import type { ToastState } from '../types/toast.types';
 import { useRef } from 'react';
 import { formatTime } from '../utils/date.utils';
+import { CiLocationArrow1 } from 'react-icons/ci';
+import { IoIosArrowBack } from 'react-icons/io';
 
 const DashChats = () => {
     const [chats, setChats] = useState<GetUserChatsProps[]>([]);
@@ -18,12 +20,27 @@ const DashChats = () => {
     const [error, setError] = useState<string>('');
     const [isChatsLoading, setIsChatsLoading] = useState<boolean>(false);
     const [isMessagesLoading, setIsMessagesLoading] = useState<boolean>(false);
+    const [onlineUsers, setOnlineUsers] = useState<number[]>([]);
     const [newMessage, setNewMessage] = useState<string>('');
     const [toast, setToast] = useState<ToastState>({ show: false, message: '', type: 'success' });
 
     const { user } = useUserInfo();
     const location = useLocation();
     const messagesRef = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        if (!user) return;
+
+        socket.emit('user_connected', user.id);
+
+        socket.on('update_online_users', (userIds: number[]) => {
+            setOnlineUsers(userIds);
+        });
+
+        return () => {
+            socket.off('update_online_users');
+        };
+    }, [user]);
 
     useEffect(() => {
         const controller = new AbortController();
@@ -125,9 +142,15 @@ const DashChats = () => {
     };
 
     const currentChat = chats.find(c => c.chat_id === activeChat);
+    const interlocutorId = currentChat
+        ? user?.id === currentChat.owner_id
+            ? currentChat.renter_id
+            : currentChat.owner_id
+        : null;
+    const isOnline = interlocutorId ? onlineUsers.includes(interlocutorId) : false;
 
     return (
-        <div className="dash-chats">
+        <div className={`dash-chats ${activeChat ? 'is-chat-open' : ''}`}>
             <div className="dash-chats__sidebar">
                 <div className="dash-chats__title-container">
                     <h3 className="dash-chats__title">Мої діалоги</h3>
@@ -169,6 +192,10 @@ const DashChats = () => {
                 {activeChat && currentChat ? (
                     <div className="dash-chats__window">
                         <div className="dash-chats__header">
+                            <IoIosArrowBack
+                                className="dash-chats__header--icon"
+                                onClick={() => setActiveChat(null)}
+                            />
                             <img
                                 src={currentChat.item_image}
                                 alt={currentChat.item_title}
@@ -178,7 +205,11 @@ const DashChats = () => {
                                 <h4 className="dash-chats__header-title">
                                     {currentChat.item_title}
                                 </h4>
-                                <span className="dash-chats__header-status">В мережі</span>{' '}
+                                <span
+                                    className={`dash-chats__header-status ${isOnline ? 'online' : 'offline'}`}
+                                >
+                                    {isOnline ? 'В мережі' : 'Не в мережі'}
+                                </span>
                             </div>
                         </div>
                         <div className="dash-chats__messages">
@@ -217,7 +248,8 @@ const DashChats = () => {
                                 }}
                             />
                             <button className="dash-chats__send-btn" onClick={handleSendMessage}>
-                                Відправити
+                                <CiLocationArrow1 className="dash-chats__send-btn--icon" />
+                                <span className="dash-chats__send-btn--text">Відправити</span>
                             </button>
                         </div>
                     </div>

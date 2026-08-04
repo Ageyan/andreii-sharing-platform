@@ -46,7 +46,39 @@ export const io = new Server(httpServer, {
     }
 })
 
-io.on('connection', (socket) => {
+let onlineUsers: { userId: number, socketId: string }[] = [];
+
+const addNewUser = (userId: number, socketId: string) => {
+    const userIndex = onlineUsers.findIndex(user => user.userId === userId);
+
+    if (userIndex !== -1) {
+        onlineUsers[userIndex].socketId = socketId;
+    } else {
+        onlineUsers.push({ userId, socketId });
+    }
+}
+
+const removeUser = (socketId: string) => {
+    onlineUsers = onlineUsers.filter(user => user.socketId !== socketId)
+}
+
+io.on('connection', (socket) => { 
+    console.log(`Клієнт підключився: ${socket.id}`);
+
+    socket.on('user_connected', (userId: number) => {
+        addNewUser(userId, socket.id)
+
+        const onlineUsersIds = onlineUsers.map(user => user.userId);
+        io.emit('update_online_users', onlineUsersIds)
+    })
+
+    socket.on('disconnect', () => {
+        removeUser(socket.id)
+
+        const onlineUsersIds = onlineUsers.map(user => user.userId);
+        io.emit('update_online_users', onlineUsersIds)
+    })
+
     socket.on('join_chat', (chatId) => {
         socket.join(chatId.toString());
     })
@@ -55,13 +87,13 @@ io.on('connection', (socket) => {
         const { chat_id, sender_id, text } = data;
 
         try {
-            const sqlQuerry = `
+            const sqlQuery = `
                 INSERT INTO messages (chat_id, sender_id, text)
                 VALUES ($1, $2, $3)
                 RETURNING *
             `
 
-            const result = await query(sqlQuerry, [chat_id, sender_id, text])
+            const result = await query(sqlQuery, [chat_id, sender_id, text])
 
             io.to(data.chat_id.toString()).emit('receive_message', result.rows[0]);
         } catch (error) {
@@ -71,7 +103,7 @@ io.on('connection', (socket) => {
     })
 });
 
-app.get('/', (req: Request, res: Response) => {
+app.get('/', (res: Response) => {
     res.send('Сервер RentIt успішно запущено на TypeScript!')
 });
 

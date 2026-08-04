@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { query } from "../config/db";
 import { io } from '../index';
+import { handleError } from "../utils/errorHandler";
 
 export const getOrCreateChat = async (req: Request, res: Response): Promise<void> => {
     const { item_id, owner_id } = req.body;
@@ -29,8 +30,7 @@ export const getOrCreateChat = async (req: Request, res: Response): Promise<void
 
         res.status(201).json(result.rows[0])        
     } catch (error) {
-        console.error('Помилка при створенні чату', error);
-        res.status(500).json({message: 'Помилка сервера при створенні чату'});
+        handleError(error, res, 'створенні чату')
     }
 }
 
@@ -57,8 +57,7 @@ export const getUserChats = async (req: Request, res: Response): Promise<void> =
 
         res.status(200).json(result.rows);
     } catch (error) {
-        console.error('Помилка при отриманні чатів', error);
-        res.status(500).json({message: 'Помилка сервера при отриманні чатів'});
+        handleError(error, res, 'отриманні чатів')
     }
 }
 
@@ -89,8 +88,7 @@ export const getChatMessages = async (req: Request, res: Response): Promise<void
 
         res.status(200).json(result.rows)
     } catch (error) {
-        console.error('Помилка при отриманні повідомлень', error);
-        res.status(500).json({message: 'Помилка сервера при отриманні повідомлень'});
+        handleError(error, res, 'отриманні повідомлень')
     }
 }
 
@@ -110,8 +108,7 @@ export const getUnreadMessages = async (req: Request, res: Response): Promise<vo
 
         res.status(200).json(Number(result.rows[0].unread_count))
     } catch (error) {
-        console.error('Помилка при отриманні непрочитаних повідомлень', error);
-        res.status(500).json({message: 'Помилка сервера при отриманні непрочитаних повідомлень'});
+        handleError(error, res, 'отриманні непрочитаних повідомлень')
     }
 }
 
@@ -130,7 +127,6 @@ export const updateStatusMessages = async (req: Request, res: Response): Promise
         res.status(200).json({ message: 'Статус повідомлень оновлено' });
         io.to(id.toString()).emit('messages_read');
     } catch (error) {
-        console.error('Помилка при зміні статусу непрочитаних повідомлень', error);
-        res.status(500).json({message: 'Помилка сервера при зміні статусу непрочитаних повідомлень'});
+        handleError(error, res, 'зміні статусу непрочитаних повідомлень')
     }
 }

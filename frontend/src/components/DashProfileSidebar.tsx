@@ -104,7 +104,7 @@ const DashProfileSidebar = () => {
                     }
                 >
                     <span className="profile-sidebar__icon">📅</span>
-                    <span className="profile-sidebar__title">Бронювання</span>
+                    <span className="profile-sidebar__title">Бронь</span>
                     <span
                         className={`profile-sidebar__bookings-owner 
                             ${

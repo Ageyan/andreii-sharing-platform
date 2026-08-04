@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { query } from '../config/db';
+import { handleError } from '../utils/errorHandler';
 
 export const register = async(req: Request, res: Response): Promise<void> => {
     const { name,phone, email, password } = req.body;
@@ -31,8 +32,7 @@ export const register = async(req: Request, res: Response): Promise<void> => {
         });
         
     } catch(error) {
-        console.error('помилка при реєстрації:', error);
-        res.status(500).json({ message: 'Помилка сервера при реєстрації'});
+        handleError(error, res, 'реєстрації')
     }
 };
 
@@ -67,7 +67,6 @@ export const login = async(req: Request, res: Response): Promise<void> => {
             user: {id: user.id, name: user.name, email: user.email}
         });
     } catch(error) {
-        console.error('Помилка при вході:', error);
-        res.status(500).json({ message: 'Помилка серверу при вході' });
+        handleError(error, res, 'вході')
     }
 };

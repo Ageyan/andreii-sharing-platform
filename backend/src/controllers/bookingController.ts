@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import { query } from "../config/db";
+import { handleError } from "../utils/errorHandler";
 
 export const createBooking = async(req: Request, res: Response): Promise<void> => {
     const { item_id, start_date, end_date, total_price } = req.body;
@@ -37,8 +38,7 @@ export const createBooking = async(req: Request, res: Response): Promise<void> =
             booking: result.rows[0]
         })
     } catch(error) {
-        console.error('Помилка при спробі бронювання', error);
-        res.status(500).json({message: 'Помилка сервера при спробі бронювання'})
+        handleError(error, res, 'спробі бронювання')
     }
 };
 
@@ -57,8 +57,7 @@ export const getMyBookings = async(req: Request, res: Response): Promise<void> =
 
         res.status(200).json(result.rows);
     } catch(error) {
-        console.error('Помилка при отриманні орендованих речей', error);
-        res.status(500).json({message: 'Помилка сервера при отриманні орендованих речей'});
+        handleError(error, res, 'отриманні орендованих речей')
     }
 };
 
@@ -77,8 +76,7 @@ export const getOwnerBookings = async(req: Request, res: Response): Promise<void
 
         res.status(200).json(result.rows);
     } catch(error) {
-        console.error('Помилка при отриманні речей які орендували', error);
-        res.status(500).json({message: 'Помилка сервера при отриманні речей які орендували'}); 
+        handleError(error, res, 'отриманні речей які орендували')
     }
 };
 
@@ -114,8 +112,7 @@ export const updateBookingStatus = async(req: Request, res: Response): Promise<v
 
         res.status(200).json(result.rows[0])
     } catch(error) {
-        console.error('Помилка при зміні стастусу оренди', error);
-        res.status(500).json({message: 'Помилка сервера при зміні статусу оренди'});
+        handleError(error, res, 'зміні стастусу оренди')
     }
 };
 
@@ -139,7 +136,6 @@ export const cancelBooking = async (req: Request, res: Response): Promise<void> 
 
         res.status(200).json(result.rows[0]);
     } catch (error) {
-        console.error('Помилка при спробі відмінити бронювання', error);
-        res.status(500).json({ message: 'Помилка сервера при спробі відмінити бронювання' });
+        handleError(error, res, 'спробі відмінити бронювання')
     }
 };

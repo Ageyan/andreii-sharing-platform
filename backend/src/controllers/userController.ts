@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { query } from '../config/db';
+import { handleError } from '../utils/errorHandler';
 
 export const getUserInfo = async(req: Request, res: Response ): Promise<void> => {
     const userId = req.user?.userId;
@@ -16,8 +17,7 @@ export const getUserInfo = async(req: Request, res: Response ): Promise<void> =>
 
         res.status(200).json(result.rows[0]);
     } catch(error) {
-        console.error('Помилка при отриманні даних про користувача', error);
-        res.status(500).json({message: 'Помилка сервера при отриманні даних про користувача'});
+        handleError(error, res, 'отриманні даних про користувача')
     }
 };
 
@@ -41,8 +41,7 @@ export const putUserUpdate = async(req: Request, res: Response): Promise<void> =
 
         res.status(200).json(result.rows[0]);
     } catch(error) {
-        console.error('Помилка при зміні даних про користувача', error);
-        res.status(500).json({message: 'Помилка сервера при зміні даних про користувача'});
+        handleError(error, res, 'зміні даних про користувача')
     }
 };
 
@@ -65,7 +64,6 @@ export const updateAvatar = async (req: Request, res: Response): Promise<void> =
 
         res.status(200).json(result.rows[0]);
     } catch (error) {
-        console.error('Помилка при зміні аватара', error)
-        res.status(500).json({message: 'Помилка сервера при зміні аватара'})
+        handleError(error, res, 'зміні аватара коричтувача')
     }
 }

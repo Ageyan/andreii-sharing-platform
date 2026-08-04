@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { query } from '../config/db';
+import { handleError } from '../utils/errorHandler';
 
 export const createItem = async(req: Request, res: Response): Promise<void> => {
     const { title, description, price_per_day, category } = req.body;
@@ -28,8 +29,7 @@ export const createItem = async(req: Request, res: Response): Promise<void> => {
             item: result.rows[0]
         });
     } catch(error) {
-        console.error('Помилка при додаванні речі', error)
-        res.status(500).json({message: 'Помилка сервера при додаванні речі'})
+        handleError(error, res, 'додаванні речі')
     }
 };
 
@@ -51,8 +51,7 @@ export const updateItem = async(req: Request, res: Response): Promise<void> => {
 
         res.status(200).json(result.rows[0]);
     } catch (error) {
-        console.error('Помилка при отриманні данної речі', error);
-        res.status(500).json({message: 'Помилка сервера при отриманні данної речі'});
+        handleError(error, res, 'редагуванні речі')
     }
 }
 
@@ -64,8 +63,7 @@ export const getItems = async(req: Request, res: Response): Promise<void> => {
 
         res.status(200).json(result.rows);
     } catch(error) {
-        console.error('Помилка при отриманні речей', error);
-        res.status(500).json({message: 'Помилка сервера при отриманні речей'});
+        handleError(error, res, 'при отриманні речей')
     }
 }
 
@@ -74,7 +72,7 @@ export const getItemById = async(req: Request, res: Response): Promise<void> => 
 
     try{
         const sqlQuery = `
-            SELECT i.*, u.name AS owner_name, u.created_at AS owner_created_at
+            SELECT i.*, u.name AS owner_name, u.created_at AS owner_created_at, u.avatar_url AS owner_avatar
             FROM items i
             INNER JOIN users u ON i.owner_id = u.id
             WHERE i.id = $1;
@@ -89,8 +87,7 @@ export const getItemById = async(req: Request, res: Response): Promise<void> => 
 
         res.status(200).json(result.rows[0]);
     } catch(error) {
-        console.error('Помилка при отриманні данної речі', error);
-        res.status(500).json({message: 'Помилка сервера при отриманні данної речі'});
+        handleError(error, res, 'отриманні речі за id')
     }
 };
 
@@ -110,8 +107,7 @@ export const deleteItemById = async(req: Request, res: Response): Promise<void> 
 
         res.status(200).json({ message: 'Річ успішно видалено'});
     } catch (error) {
-        console.error('Помилка при видаленні речі', error);
-        res.status(500).json({message: 'Помилка сервера при видаленні речі'});
+        handleError(error, res, 'видаленні речі')
     }
 };
 
@@ -125,7 +121,6 @@ export const getMyItems = async(req: Request, res: Response): Promise<void> => {
 
         res.status(200).json(result.rows);
     } catch (error) {
-        console.error('Помилка при отриманні власних речей', error);
-        res.status(500).json({message: 'Помилка сервера при отриманні власних речей'});
+        handleError(error, res, 'отриманні власних речей')
     }
 };

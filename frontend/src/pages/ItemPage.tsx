@@ -9,6 +9,7 @@ import Loader from '../components/Loader';
 import ItemPageSidebar from '../components/ItemPageSidebar';
 import { BsFillChatDotsFill } from 'react-icons/bs';
 import { getOrCreateChat } from '../services/chat';
+import { useUserInfo } from '../context/UserContext';
 
 const ItemPage = () => {
     const [item, setItem] = useState<Item | null>(null);
@@ -18,10 +19,12 @@ const ItemPage = () => {
     const [toast, setToast] = useState<ToastState>({ show: false, message: '', type: 'success' });
     const [modalOpen, setModalOpen] = useState<boolean>(false);
 
+    const { user } = useUserInfo();
     const { id } = useParams<{ id: string }>();
     const navigate = useNavigate();
     const location = useLocation();
 
+    const myItem = user?.id === item?.owner_id;
     const fallbackImage =
         'https://wezom.com.ua/Media/filemanager/blog/struktura-internet-magazina-klyuchevye-momenty-sozdaniya/original/rEd1gfWUQnNVLIM0caWoMcl8aDVQ27G6372YEQYQ.jpg';
     const itemImage = item?.image_url?.[0] || fallbackImage;
@@ -132,7 +135,17 @@ const ItemPage = () => {
                             </div>
                             <div className="item-page__info-block">
                                 <div className="item-page__owner">
-                                    <div className="item-page__owner-avatar">A</div>
+                                    <div className="item-page__owner-avatar">
+                                        {item?.owner_avatar ? (
+                                            <img
+                                                src={item.owner_avatar}
+                                                alt={item.owner_name || 'Owner'}
+                                                style={{ width: '100%', height: '100%' }}
+                                            />
+                                        ) : (
+                                            item?.owner_name?.charAt(0).toUpperCase() || 'U'
+                                        )}
+                                    </div>
                                     <div className="item-page__owner-info">
                                         <p className="item-page__owner-name">
                                             Власник: {item?.owner_name}
@@ -141,8 +154,14 @@ const ItemPage = () => {
                                             На платформі з 2026 року
                                         </p>
                                     </div>
-                                    <button className="item-page__owner-chat" onClick={handleChat}>
-                                        <BsFillChatDotsFill className="item-page__chat-icon" />
+                                    <button
+                                        className={`item-page__owner-chat ${myItem ? '' : 'active'}`}
+                                        onClick={handleChat}
+                                        disabled={myItem}
+                                    >
+                                        <BsFillChatDotsFill
+                                            className={`item-page__chat-icon ${myItem ? '' : 'active'}`}
+                                        />
                                     </button>
                                 </div>
                                 <hr className="item-page__divider" />
