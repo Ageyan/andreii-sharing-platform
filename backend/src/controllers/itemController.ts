@@ -55,15 +55,80 @@ export const updateItem = async(req: Request, res: Response): Promise<void> => {
     }
 }
 
-export const getItems = async(req: Request, res: Response): Promise<void> => {
+export const getItems = async (req: Request, res: Response): Promise<void> => {
+    const page = Number(req.query.page) || 1;
+    const limit = Number(req.query.limit) || 20;
+    const search = req.query.search as string | undefined;
+    const category = req.query.category as string | undefined;
+    const sort = req.query.sort as string | undefined;
+
+    const offset = (page - 1) * limit;
+
     try {
-        const sqlQuery = 'SELECT * FROM items';
+        let baseQuery = 'FROM items WHERE 1=1';
+        const values : any[] = [];
+        let paramIndex = 1;
 
-        const result = await query(sqlQuery);
+        if (category && category != 'Усі речі') {
+            values.push(category);
+            baseQuery += ` AND category = $${paramIndex}`;
+            paramIndex++;
+        }
 
-        res.status(200).json(result.rows);
+        if (search) {
+            values.push(`%${search}%`);
+            baseQuery += ` AND title ILIKE $${paramIndex}`;
+            paramIndex++;
+        }
+
+        const sqlCount = `SELECT COUNT(*) ${baseQuery}`;
+        const countResult = await query(sqlCount, values);
+        const totalCount = parseInt(countResult.rows[0].count, 10);
+
+        let orderQuery = '';
+        switch (sort) {
+            case 'newest':
+                orderQuery = ' ORDER BY created_at DESC';
+                break;
+            case 'oldest':
+                orderQuery = ' ORDER BY created_at ASC'; 
+                break;
+            case 'price-desc':
+                orderQuery = ' ORDER BY price_per_day DESC'; 
+                break;
+            case 'price-asc': 
+                orderQuery = ' ORDER BY price_per_day ASC'; 
+                break;
+            default: 
+                orderQuery = ' ORDER BY created_at DESC';
+                break;
+        }
+
+        const mainValues = [...values];
+
+        mainValues.push(limit);
+        const limitIndex = paramIndex;
+        paramIndex++;
+
+        mainValues.push(offset);
+        const offsetIndex = paramIndex;
+
+        const sqlQuery = `
+            SELECT * ${baseQuery}
+            ${orderQuery}
+            LIMIT $${limitIndex}
+            OFFSET $${offsetIndex}
+        `;
+
+        const result = await query(sqlQuery, mainValues);
+
+        const hasMore = totalCount > limit * page;
+        res.status(200).json({
+            data: result.rows,
+            hasMore: hasMore 
+        });
     } catch(error) {
-        handleError(error, res, 'при отриманні речей')
+        handleError(error, res, 'при отриманні речей');
     }
 }
 

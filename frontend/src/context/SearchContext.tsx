@@ -3,6 +3,8 @@ import { createContext, useContext } from 'react';
 interface SearchContextType {
     searchTerm: string;
     setSearchTerm: (value: string) => void;
+    page: number;
+    setPage: React.Dispatch<React.SetStateAction<number>>;
 }
 
 export const SearchContext = createContext<SearchContextType | null>(null);

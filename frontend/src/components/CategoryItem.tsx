@@ -1,3 +1,4 @@
+import { useSearch } from '../context/SearchContext';
 import type { ItemCategory } from '../types/items.types';
 
 interface Category {
@@ -13,8 +14,15 @@ interface CategoryItemProps {
 }
 
 const CategoryItem = ({ category, setSelectCategory }: CategoryItemProps) => {
+    const { setPage } = useSearch();
     return (
-        <div className="category-item" onClick={() => setSelectCategory(category.name)}>
+        <div
+            className="category-item"
+            onClick={() => {
+                setSelectCategory(category.name);
+                setPage(1);
+            }}
+        >
             <div className={`category-item__icon-wrapper ${category.bg}`}>
                 <img className="category-item__img" src={category.src} alt={category.name} />
             </div>

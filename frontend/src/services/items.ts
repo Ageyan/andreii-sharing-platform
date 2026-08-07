@@ -1,9 +1,15 @@
 import api from "./api";
-import type { Item, CreateItem } from "../types/items.types";
+import type { Item, CreateItem, PaginatedItems, ItemCategory } from "../types/items.types";
+import type { SortValue } from "../components/SortContainer";
 import type { AxiosRequestConfig } from "axios";
 
-export const getItems = async(config? : AxiosRequestConfig): Promise<Item[]> => {
-    const { data } = await api.get<Item[]>('/items', config);
+export const getItems = async (
+    params: { page: number; limit: number, category: ItemCategory, search: string, sort: SortValue }
+    , config?: AxiosRequestConfig) : Promise<PaginatedItems> => {
+    const { data } = await api.get<PaginatedItems>('/items', {
+        ...config, 
+        params: params
+    });
     return data;
 };
 

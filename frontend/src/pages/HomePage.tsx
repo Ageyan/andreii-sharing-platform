@@ -1,11 +1,11 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import type { Item, ItemCategory } from '../types/items.types';
 import { getItems } from '../services/items';
 import ItemCard from '../components/ItemCard';
-import CategoryContainer from '../components/SortContainer';
+import SortContainer from '../components/SortContainer';
 import type { SortValue } from '../components/SortContainer';
-import SearchContainer from '../components/CategoryContainer';
+import CategoryContainer from '../components/CategoryContainer';
 import { useSearch } from '../context/SearchContext';
 import Loader from '../components/Loader';
 
@@ -15,17 +15,36 @@ const HomePage = () => {
     const [error, setError] = useState<string>('');
     const [selectCategory, setSelectCategory] = useState<ItemCategory>('Усі речі');
     const [sortBy, setSortBy] = useState<SortValue>('newest');
+    const [hasMore, setHasMore] = useState<boolean>(true);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
-    const { searchTerm, setSearchTerm } = useSearch();
+    const { searchTerm, setSearchTerm, page, setPage } = useSearch();
+    const pageRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
         const controller = new AbortController();
 
         const getItemsList = async () => {
-            setLoader(true);
+            if (page === 1) {
+                setLoader(true);
+            } else {
+                setIsLoading(true);
+            }
+
+            setError('');
+
             try {
-                const res = await getItems({ signal: controller.signal });
-                setItems(res);
+                const res = await getItems(
+                    { page, limit: 20, category: selectCategory, search: searchTerm, sort: sortBy },
+                    { signal: controller.signal },
+                );
+                setHasMore(res.hasMore);
+
+                if (page === 1) {
+                    setItems(res.data);
+                } else {
+                    setItems(prev => [...prev, ...res.data]);
+                }
             } catch (err) {
                 if (axios.isCancel(err)) {
                     return;
@@ -42,32 +61,48 @@ const HomePage = () => {
             } finally {
                 if (!controller.signal.aborted) {
                     setLoader(false);
+                    setIsLoading(false);
                 }
             }
         };
         getItemsList();
 
         return () => controller.abort();
-    }, []);
+    }, [page, selectCategory, searchTerm, sortBy]);
 
-    const filteredItems = items
-        .filter(item => item.title.toLowerCase().includes(searchTerm.toLowerCase()))
-        .filter(item => selectCategory === 'Усі речі' || item.category === selectCategory)
-        .sort((a, b) => {
-            if (sortBy === 'price-desc') {
-                return b.price_per_day - a.price_per_day;
-            } else if (sortBy === 'price-asc') {
-                return a.price_per_day - b.price_per_day;
-            } else {
-                return 0;
+    useEffect(() => {
+        const currentLoader = pageRef.current;
+
+        if (!currentLoader) return;
+
+        const observer = new IntersectionObserver(
+            entries => {
+                const first = entries[0];
+                if (first.isIntersecting) {
+                    if (hasMore && isLoading === false && items.length > 0) {
+                        setPage(prev => prev + 1);
+                    }
+                }
+            },
+            {
+                threshold: 1.0,
+            },
+        );
+
+        observer.observe(currentLoader);
+
+        return () => {
+            if (currentLoader) {
+                observer.unobserve(currentLoader);
             }
-        });
+        };
+    }, [hasMore, isLoading, setPage, items]);
 
     return (
         <div className="home-page">
-            <SearchContainer setSelectCategory={setSelectCategory} />
+            <CategoryContainer setSelectCategory={setSelectCategory} />
             <div className="home-page__main-layout">
-                <CategoryContainer
+                <SortContainer
                     setSerchTerm={setSearchTerm}
                     setSelectCategory={setSelectCategory}
                     sortBy={sortBy}
@@ -80,13 +115,14 @@ const HomePage = () => {
                             <span>⚠️</span> {error}
                         </div>
                     )}
-                    {!loader &&
-                        !error &&
-                        filteredItems.map(item => <ItemCard key={item.id} item={item} />)}
+                    {!loader && !error && items.map(item => <ItemCard key={item.id} item={item} />)}
 
-                    {!loader && !error && filteredItems.length === 0 && (
+                    {!loader && !error && items.length === 0 && (
                         <div className="empty-state">Нічого не знайдено за вашим запитом</div>
                     )}
+                </div>
+                <div ref={pageRef} style={{ height: '10px' }}>
+                    {isLoading && <Loader />}
                 </div>
             </div>
         </div>

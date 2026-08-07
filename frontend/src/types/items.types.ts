@@ -19,3 +19,8 @@ export type ItemCategory = 'Усі речі' | 'Авто' | 'Електроні�
 
 export type ItemCategoryAdd = Exclude<ItemCategory, 'Усі речі'> | 'Оберіть категорію';
 
+export interface PaginatedItems {
+    data: Item[]
+    hasMore: boolean
+}
+

@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { IoIosArrowDown } from 'react-icons/io';
 import type { ItemCategory } from '../types/items.types';
 
-type SortTitle = 'Спочатку нові' | 'Спочатку дорожчі' | 'Спочатку дешевші';
-export type SortValue = 'newest' | 'price-desc' | 'price-asc';
+type SortTitle = 'Спочатку нові' | 'Спочатку старі' | 'Спочатку дорожчі' | 'Спочатку дешевші';
+export type SortValue = 'newest' | 'oldest' | 'price-desc' | 'price-asc';
 
 interface SortsList {
     id: number;
@@ -13,8 +13,9 @@ interface SortsList {
 
 const sorts: SortsList[] = [
     { id: 1, title: 'Спочатку нові', sort: 'newest' },
-    { id: 2, title: 'Спочатку дорожчі', sort: 'price-desc' },
-    { id: 3, title: 'Спочатку дешевші', sort: 'price-asc' },
+    { id: 2, title: 'Спочатку старі', sort: 'oldest' },
+    { id: 3, title: 'Спочатку дорожчі', sort: 'price-desc' },
+    { id: 4, title: 'Спочатку дешевші', sort: 'price-asc' },
 ];
 
 interface SortProps {
