@@ -1,16 +1,7 @@
 import { Outlet } from 'react-router-dom';
 import DashProfileSidebar from '../components/DashProfileSidebar';
-import { useEffect } from 'react';
 
 const DashboardPage = () => {
-    useEffect(() => {
-        const container = document.querySelector('.app-container');
-
-        container!.classList.add('has-mobile-padding');
-
-        return () => container!.classList.remove('has-mobile-padding');
-    }, []);
-
     return (
         <div className="dashboard">
             <div className="dashboard__container">

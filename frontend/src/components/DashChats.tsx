@@ -177,6 +177,7 @@ const DashChats = () => {
                                     src={c.item_image}
                                     alt={c.item_title}
                                     className="dash-chats__item-img"
+                                    draggable="false"
                                 />
                                 <div className="dash-chats__item-info">
                                     <h4 className="dash-chats__item-name">{c.item_title}</h4>
@@ -200,6 +201,7 @@ const DashChats = () => {
                                 src={currentChat.item_image}
                                 alt={currentChat.item_title}
                                 className="dash-chats__header-img"
+                                draggable="false"
                             />
                             <div className="dash-chats__header-info">
                                 <h4 className="dash-chats__header-title">

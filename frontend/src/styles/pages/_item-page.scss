@@ -2,7 +2,7 @@
 @use '../utils/mixins' as *;
 
 .item-page {
-    padding: 20px 0;
+    padding: 20px 0 110px;
     background-color: $bg-main;
     min-height: calc(100vh - 80px);
     display: flex;
@@ -10,6 +10,10 @@
     align-items: start;
 
     @include tablet {
+        padding: 28px 0 140px;
+    }
+
+    @include desktop {
         padding: 28px 0;
     }
 
@@ -270,7 +274,7 @@
         left: 0;
         z-index: 90;
         width: 100%;
-        padding: 16px 20px;
+        padding: 14px 20px 26px;
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -387,17 +391,5 @@
     }
     to {
         transform: translateY(0);
-    }
-}
-
-.app-container.has-mobile-fixed-bar {
-    padding-bottom: 86px;
-
-    @include tablet {
-        padding-bottom: 110px;
-    }
-
-    @include desktop {
-        padding-bottom: 0px;
     }
 }

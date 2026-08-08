@@ -4,8 +4,8 @@
 .profile-sidebar {
     background: $white;
     border-radius: 16px 16px 0 0;
-    padding: 12px;
-    padding-bottom: calc(4px + env(safe-area-inset-bottom));
+    padding: 10px 12px;
+    padding-bottom: calc(18px + env(safe-area-inset-bottom));
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
     height: fit-content;
     border: 1px solid $border-color;

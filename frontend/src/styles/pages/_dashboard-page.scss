@@ -2,11 +2,11 @@
 @use '../utils/mixins' as *;
 
 .dashboard {
-    padding: 20px 0px;
+    padding: 20px 0 110px;
     flex: 1;
 
     @include tablet {
-        padding: 32px 0px;
+        padding: 32px 0px 140px;
     }
 
     @include desktop {
@@ -69,18 +69,6 @@
         @include desktop {
             display: none;
         }
-    }
-}
-
-.app-container.has-mobile-padding {
-    padding-bottom: 82px;
-
-    @include tablet {
-        padding-bottom: 120px;
-    }
-
-    @include desktop {
-        padding-bottom: 0px;
     }
 }
 

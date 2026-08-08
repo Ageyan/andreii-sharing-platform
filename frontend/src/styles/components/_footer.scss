@@ -3,12 +3,20 @@
 
 .footer {
     flex: 0 0 auto;
-    background-color: $color-accent; 
+    background-color: $color-accent;
     padding-top: 26px;
     padding-bottom: calc(26px + env(safe-area-inset-bottom));
 
-    @include tablet{
-        padding-top: 34px 0; 
+    &--hidden-mobile {
+        display: none;
+
+        @include desktop {
+            display: block;
+        }
+    }
+
+    @include tablet {
+        padding-top: 34px 0;
         padding-bottom: calc(34px + env(safe-area-inset-bottom));
     }
 
@@ -17,6 +25,7 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
+        padding: 0 24px;
     }
 
     &__text {
@@ -28,7 +37,7 @@
         font-family: 'Montserrat', sans-serif;
 
         @include tablet {
-            font-size: 1rem; 
+            font-size: 1rem;
         }
     }
 
@@ -36,8 +45,8 @@
         font-size: 0.65rem;
         color: $white;
 
-        @include tablet{
-            font-size: 0.8rem; 
+        @include tablet {
+            font-size: 0.8rem;
         }
     }
 }

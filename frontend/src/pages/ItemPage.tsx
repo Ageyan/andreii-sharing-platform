@@ -66,16 +66,6 @@ const ItemPage = () => {
         return () => controller.abort();
     }, [id]);
 
-    useEffect(() => {
-        const container = document.querySelector('.app-container');
-
-        container!.classList.add('has-mobile-fixed-bar');
-
-        return () => {
-            container!.classList.remove('has-mobile-fixed-bar');
-        };
-    }, []);
-
     const imagesGallery =
         Array.isArray(item?.image_url) && item.image_url.length > 0
             ? item.image_url
@@ -119,6 +109,7 @@ const ItemPage = () => {
                                         src={imageActive || itemImage}
                                         alt={item?.title}
                                         className="item-page__main-img"
+                                        draggable="false"
                                     />
                                 </div>
                                 <div className="item-page__thumbs">
@@ -128,7 +119,11 @@ const ItemPage = () => {
                                             className={`item-page__thumb-item ${imageActive === imgUrl ? 'item-page__thumb-item--active' : ''}`}
                                             onClick={() => setImageActive(imgUrl)}
                                         >
-                                            <img src={imgUrl} alt={`Прев'ю ${index + 1}`} />
+                                            <img
+                                                src={imgUrl}
+                                                alt={`Прев'ю ${index + 1}`}
+                                                draggable="false"
+                                            />
                                         </div>
                                     ))}
                                 </div>
@@ -141,6 +136,7 @@ const ItemPage = () => {
                                                 src={item.owner_avatar}
                                                 alt={item.owner_name || 'Owner'}
                                                 style={{ width: '100%', height: '100%' }}
+                                                draggable="false"
                                             />
                                         ) : (
                                             item?.owner_name?.charAt(0).toUpperCase() || 'U'

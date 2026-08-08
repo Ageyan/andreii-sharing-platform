@@ -70,6 +70,7 @@ const DashProfileSidebar = () => {
                             src={user.avatar_url}
                             alt="User avatar"
                             style={{ width: '100%', height: '100%' }}
+                            draggable="false"
                         />
                     ) : (
                         user?.name?.charAt(0).toUpperCase() || 'U'

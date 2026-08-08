@@ -14,7 +14,13 @@ const ItemCard = ({ item, children }: ItemCardProps) => {
     return (
         <Link to={`/items/${item.id}`} className="item-card">
             <div className="item-card__image-wrapper">
-                <img className="item-card__img" src={itemImage} alt={item.title} loading="lazy" />
+                <img
+                    className="item-card__img"
+                    src={itemImage}
+                    alt={item.title}
+                    loading="lazy"
+                    draggable="false"
+                />
                 <span className="item-card__badge">{item.category}</span>
             </div>
             <div className="item-card__content">

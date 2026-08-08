@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useLayoutEffect } from 'react';
 import axios from 'axios';
 import type { Item, ItemCategory } from '../types/items.types';
 import { getItems } from '../services/items';
@@ -20,6 +20,11 @@ const HomePage = () => {
 
     const { searchTerm, setSearchTerm, page, setPage } = useSearch();
     const pageRef = useRef<HTMLDivElement>(null);
+    const observerState = useRef({ loader, isLoading, hasMore, itemsLength: items.length });
+
+    useLayoutEffect(() => {
+        observerState.current = { loader, isLoading, hasMore, itemsLength: items.length };
+    }, [loader, isLoading, hasMore, items.length]);
 
     useEffect(() => {
         const controller = new AbortController();
@@ -27,6 +32,7 @@ const HomePage = () => {
         const getItemsList = async () => {
             if (page === 1) {
                 setLoader(true);
+                setItems([]);
             } else {
                 setIsLoading(true);
             }
@@ -79,7 +85,13 @@ const HomePage = () => {
             entries => {
                 const first = entries[0];
                 if (first.isIntersecting) {
-                    if (hasMore && isLoading === false && items.length > 0) {
+                    const state = observerState.current;
+                    if (
+                        state.hasMore &&
+                        !state.isLoading &&
+                        !state.loader &&
+                        state.itemsLength > 0
+                    ) {
                         setPage(prev => prev + 1);
                     }
                 }
@@ -96,7 +108,11 @@ const HomePage = () => {
                 observer.unobserve(currentLoader);
             }
         };
-    }, [hasMore, isLoading, setPage, items]);
+    }, [setPage]);
+
+    useEffect(() => {
+        setPage(1);
+    }, [setPage]);
 
     return (
         <div className="home-page">

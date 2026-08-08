@@ -151,7 +151,11 @@ const DashProfile = () => {
                                 <FaEnvelope className="dash-profile__field-icon" />
                                 <span>Електронна пошта</span>
                             </div>
-                            <div className="dash-profile__field-value">{user.email}</div>
+                            <div
+                                className={`dash-profile__field-value ${isEditing ? 'dash-profile__field-value--disabled' : ''}`}
+                            >
+                                {user.email}
+                            </div>
                         </div>
                         <div className="dash-profile__field">
                             <div className="dash-profile__field-label">
@@ -174,7 +178,9 @@ const DashProfile = () => {
                                 <FaCalendarAlt className="dash-profile__field-icon" />
                                 <span>Дата реєстрації</span>
                             </div>
-                            <div className="dash-profile__field-value">
+                            <div
+                                className={`dash-profile__field-value ${isEditing ? 'dash-profile__field-value--disabled' : ''}`}
+                            >
                                 {formatDate(user.created_at)}
                             </div>
                         </div>

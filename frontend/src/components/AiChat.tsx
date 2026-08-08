@@ -11,8 +11,34 @@ const AiChat = () => {
     const [messages, setMessages] = useState<Message[]>([
         { sender: 'ai', text: 'Привіт! Я штучний інтелект Sharing Platform. Чим можу допомогти?' },
     ]);
-    const [input, setInput] = useState('');
-    const [isLoading, setIsLoading] = useState(false);
+    const [input, setInput] = useState<string>('');
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [isCollapsed, setIsCollapsed] = useState<boolean>(false);
+    const [touchStartX, setTouchStartX] = useState<number | null>(null);
+    const [touchEndX, setTouchEndX] = useState<number | null>(null);
+
+    const handleTouchStart = (e: React.TouchEvent) => {
+        setTouchEndX(null);
+        setTouchStartX(e.targetTouches[0].clientX);
+    };
+
+    const handleTouchMove = (e: React.TouchEvent) => {
+        setTouchEndX(e.targetTouches[0].clientX);
+    };
+
+    const handleTouchEnd = () => {
+        if (!touchStartX || !touchEndX) return;
+        const distance = touchStartX - touchEndX;
+        const minSwipeDistance = 30;
+
+        if (distance < -minSwipeDistance && !isCollapsed) {
+            setIsCollapsed(true);
+        }
+
+        if (distance > minSwipeDistance && isCollapsed) {
+            setIsCollapsed(false);
+        }
+    };
 
     const sendMessage = async () => {
         if (!input.trim()) return;
@@ -83,11 +109,21 @@ const AiChat = () => {
             )}
 
             {!isOpen && (
-                <button className="ai-chat__toggle" onClick={() => setIsOpen(true)}>
+                <button
+                    className="ai-chat__toggle"
+                    onClick={() => {
+                        if (isCollapsed) setIsCollapsed(false);
+                        else setIsOpen(true);
+                    }}
+                    onTouchStart={handleTouchStart}
+                    onTouchMove={handleTouchMove}
+                    onTouchEnd={handleTouchEnd}
+                >
                     <img
                         className="ai-chat__toggle--img"
                         src="/pwa-192x192.png"
                         alt="AI Асистент"
+                        draggable="false"
                     />
                 </button>
             )}

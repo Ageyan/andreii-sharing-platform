@@ -35,7 +35,12 @@ const ProfileItemCard = ({ item, children, priceLabel = 'Всього:' }: Profi
     return (
         <div className="profile-card">
             <div className="profile-card__image-wrapper">
-                <img src={item.image_url[0]} alt={item.title} className="profile-card__image" />
+                <img
+                    src={item.image_url[0]}
+                    alt={item.title}
+                    className="profile-card__image"
+                    draggable="false"
+                />
             </div>
             <div className="profile-card__info">
                 <h3 className="profile-card__title">{item.title}</h3>

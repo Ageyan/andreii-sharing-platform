@@ -33,6 +33,7 @@
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         gap: 10px;
+        min-height: 35vh;
 
         @include tablet {
             grid-template-columns: repeat(3, 1fr);
