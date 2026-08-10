@@ -138,21 +138,4 @@
             font-size: 1.1rem;
         }
     }
-
-    &__bookings-owner,
-    &__bookings-unread {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 50%;
-        color: $white;
-        background-color: $pending-color;
-        width: 16px;
-        height: 16px;
-        font-size: 0.6rem;
-
-        &--hidden {
-            display: none;
-        }
-    }
 }

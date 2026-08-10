@@ -13,6 +13,7 @@ export interface GetUserChatsProps {
     created_at: string;
     item_title: string;
     item_image: string;
+    unread_count?: number;
 }
 
 export interface GetUserMessage {

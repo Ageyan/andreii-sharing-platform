@@ -141,7 +141,8 @@
             border: 1px solid rgba($pending-color, 0.2);
         }
 
-        &--confirmed {
+        &--confirmed,
+        &--completed {
             background-color: rgba($confirmed-color, 0.1);
             color: $confirmed-color;
             border: 1px solid rgba($confirmed-color, 0.2);
@@ -152,6 +153,12 @@
             background-color: rgba($delete-color, 0.1);
             color: $delete-color;
             border: 1px solid rgba($delete-color, 0.2);
+        }
+
+        &--expired {
+            background-color: rgba($color-text-muted, 0.1);
+            color: $color-text-main;
+            border: 1px solid rgba($color-text-muted, 0.2);
         }
     }
 

@@ -46,6 +46,20 @@ export const getMyBookings = async(req: Request, res: Response): Promise<void> =
     const renter_id = req.user?.userId;
 
     try {
+        const cleanUpSql = `
+            -- 1. Завершаем успешную аренду
+            UPDATE bookings 
+            SET status = 'completed' 
+            WHERE status = 'confirmed' AND end_date < CURRENT_DATE;
+
+            -- 2. Отменяем проигнорированные заявки
+            UPDATE bookings 
+            SET status = 'expired' 
+            WHERE status = 'pending' AND end_date < CURRENT_DATE;
+        `;
+
+        await query(cleanUpSql);
+
         const sqlQuery = `
             SELECT b.*, i.title, i.category, i.image_url 
             FROM bookings b
@@ -65,6 +79,20 @@ export const getOwnerBookings = async(req: Request, res: Response): Promise<void
     const owner_id = req.user?.userId;
 
     try {
+        const cleanUpSql = `
+            -- 1. Завершаем успешную аренду
+            UPDATE bookings 
+            SET status = 'completed' 
+            WHERE status = 'confirmed' AND end_date < CURRENT_DATE;
+
+            -- 2. Отменяем проигнорированные заявки
+            UPDATE bookings 
+            SET status = 'expired' 
+            WHERE status = 'pending' AND end_date < CURRENT_DATE;
+        `;
+        
+        await query(cleanUpSql);
+        
         const sqlQuery = `
             SELECT b.*, i.title, i.category, i.image_url 
             FROM bookings b

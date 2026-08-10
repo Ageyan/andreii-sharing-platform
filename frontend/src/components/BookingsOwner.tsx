@@ -10,7 +10,13 @@ const BookingsOwner = () => {
     const { ownerBookings, setOwnerBookings } = useBookings();
 
     const handleUpdateStatus = async (
-        status: 'pending' | 'confirmed' | 'cancelled_by_owner' | 'cancelled_by_renter',
+        status:
+            | 'pending'
+            | 'confirmed'
+            | 'cancelled_by_owner'
+            | 'cancelled_by_renter'
+            | 'completed'
+            | 'expired',
         id: number,
     ) => {
         setLoadingId(id);

@@ -171,20 +171,36 @@ const DashChats = () => {
                             <div
                                 key={c.chat_id}
                                 className={`dash-chats__item ${activeChat === c.chat_id ? 'dash-chats__item--active' : ''}`}
-                                onClick={() => setActiveChat(c.chat_id)}
+                                onClick={() => {
+                                    setActiveChat(c.chat_id);
+                                    setChats(prevChats =>
+                                        prevChats.map(chat =>
+                                            chat.chat_id === c.chat_id
+                                                ? { ...chat, unread_count: 0 }
+                                                : chat,
+                                        ),
+                                    );
+                                }}
                             >
-                                <img
-                                    src={c.item_image}
-                                    alt={c.item_title}
-                                    className="dash-chats__item-img"
-                                    draggable="false"
-                                />
-                                <div className="dash-chats__item-info">
-                                    <h4 className="dash-chats__item-name">{c.item_title}</h4>
-                                    <span className="dash-chats__item-role">
-                                        {user?.id === c.owner_id ? 'Орендар' : 'Власник'}
-                                    </span>
+                                <div className="dash-chats__item-box">
+                                    <img
+                                        src={c.item_image}
+                                        alt={c.item_title}
+                                        className="dash-chats__item-img"
+                                        draggable="false"
+                                    />
+                                    <div className="dash-chats__item-info">
+                                        <h4 className="dash-chats__item-name">{c.item_title}</h4>
+                                        <span className="dash-chats__item-role">
+                                            {user?.id === c.owner_id ? 'Орендар' : 'Власник'}
+                                        </span>
+                                    </div>
                                 </div>
+                                <span
+                                    className={`notification-badge ${c.unread_count === 0 ? '' : 'notification-badge--show'}`}
+                                >
+                                    {c.unread_count}
+                                </span>
                             </div>
                         ))}
                 </div>

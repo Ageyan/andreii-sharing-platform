@@ -27,6 +27,10 @@ const ProfileItemCard = ({ item, children, priceLabel = 'Всього:' }: Profi
                 return 'Відхилено власником';
             case 'cancelled_by_renter':
                 return 'Скасовано замовником';
+            case 'completed':
+                return 'Виконано';
+            case 'expired':
+                return 'Термін дії заявки минув';
             default:
                 return status;
         }

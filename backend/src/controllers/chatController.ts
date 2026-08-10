@@ -46,12 +46,24 @@ export const getUserChats = async (req: Request, res: Response): Promise<void> =
                 c.owner_id,
                 c.created_at,
                 i.title AS item_title,
-                i.image_url[1] AS item_image
+                i.image_url[1] AS item_image,
+                COUNT(m.id)::int AS unread_count
             FROM chats c
             JOIN items i ON c.item_id = i.id
+            LEFT JOIN messages m ON c.id = m.chat_id 
+                AND m.is_read = false 
+                AND m.sender_id != $1
             WHERE c.renter_id = $1 OR c.owner_id = $1
-            ORDER BY c.created_at DESC;
-        `
+            GROUP BY 
+                c.id, 
+                c.item_id, 
+                c.renter_id, 
+                c.owner_id, 
+                c.created_at, 
+                i.title, 
+                i.image_url[1]
+            ORDER BY unread_count DESC, c.created_at DESC;
+        `;
 
         const result = await query(sqlQuery, [userId]);
 

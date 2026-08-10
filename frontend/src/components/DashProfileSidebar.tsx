@@ -107,11 +107,11 @@ const DashProfileSidebar = () => {
                     <span className="profile-sidebar__icon">📅</span>
                     <span className="profile-sidebar__title">Бронь</span>
                     <span
-                        className={`profile-sidebar__bookings-owner 
+                        className={`notification-badge 
                             ${
                                 ownerBookings.filter(i => i.status === 'pending').length === 0
-                                    ? 'profile-sidebar__bookings-owner--hidden'
-                                    : ''
+                                    ? ''
+                                    : 'notification-badge--show'
                             }`}
                     >
                         {ownerBookings.filter(i => i.status === 'pending').length}
@@ -126,7 +126,7 @@ const DashProfileSidebar = () => {
                     <span className="profile-sidebar__icon">💬</span>
                     <span className="profile-sidebar__title">Чати</span>
                     <span
-                        className={`profile-sidebar__bookings-unread ${countUnreadMessages === 0 ? 'profile-sidebar__bookings-unread--hidden' : ''}`}
+                        className={`notification-badge ${countUnreadMessages === 0 ? '' : 'notification-badge--show'}`}
                     >
                         {countUnreadMessages}
                     </span>

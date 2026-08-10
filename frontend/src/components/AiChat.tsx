@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { CiLocationArrow1 } from 'react-icons/ci';
 
 interface Message {
@@ -14,21 +14,28 @@ const AiChat = () => {
     const [input, setInput] = useState<string>('');
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [isCollapsed, setIsCollapsed] = useState<boolean>(false);
-    const [touchStartX, setTouchStartX] = useState<number | null>(null);
-    const [touchEndX, setTouchEndX] = useState<number | null>(null);
+    const [isTooltip, setIsTooltip] = useState<boolean>(true);
 
-    const handleTouchStart = (e: React.TouchEvent) => {
-        setTouchEndX(null);
-        setTouchStartX(e.targetTouches[0].clientX);
+    const touchStartX = useRef<number | null>(null);
+    const touchEndX = useRef<number | null>(null);
+    const isSwiping = useRef(false);
+    const isDragging = useRef(false);
+
+    const handleDragStart = (clientX: number) => {
+        isSwiping.current = false;
+        touchEndX.current = null;
+        touchStartX.current = clientX;
     };
 
-    const handleTouchMove = (e: React.TouchEvent) => {
-        setTouchEndX(e.targetTouches[0].clientX);
+    const handleDragMove = (clientX: number) => {
+        touchEndX.current = clientX;
+        isSwiping.current = true;
     };
 
-    const handleTouchEnd = () => {
-        if (!touchStartX || !touchEndX) return;
-        const distance = touchStartX - touchEndX;
+    const handleDragEnd = () => {
+        if (touchStartX.current === null || touchEndX.current === null) return;
+
+        const distance = touchStartX.current - touchEndX.current;
         const minSwipeDistance = 30;
 
         if (distance < -minSwipeDistance && !isCollapsed) {
@@ -38,6 +45,34 @@ const AiChat = () => {
         if (distance > minSwipeDistance && isCollapsed) {
             setIsCollapsed(false);
         }
+
+        touchStartX.current = null;
+        touchEndX.current = null;
+    };
+
+    const handlePointerDown = (e: React.PointerEvent) => {
+        isDragging.current = true;
+        handleDragStart(e.clientX);
+    };
+
+    const handlePointerMove = (e: React.PointerEvent) => {
+        if (isDragging.current) handleDragMove(e.clientX);
+    };
+
+    const handlePointerUpOrLeave = () => {
+        if (isDragging.current) {
+            isDragging.current = false;
+            handleDragEnd();
+        }
+    };
+
+    const handleClick = (e: React.MouseEvent) => {
+        if (isSwiping.current) {
+            e.preventDefault();
+            return;
+        }
+        if (isCollapsed) setIsCollapsed(false);
+        else setIsOpen(true);
     };
 
     const sendMessage = async () => {
@@ -69,6 +104,16 @@ const AiChat = () => {
             setIsLoading(false);
         }
     };
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setIsTooltip(false);
+        }, 4000);
+
+        return () => {
+            clearTimeout(timer);
+        };
+    }, []);
 
     return (
         <div className="ai-chat">
@@ -109,23 +154,27 @@ const AiChat = () => {
             )}
 
             {!isOpen && (
-                <button
-                    className="ai-chat__toggle"
-                    onClick={() => {
-                        if (isCollapsed) setIsCollapsed(false);
-                        else setIsOpen(true);
-                    }}
-                    onTouchStart={handleTouchStart}
-                    onTouchMove={handleTouchMove}
-                    onTouchEnd={handleTouchEnd}
-                >
-                    <img
-                        className="ai-chat__toggle--img"
-                        src="/pwa-192x192.png"
-                        alt="AI Асистент"
-                        draggable="false"
-                    />
-                </button>
+                <>
+                    <div className={`ai-chat__tool-tip ${isTooltip ? 'show' : ''}`}>
+                        <p>Якщо я заважаю, свайпніть мене вправо</p>
+                    </div>
+                    <button
+                        className={`ai-chat__toggle ${isCollapsed ? 'ai-chat__toggle--collapsed' : ''}`}
+                        onClick={handleClick}
+                        onPointerDown={handlePointerDown}
+                        onPointerMove={handlePointerMove}
+                        onPointerUp={handlePointerUpOrLeave}
+                        onPointerLeave={handlePointerUpOrLeave}
+                        onPointerCancel={handlePointerUpOrLeave}
+                    >
+                        <img
+                            className="ai-chat__toggle--img"
+                            src="/pwa-192x192.png"
+                            alt="AI Асистент"
+                            draggable="false"
+                        />
+                    </button>
+                </>
             )}
         </div>
     );

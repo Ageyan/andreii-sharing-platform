@@ -19,7 +19,7 @@ const BookingsMy = () => {
     }, []);
 
     const canCancel = (createdAt: string, status: string, now: number) => {
-        if (status === 'cancelled_by_owner' || status === 'cancelled_by_renter') {
+        if (status !== 'pending' && status !== 'confirmed') {
             return false;
         }
 
