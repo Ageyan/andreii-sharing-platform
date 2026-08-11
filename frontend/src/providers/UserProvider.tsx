@@ -14,6 +14,7 @@ export const UserProvider = ({ children }: { children: ReactNode }) => {
             const token = localStorage.getItem('token');
             if (!token) {
                 setLoader(false);
+                setUser(null);
                 return;
             }
 

@@ -19,12 +19,14 @@ const ItemPage = () => {
     const [toast, setToast] = useState<ToastState>({ show: false, message: '', type: 'success' });
     const [modalOpen, setModalOpen] = useState<boolean>(false);
 
+    const isAuthenticated = !!localStorage.getItem('token');
     const { user } = useUserInfo();
     const { id } = useParams<{ id: string }>();
     const navigate = useNavigate();
     const location = useLocation();
 
     const myItem = user?.id === item?.owner_id;
+    const isDisable = !isAuthenticated || myItem;
     const fallbackImage =
         'https://wezom.com.ua/Media/filemanager/blog/struktura-internet-magazina-klyuchevye-momenty-sozdaniya/original/rEd1gfWUQnNVLIM0caWoMcl8aDVQ27G6372YEQYQ.jpg';
     const itemImage = item?.image_url?.[0] || fallbackImage;
@@ -71,8 +73,8 @@ const ItemPage = () => {
             ? item.image_url
             : [
                   itemImage,
-                  'https://images.unsplash.com/photo-1606144042614-b2417e99c4e3?q=80&w=200&auto=format&fit=crop',
-                  'https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?q=80&w=200&auto=format&fit=crop',
+                  'https://ap-verlag.de/clickandbuilds/WordPress/MyCMS4/wp-content/uploads/2018/11/foto-cc0-pixabay-tumisu-iot-internet-der-dinge.jpg',
+                  'https://edge.inloox.com/var/corporate_site/storage/images/media/images/blog/projektmanagement-und-das-internet-der-dinge-header/1182708-1-ger-DE/projektmanagement-und-das-internet-der-dinge-header.png',
               ];
 
     const handleChat = async () => {
@@ -151,12 +153,12 @@ const ItemPage = () => {
                                         </p>
                                     </div>
                                     <button
-                                        className={`item-page__owner-chat ${myItem ? '' : 'active'}`}
+                                        className={`item-page__owner-chat ${isDisable ? '' : 'active'}`}
                                         onClick={handleChat}
-                                        disabled={myItem}
+                                        disabled={isDisable}
                                     >
                                         <BsFillChatDotsFill
-                                            className={`item-page__chat-icon ${myItem ? '' : 'active'}`}
+                                            className={`item-page__chat-icon ${isDisable ? '' : 'active'} `}
                                         />
                                     </button>
                                 </div>
@@ -168,7 +170,12 @@ const ItemPage = () => {
                             </div>
                         </div>
                         <div className="item-page__desktop-sidebar">
-                            <ItemPageSidebar item={item} setToast={setToast} />
+                            <ItemPageSidebar
+                                item={item}
+                                setToast={setToast}
+                                isAuthenticated={isAuthenticated}
+                                myItem={myItem}
+                            />
                         </div>
                     </div>
                 </>
@@ -205,22 +212,29 @@ const ItemPage = () => {
                     </button>
                 </div>
             )}
-            {modalOpen && (
-                <div className="item-page__mobile-backdrop" onClick={() => setModalOpen(false)}>
-                    <div className="item-page__mobile-modal" onClick={e => e.stopPropagation()}>
-                        <div className="item-page__mobile-modal-header">
-                            <h3>Оформлення оренди</h3>
-                            <button
-                                className="item-page__close-modal"
-                                onClick={() => setModalOpen(false)}
-                            >
-                                ✕
-                            </button>
-                        </div>
-                        <ItemPageSidebar item={item} setToast={setToast} />
+
+            <div
+                className={`item-page__mobile-backdrop ${modalOpen ? 'show' : ''}`}
+                onClick={() => setModalOpen(false)}
+            >
+                <div className="item-page__mobile-modal" onClick={e => e.stopPropagation()}>
+                    <div className="item-page__mobile-modal-header">
+                        <h3>Оформлення оренди</h3>
+                        <button
+                            className="item-page__close-modal"
+                            onClick={() => setModalOpen(false)}
+                        >
+                            ✕
+                        </button>
                     </div>
+                    <ItemPageSidebar
+                        item={item}
+                        setToast={setToast}
+                        isAuthenticated={isAuthenticated}
+                        myItem={myItem}
+                    />
                 </div>
-            )}
+            </div>
         </div>
     );
 };

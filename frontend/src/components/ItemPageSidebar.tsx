@@ -3,7 +3,6 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import type { ToastState } from '../types/toast.types';
 import type { Item } from '../types/items.types';
 import { createBooking } from '../services/booking';
-import { useUserInfo } from '../context/UserContext';
 import { getLocalDateString, getNextDay } from '../utils/date.utils';
 import axios from 'axios';
 import Loader from './Loader';
@@ -11,16 +10,14 @@ import Loader from './Loader';
 interface ItemPageSidebarProps {
     item: Item | null;
     setToast: React.Dispatch<React.SetStateAction<ToastState>>;
+    isAuthenticated: boolean;
+    myItem: boolean;
 }
 
-const ItemPageSidebar = ({ item, setToast }: ItemPageSidebarProps) => {
+const ItemPageSidebar = ({ item, setToast, isAuthenticated, myItem }: ItemPageSidebarProps) => {
     const [bookingLoader, setBookingLoader] = useState<boolean>(false);
-    const isAuthenticated = !!localStorage.getItem('token');
     const navigate = useNavigate();
     const location = useLocation();
-    const { user } = useUserInfo();
-
-    const myItem = user?.id === item?.owner_id;
 
     const authNavigate = () => {
         navigate('/auth', { state: { from: location.pathname } });
@@ -34,6 +31,9 @@ const ItemPageSidebar = ({ item, setToast }: ItemPageSidebarProps) => {
 
     const startBooking = async (event: React.SubmitEvent<HTMLFormElement>) => {
         event.preventDefault();
+
+        if (myItem) return;
+
         const start = new Date(startDate).getTime();
         const end = new Date(endDate).getTime();
         const totalDays = Math.ceil((end - start) / (1000 * 60 * 60 * 24));
@@ -98,7 +98,7 @@ const ItemPageSidebar = ({ item, setToast }: ItemPageSidebarProps) => {
                         required
                     />
                 </div>
-                {isAuthenticated ? (
+                {isAuthenticated || myItem ? (
                     <button
                         type="submit"
                         className={`item-sidebar__action-btn ${myItem ? 'item-sidebar__action-btn--disabled' : ''}`}
@@ -122,7 +122,9 @@ const ItemPageSidebar = ({ item, setToast }: ItemPageSidebarProps) => {
                         ? 'Ви не можете орендувати власні речі'
                         : `* Ви можете скасувати бронь безкоштовно після 3-х годин від початку
                         оренди.`
-                    : `* Для орендування необхідно здійснити вхід у особистий кабінет`}
+                    : myItem
+                      ? 'Ви не можете орендувати власні речі'
+                      : `* Для орендування необхідно здійснити вхід у особистий кабінет`}
             </p>
         </div>
     );

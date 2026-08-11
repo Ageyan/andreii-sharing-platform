@@ -148,6 +148,8 @@ const DashChats = () => {
             : currentChat.owner_id
         : null;
     const isOnline = interlocutorId ? onlineUsers.includes(interlocutorId) : false;
+    const fallbackImage =
+        'https://wezom.com.ua/Media/filemanager/blog/struktura-internet-magazina-klyuchevye-momenty-sozdaniya/original/rEd1gfWUQnNVLIM0caWoMcl8aDVQ27G6372YEQYQ.jpg';
 
     return (
         <div className={`dash-chats ${activeChat ? 'is-chat-open' : ''}`}>
@@ -184,7 +186,7 @@ const DashChats = () => {
                             >
                                 <div className="dash-chats__item-box">
                                     <img
-                                        src={c.item_image}
+                                        src={c.item_image || fallbackImage}
                                         alt={c.item_title}
                                         className="dash-chats__item-img"
                                         draggable="false"
@@ -214,7 +216,7 @@ const DashChats = () => {
                                 onClick={() => setActiveChat(null)}
                             />
                             <img
-                                src={currentChat.item_image}
+                                src={currentChat.item_image || fallbackImage}
                                 alt={currentChat.item_title}
                                 className="dash-chats__header-img"
                                 draggable="false"

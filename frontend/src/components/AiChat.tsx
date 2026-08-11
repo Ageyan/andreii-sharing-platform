@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { CiLocationArrow1 } from 'react-icons/ci';
+import { useOutsideClick } from '../hooks/useOutsideClick';
 
 interface Message {
     sender: 'user' | 'ai';
@@ -16,6 +17,9 @@ const AiChat = () => {
     const [isCollapsed, setIsCollapsed] = useState<boolean>(false);
     const [isTooltip, setIsTooltip] = useState<boolean>(true);
 
+    const windowRef = useRef<HTMLDivElement | null>(null);
+    useOutsideClick(windowRef, () => setIsOpen(false));
+
     const touchStartX = useRef<number | null>(null);
     const touchEndX = useRef<number | null>(null);
     const isSwiping = useRef(false);
@@ -29,7 +33,13 @@ const AiChat = () => {
 
     const handleDragMove = (clientX: number) => {
         touchEndX.current = clientX;
-        isSwiping.current = true;
+
+        if (touchStartX.current !== null) {
+            const distance = Math.abs(touchStartX.current - clientX);
+            if (distance > 5) {
+                isSwiping.current = true;
+            }
+        }
     };
 
     const handleDragEnd = () => {
@@ -117,41 +127,39 @@ const AiChat = () => {
 
     return (
         <div className="ai-chat">
-            {isOpen && (
-                <div className="ai-chat__window">
-                    <div className="ai-chat__header">
-                        <span>AI Асистент</span>
-                        <button className="ai-chat__header--btn" onClick={() => setIsOpen(false)}>
-                            ✕
-                        </button>
-                    </div>
-                    <div className="ai-chat__messages">
-                        {messages.map((msg, idx) => (
-                            <div key={idx} className={`ai-chat__message ${msg.sender}`}>
-                                {msg.text}
-                            </div>
-                        ))}
-                        {isLoading && <div className="ai-chat__message ai">Друкує...</div>}
-                    </div>
-                    <div className="ai-chat__input-container">
-                        <input
-                            type="text"
-                            value={input}
-                            className="ai-chat__input"
-                            onChange={e => setInput(e.target.value)}
-                            onKeyDown={e => e.key === 'Enter' && sendMessage()}
-                            placeholder="Напишіть повідомлення..."
-                        />
-                        <button
-                            className="ai-chat__input-btn"
-                            onClick={sendMessage}
-                            disabled={isLoading}
-                        >
-                            <CiLocationArrow1 className="ai-chat__input-btn--icon" />
-                        </button>
-                    </div>
+            <div className={`ai-chat__window ${isOpen ? 'show' : ''}`} ref={windowRef}>
+                <div className="ai-chat__header">
+                    <span>AI Асистент</span>
+                    <button className="ai-chat__header--btn" onClick={() => setIsOpen(false)}>
+                        ✕
+                    </button>
                 </div>
-            )}
+                <div className="ai-chat__messages">
+                    {messages.map((msg, idx) => (
+                        <div key={idx} className={`ai-chat__message ${msg.sender}`}>
+                            {msg.text}
+                        </div>
+                    ))}
+                    {isLoading && <div className="ai-chat__message ai">Друкує...</div>}
+                </div>
+                <div className="ai-chat__input-container">
+                    <input
+                        type="text"
+                        value={input}
+                        className="ai-chat__input"
+                        onChange={e => setInput(e.target.value)}
+                        onKeyDown={e => e.key === 'Enter' && sendMessage()}
+                        placeholder="Напишіть повідомлення..."
+                    />
+                    <button
+                        className="ai-chat__input-btn"
+                        onClick={sendMessage}
+                        disabled={isLoading}
+                    >
+                        <CiLocationArrow1 className="ai-chat__input-btn--icon" />
+                    </button>
+                </div>
+            </div>
 
             {!isOpen && (
                 <>

@@ -10,14 +10,14 @@ const Header = () => {
     const isAuthenticated = !!localStorage.getItem('token');
     const navigate = useNavigate();
     const location = useLocation();
-    const { user } = useUserInfo();
+    const { user, setUser } = useUserInfo();
 
     const isHomePage = location.pathname === '/';
     const isPersonalAccount = location.pathname.startsWith('/dashboard');
 
     const handleLogout = () => {
         localStorage.removeItem('token');
-
+        setUser(null);
         navigate('/');
     };
 

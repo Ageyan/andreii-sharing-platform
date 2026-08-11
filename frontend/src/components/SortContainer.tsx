@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { IoIosArrowDown } from 'react-icons/io';
 import type { ItemCategory } from '../types/items.types';
+import { useOutsideClick } from '../hooks/useOutsideClick';
 
 type SortTitle = 'Спочатку нові' | 'Спочатку старі' | 'Спочатку дорожчі' | 'Спочатку дешевші';
 export type SortValue = 'newest' | 'oldest' | 'price-desc' | 'price-asc';
@@ -27,6 +28,8 @@ interface SortProps {
 
 const SortContainer = ({ setSerchTerm, setSelectCategory, sortBy, setSortBy }: SortProps) => {
     const [isOpen, setIsOpen] = useState<boolean>(false);
+    const containRef = useRef<HTMLDivElement | null>(null);
+    useOutsideClick(containRef, () => setIsOpen(false));
 
     return (
         <div className="sort">
@@ -36,6 +39,7 @@ const SortContainer = ({ setSerchTerm, setSelectCategory, sortBy, setSortBy }: S
                     setIsOpen(!isOpen);
                     e.stopPropagation();
                 }}
+                ref={containRef}
             >
                 <span>{sorts.find(s => s.sort === sortBy)?.title}</span>
                 <IoIosArrowDown className={`sort__icon ${isOpen ? 'sort__icon--open' : ''}`} />

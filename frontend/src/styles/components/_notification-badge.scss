@@ -1,6 +1,10 @@
 @use '../utils/variables' as *;
+@use '../utils/mixins' as *;
 
 .notification-badge {
+    position: absolute;
+    top: 4px;
+    right: 4px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -11,14 +15,32 @@
     height: 18px;
     font-size: 0.7rem;
     opacity: 0;
+    visibility: hidden;
     transform: scale(0);
     transform-origin: center;
     transition:
         opacity 0.4s ease-in-out,
-        transform 0.4s ease-in-out;
+        transform 0.4s ease-in-out,
+        visibility 0.4s;
+
+    @include tablet {
+        top: 8px;
+        right: 12px;
+    }
+
+    @include desktop {
+        top: calc(50% - 9px);
+        right: 20px;
+    }
 
     &--show {
         opacity: 1;
         transform: scale(1);
+        visibility: visible;
     }
+}
+
+.dash-chats__item .notification-badge {
+    top: calc(50% - 9px);
+    right: 15px;
 }

@@ -36,11 +36,14 @@ const ProfileItemCard = ({ item, children, priceLabel = 'Всього:' }: Profi
         }
     };
 
+    const fallbackImage =
+        'https://wezom.com.ua/Media/filemanager/blog/struktura-internet-magazina-klyuchevye-momenty-sozdaniya/original/rEd1gfWUQnNVLIM0caWoMcl8aDVQ27G6372YEQYQ.jpg';
+
     return (
         <div className="profile-card">
             <div className="profile-card__image-wrapper">
                 <img
-                    src={item.image_url[0]}
+                    src={item.image_url[0] || fallbackImage}
                     alt={item.title}
                     className="profile-card__image"
                     draggable="false"
