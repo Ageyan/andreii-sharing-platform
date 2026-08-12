@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import type { GetUserChatsProps, GetUserMessage } from '../types/chat.types';
 import { getUserChats, getUserMessages, updateStatusMessage } from '../services/chat';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import Loader from './Loader';
 import axios from 'axios';
 import { useUserInfo } from '../context/UserContext';
@@ -26,6 +26,7 @@ const DashChats = () => {
 
     const { user } = useUserInfo();
     const location = useLocation();
+    const navigate = useNavigate();
     const messagesRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
@@ -151,6 +152,10 @@ const DashChats = () => {
     const fallbackImage =
         'https://wezom.com.ua/Media/filemanager/blog/struktura-internet-magazina-klyuchevye-momenty-sozdaniya/original/rEd1gfWUQnNVLIM0caWoMcl8aDVQ27G6372YEQYQ.jpg';
 
+    const navigateToItem = () => {
+        navigate(`/items/${currentChat?.item_id}`);
+    };
+
     return (
         <div className={`dash-chats ${activeChat ? 'is-chat-open' : ''}`}>
             <div className="dash-chats__sidebar">
@@ -216,6 +221,7 @@ const DashChats = () => {
                                 onClick={() => setActiveChat(null)}
                             />
                             <img
+                                onClick={navigateToItem}
                                 src={currentChat.item_image || fallbackImage}
                                 alt={currentChat.item_title}
                                 className="dash-chats__header-img"

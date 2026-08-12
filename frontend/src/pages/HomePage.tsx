@@ -19,12 +19,17 @@ const HomePage = () => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
     const { searchTerm, setSearchTerm, page, setPage } = useSearch();
+
     const pageRef = useRef<HTMLDivElement>(null);
     const observerState = useRef({ loader, isLoading, hasMore, itemsLength: items.length });
 
     useLayoutEffect(() => {
         observerState.current = { loader, isLoading, hasMore, itemsLength: items.length };
     }, [loader, isLoading, hasMore, items.length]);
+
+    useEffect(() => {
+        setPage(1);
+    }, [selectCategory, searchTerm, sortBy, setPage]);
 
     useEffect(() => {
         const controller = new AbortController();
@@ -49,7 +54,12 @@ const HomePage = () => {
                 if (page === 1) {
                     setItems(res.data);
                 } else {
-                    setItems(prev => [...prev, ...res.data]);
+                    setItems(prev => {
+                        const uniqueNewItems = res.data.filter(
+                            newItem => !prev.some(prevItem => prevItem.id === newItem.id),
+                        );
+                        return [...prev, ...uniqueNewItems];
+                    });
                 }
             } catch (err) {
                 if (axios.isCancel(err)) {
@@ -110,13 +120,12 @@ const HomePage = () => {
         };
     }, [setPage]);
 
-    useEffect(() => {
-        setPage(1);
-    }, [setPage]);
-
     return (
         <div className="home-page">
-            <CategoryContainer setSelectCategory={setSelectCategory} />
+            <CategoryContainer
+                setSelectCategory={setSelectCategory}
+                selectCategory={selectCategory}
+            />
             <div className="home-page__main-layout">
                 <SortContainer
                     setSerchTerm={setSearchTerm}

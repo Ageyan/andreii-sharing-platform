@@ -11,6 +11,14 @@
         padding: 20px 0;
     }
 
+    @include large-tablet {
+        padding: 0;
+    }
+
+    @include desktop {
+        padding: 20px 0;
+    }
+
     &__card {
         background-color: $white;
         border-radius: 16px;

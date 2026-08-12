@@ -79,14 +79,16 @@ const categories: CategoryList[] = [
 
 interface CategoryContainerProps {
     setSelectCategory: (value: ItemCategory) => void;
+    selectCategory: ItemCategory;
 }
 
-const CategoryContainer = ({ setSelectCategory }: CategoryContainerProps) => {
+const CategoryContainer = ({ setSelectCategory, selectCategory }: CategoryContainerProps) => {
     return (
         <div className="category-container">
             {categories.map(category => (
                 <CategoryItem
                     setSelectCategory={setSelectCategory}
+                    selectCategory={selectCategory}
                     key={category.id}
                     category={category}
                 />

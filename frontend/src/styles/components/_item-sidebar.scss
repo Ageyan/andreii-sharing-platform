@@ -64,13 +64,21 @@
     }
 
     &__date-input {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+
         width: 100%;
         padding: 12px;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
         border-radius: 10px;
+        background-color: $white;
         font-size: 1rem;
         font-family: inherit;
-        transition: border-color 0.2s ease;
+        color: inherit;
+        border: 1px solid transparent;
+        transition: all 0.3s ease;
+        cursor: pointer;
 
         @include tablet {
             max-width: 500px;
@@ -78,7 +86,7 @@
         }
 
         &:focus {
-            border-color: $color-accent;
+            box-shadow: 0 6px 14px rgba($color-accent, 0.25);
         }
     }
 

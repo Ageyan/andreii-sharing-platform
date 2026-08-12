@@ -11,10 +11,12 @@ interface Category {
 interface CategoryItemProps {
     category: Category;
     setSelectCategory: (vaule: ItemCategory) => void;
+    selectCategory: ItemCategory;
 }
 
-const CategoryItem = ({ category, setSelectCategory }: CategoryItemProps) => {
+const CategoryItem = ({ category, setSelectCategory, selectCategory }: CategoryItemProps) => {
     const { setPage } = useSearch();
+
     return (
         <div
             className="category-item"
@@ -31,7 +33,11 @@ const CategoryItem = ({ category, setSelectCategory }: CategoryItemProps) => {
                     draggable="false"
                 />
             </div>
-            <h3 className="category-item__title">{category.name}</h3>
+            <h3
+                className={`category-item__title ${selectCategory === category.name ? 'active' : ''}`}
+            >
+                {category.name}
+            </h3>
         </div>
     );
 };
