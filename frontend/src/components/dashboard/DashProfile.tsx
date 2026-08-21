@@ -1,11 +1,15 @@
 import { useState, useRef } from 'react';
-import { updateUserInfo, updateUserAvatar } from '../services/user';
-import { useUserInfo } from '../context/UserContext';
 import axios from 'axios';
+
+import type { ToastState } from '../../types/toast.types';
+import { updateUserInfo, updateUserAvatar } from '../../services/user';
+import { useUserInfo } from '../../context/UserContext';
+import { formatDate } from '../../utils/date.utils';
+
+import Toast from '../common/Toast';
+import Loader from '../common/Loader';
+
 import { FaUser, FaEnvelope, FaPhoneAlt, FaCalendarAlt } from 'react-icons/fa';
-import Toast from './Toast';
-import type { ToastState } from '../types/toast.types';
-import Loader from './Loader';
 import { MdOutlineManageAccounts } from 'react-icons/md';
 import { IoCameraReverse } from 'react-icons/io5';
 
@@ -17,15 +21,6 @@ const DashProfile = () => {
     const [toast, setToast] = useState<ToastState>({ show: false, message: '', type: 'success' });
     const inputRef = useRef<HTMLInputElement>(null);
     const { user, setUser, loader, error } = useUserInfo();
-
-    const formatDate = (dateString: string | undefined) => {
-        if (!dateString) return '';
-        return new Date(dateString).toLocaleDateString('uk-UA', {
-            day: 'numeric',
-            month: 'long',
-            year: 'numeric',
-        });
-    };
 
     const handleAvatarChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0];
@@ -219,13 +214,12 @@ const DashProfile = () => {
                     </div>
                 </div>
             )}
-            {toast.show && (
-                <Toast
-                    onClose={() => setToast(prev => ({ ...prev, show: false }))}
-                    message={toast.message}
-                    type={toast.type}
-                />
-            )}
+            <Toast
+                show={toast.show}
+                onClose={() => setToast(prev => ({ ...prev, show: false }))}
+                message={toast.message}
+                type={toast.type}
+            />
         </div>
     );
 };

@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import type { ToastState } from '../types/toast.types';
-import type { Item } from '../types/items.types';
-import { createBooking } from '../services/booking';
-import { getLocalDateString, getNextDay } from '../utils/date.utils';
+import type { ToastState } from '../../types/toast.types';
+import type { Item } from '../../types/items.types';
+import { createBooking } from '../../services/booking';
+import { getLocalDateString, getNextDay } from '../../utils/date.utils';
 import axios from 'axios';
-import Loader from './Loader';
+import Loader from '../common/Loader';
 
 interface ItemPageSidebarProps {
     item: Item | null;

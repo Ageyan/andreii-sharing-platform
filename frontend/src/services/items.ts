@@ -1,6 +1,6 @@
 import api from "./api";
 import type { Item, CreateItem, PaginatedItems, ItemCategory } from "../types/items.types";
-import type { SortValue } from "../components/SortContainer";
+import type { SortValue } from "../components/filters/SortContainer";
 import type { AxiosRequestConfig } from "axios";
 
 export const getItems = async (

@@ -1,5 +1,7 @@
 import { useState, useRef } from 'react';
-import { useSearch } from '../context/SearchContext';
+
+import { useSearch } from '../../context/SearchContext';
+
 import { BsSearch } from 'react-icons/bs';
 
 const SearchInput = () => {

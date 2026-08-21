@@ -31,3 +31,5 @@ export interface BookingStatusResponse {
     status: 'pending' | 'confirmed' | 'cancelled_by_owner' | 'cancelled_by_renter' | 'completed' | 'expired';
 }
 
+
+

@@ -1,5 +1,5 @@
 import { Outlet } from 'react-router-dom';
-import DashProfileSidebar from '../components/DashProfileSidebar';
+import DashProfileSidebar from '../components/dashboard/DashProfileSidebar';
 
 const DashboardPage = () => {
     return (

@@ -14,3 +14,12 @@ export const formatTime = (dateString: string) => {
     const newDate = new Date(dateString);
     return newDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 };
+
+export const formatDate = (dateString: string | undefined) => {
+    if (!dateString) return '';
+    return new Date(dateString).toLocaleDateString('uk-UA', {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric',
+    });
+};

@@ -1,5 +1,5 @@
 import CategoryItem from './CategoryItem';
-import type { ItemCategory } from '../types/items.types';
+import type { ItemCategory } from '../../types/items.types';
 
 interface CategoryList {
     id: number;

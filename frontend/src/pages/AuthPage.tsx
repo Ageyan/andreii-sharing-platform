@@ -5,11 +5,11 @@ import { handleLogin, handleRegister } from '../services/auth';
 import { MdAlternateEmail, MdOutlineDriveFileRenameOutline } from 'react-icons/md';
 import { RiLockPasswordLine } from 'react-icons/ri';
 import { FaPhoneAlt } from 'react-icons/fa';
-import Toast from '../components/Toast';
+import Toast from '../components/common/Toast';
 import type { ToastState } from '../types/toast.types';
 import { useUserInfo } from '../context/UserContext';
 import { getUserInfo } from '../services/user';
-import Loader from '../components/Loader';
+import Loader from '../components/common/Loader';
 
 const AuthPage = () => {
     const [name, setName] = useState<string>('');
@@ -27,10 +27,38 @@ const AuthPage = () => {
     const handlesSubmit = async (event: React.SubmitEvent<HTMLFormElement>) => {
         event.preventDefault();
         setToast(prev => ({ ...prev, show: false }));
-        setLoader(true);
 
         try {
             if (isLogin) {
+                if (!email.trim() || !password.trim()) {
+                    setToast({
+                        show: true,
+                        message: 'Будь ласка, заповніть всі поля',
+                        type: 'error',
+                    });
+                    return;
+                }
+
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(email)) {
+                    setToast({
+                        show: true,
+                        message: 'Введіть коректний email (наприклад: user@mail.com)',
+                        type: 'error',
+                    });
+                    return;
+                }
+
+                if (password.length < 4) {
+                    setToast({
+                        show: true,
+                        message: 'Пароль має містити щонайменше 6 символів',
+                        type: 'error',
+                    });
+                    return;
+                }
+
+                setLoader(true);
                 const response = await handleLogin(email, password);
 
                 if (response && response.token) {
@@ -41,6 +69,45 @@ const AuthPage = () => {
                     navigate(fromPage);
                 }
             } else {
+                if (!name.trim() || !email.trim() || !phone.trim() || !password.trim()) {
+                    setToast({
+                        show: true,
+                        message: 'Будь ласка, заповніть всі поля',
+                        type: 'error',
+                    });
+                    return;
+                }
+
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(email)) {
+                    setToast({
+                        show: true,
+                        message: 'Введіть коректний email (наприклад: user@mail.com)',
+                        type: 'error',
+                    });
+                    return;
+                }
+
+                const phoneRegex = /^\+?[0-9\s\-()]{10,20}$/;
+                if (!phoneRegex.test(phone)) {
+                    setToast({
+                        show: true,
+                        message: 'Введіть коректний номер телефону (мінімум 10 цифр)',
+                        type: 'error',
+                    });
+                    return;
+                }
+
+                if (password.length < 6) {
+                    setToast({
+                        show: true,
+                        message: 'Пароль має містити щонайменше 6 символів',
+                        type: 'error',
+                    });
+                    return;
+                }
+
+                setLoader(true);
                 const response = await handleRegister(name, phone, email, password);
 
                 if (response) {
@@ -152,13 +219,12 @@ const AuthPage = () => {
                     </button>
                 </form>
             </div>
-            {toast.show && (
-                <Toast
-                    message={toast.message}
-                    type={toast.type}
-                    onClose={() => setToast(prev => ({ ...prev, show: false }))}
-                />
-            )}
+            <Toast
+                show={toast.show}
+                message={toast.message}
+                type={toast.type}
+                onClose={() => setToast(prev => ({ ...prev, show: false }))}
+            />
         </div>
     );
 };

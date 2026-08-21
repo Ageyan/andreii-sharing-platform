@@ -1,4 +1,5 @@
-import type { BookingResponse } from '../types/booking.types';
+import type { BookingResponse } from '../../types/booking.types';
+
 import { MdOutlineArrowRightAlt } from 'react-icons/md';
 
 interface ProfileCardProps {

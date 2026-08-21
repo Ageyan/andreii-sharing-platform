@@ -1,9 +1,12 @@
 import { NavLink, Outlet } from 'react-router-dom';
-import { useBookings } from '../context/BookingsContext';
-import Loader from './Loader';
+
+import { useBookings } from '../../context/BookingsContext';
+
+import Loader from '../common/Loader';
+import Toast from '../common/Toast';
 
 const DashBookings = () => {
-    const { myBookings, ownerBookings, loader, error } = useBookings();
+    const { myBookings, ownerBookings, loader, error, toast, setToast } = useBookings();
 
     return (
         <div className="dash-bookings">
@@ -15,7 +18,7 @@ const DashBookings = () => {
             {loader && <Loader />}
             {!error && !loader && (
                 <div className="dash-bookings__container">
-                    <div className="dash-bookings__tabs">
+                    <nav className="dash-bookings__tabs">
                         <NavLink
                             to="/dashboard/bookings/my"
                             end
@@ -34,12 +37,18 @@ const DashBookings = () => {
                         >
                             Запити на оренду ({ownerBookings.length})
                         </NavLink>
-                    </div>
+                    </nav>
                     <div className="dash-bookings__content">
                         <Outlet />
                     </div>
                 </div>
             )}
+            <Toast
+                show={toast.show}
+                message={toast.message}
+                type={toast.type}
+                onClose={() => setToast(prev => ({ ...prev, show: false }))}
+            />
         </div>
     );
 };

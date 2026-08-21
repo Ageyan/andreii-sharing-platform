@@ -1,18 +1,21 @@
 import { useState, useRef } from 'react';
-import { addItem, updateItem } from '../services/items';
-import type { Item, ItemCategoryAdd } from '../types/items.types';
 import axios from 'axios';
+
+import type { ToastState } from '../../types/toast.types';
+import type { Item, ItemCategoryAdd } from '../../types/items.types';
+import { addItem, updateItem } from '../../services/items';
+import { useOutsideClick } from '../../hooks/useOutsideClick';
+
+import Loader from '../common/Loader';
+
 import { IoIosArrowDown } from 'react-icons/io';
-import type { ToastState } from '../types/toast.types';
-import Loader from './Loader';
-import { useOutsideClick } from '../hooks/useOutsideClick';
 
 type AddFormProps = {
     setViewForm: (value: boolean) => void;
     setMyItems: React.Dispatch<React.SetStateAction<Item[]>>;
     editingItem: Item | null;
     setEditingItem: React.Dispatch<React.SetStateAction<Item | null>>;
-    setParentToast: React.Dispatch<React.SetStateAction<ToastState>>;
+    setToast: React.Dispatch<React.SetStateAction<ToastState>>;
 };
 
 type CategoryValue =
@@ -53,7 +56,7 @@ const ProfileItemForm = ({
     setMyItems,
     editingItem,
     setEditingItem,
-    setParentToast,
+    setToast,
 }: AddFormProps) => {
     const [title, setTitle] = useState<string>(editingItem ? editingItem.title : '');
     const [description, setDescription] = useState<string>(
@@ -73,7 +76,6 @@ const ProfileItemForm = ({
     const [categoryBy, setCategoryBy] = useState<CategoryValue>(initialCategoryBy);
     const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
     const [isOpen, setIsOpen] = useState<boolean>(false);
-    const [error, setError] = useState<string>('');
     const [btnLoader, setBtnLoader] = useState<boolean>(false);
     const categoryRef = useRef<HTMLDivElement>(null);
 
@@ -115,15 +117,46 @@ const ProfileItemForm = ({
 
     const handleSubmit = async (event: React.SubmitEvent<HTMLFormElement>) => {
         event.preventDefault();
-        setError('');
+        setToast(prev => ({ ...prev, show: false }));
 
-        if (category === 'Оберіть категорію') {
-            setError('Будь ласка, оберіть дійсну категорію для вашої речі');
+        if (title.trim().length < 1) {
+            setToast({
+                show: true,
+                message: 'Назва речі повинна містити хоча б 1 символ',
+                type: 'error',
+            });
             return;
         }
 
-        if (price === '0') {
-            setError('Будь ласка, оберіть вартість для вашої речі');
+        if (description.trim().length < 10) {
+            setToast({
+                show: true,
+                message: 'Опис речі повинен містити більше 10 символів',
+                type: 'error',
+            });
+            return;
+        }
+
+        if (category === 'Оберіть категорію') {
+            setToast({
+                show: true,
+                message: 'Будь ласка, оберіть дійсну категорію для вашої речі',
+                type: 'error',
+            });
+            return;
+        }
+
+        if (!price || Number(price) <= 0) {
+            setToast({
+                show: true,
+                message: 'Будь ласка, введіть коректну вартість більшу за нуль',
+                type: 'error',
+            });
+            return;
+        }
+
+        if (!editingItem && selectedFiles.length === 0) {
+            setToast({ show: true, message: 'Додайте хоча б одне фото', type: 'error' });
             return;
         }
 
@@ -146,7 +179,7 @@ const ProfileItemForm = ({
             setEditingItem(null);
             setViewForm(false);
 
-            setParentToast({
+            setToast({
                 show: true,
                 message: isEditMode ? 'Річ успішно змінено!' : 'Річ успішно додано!',
                 type: 'success',
@@ -157,7 +190,7 @@ const ProfileItemForm = ({
                 errorMessage = err.response?.data.message || 'Помилка при обробці запиту';
             }
 
-            setParentToast({
+            setToast({
                 show: true,
                 message: errorMessage,
                 type: 'error',
@@ -266,11 +299,6 @@ const ProfileItemForm = ({
                         '🚀 Опублікувати річ'
                     )}
                 </button>
-                {error && (
-                    <div className="error-banner">
-                        <span>⚠️</span> {error}
-                    </div>
-                )}
             </form>
         </div>
     );

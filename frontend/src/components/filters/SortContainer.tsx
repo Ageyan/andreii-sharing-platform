@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react';
 import { IoIosArrowDown } from 'react-icons/io';
-import type { ItemCategory } from '../types/items.types';
-import { useOutsideClick } from '../hooks/useOutsideClick';
+import type { ItemCategory } from '../../types/items.types';
+import { useOutsideClick } from '../../hooks/useOutsideClick';
 
 type SortTitle = 'Спочатку нові' | 'Спочатку старі' | 'Спочатку дорожчі' | 'Спочатку дешевші';
 export type SortValue = 'newest' | 'oldest' | 'price-desc' | 'price-asc';

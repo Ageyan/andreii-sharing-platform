@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
+
+import { useOutsideClick } from '../../hooks/useOutsideClick';
+
 import { CiLocationArrow1 } from 'react-icons/ci';
-import { useOutsideClick } from '../hooks/useOutsideClick';
 
 interface Message {
     sender: 'user' | 'ai';
@@ -160,7 +162,6 @@ const AiChat = () => {
                     </button>
                 </div>
             </div>
-
             {!isOpen && (
                 <>
                     <div className={`ai-chat__tool-tip ${isTooltip ? 'show' : ''}`}>

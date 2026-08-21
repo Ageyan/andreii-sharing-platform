@@ -1,14 +1,17 @@
 import { useEffect, useState } from 'react';
-import type { Item } from '../types/items.types';
-import { getMyItems, deleteItem } from '../services/items';
-import ItemCard from './ItemCard';
-import ProfileItemForm from './ProfileItemForm';
 import axios from 'axios';
+
+import type { Item } from '../../types/items.types';
+import type { ToastState } from '../../types/toast.types';
+import { getMyItems, deleteItem } from '../../services/items';
+
+import ItemCard from '../item/ItemCard';
+import ProfileItemForm from './ProfileItemForm';
+import Toast from '../common/Toast';
+import Loader from '../common/Loader';
+
 import { MdDelete } from 'react-icons/md';
 import { MdModeEdit } from 'react-icons/md';
-import Toast from './Toast';
-import type { ToastState } from '../types/toast.types';
-import Loader from './Loader';
 
 const DashItems = () => {
     const [myItems, setMyItems] = useState<Item[]>([]);
@@ -112,7 +115,7 @@ const DashItems = () => {
                         setMyItems={setMyItems}
                         editingItem={editingItem}
                         setEditingItem={setEditingItem}
-                        setParentToast={setToast}
+                        setToast={setToast}
                     />
                 ) : (
                     myItems.map(i => {
@@ -155,13 +158,12 @@ const DashItems = () => {
                     </div>
                 )}
             </div>
-            {toast.show && (
-                <Toast
-                    onClose={() => setToast(prev => ({ ...prev, show: false }))}
-                    message={toast.message}
-                    type={toast.type}
-                />
-            )}
+            <Toast
+                show={toast.show}
+                onClose={() => setToast(prev => ({ ...prev, show: false }))}
+                message={toast.message}
+                type={toast.type}
+            />
         </div>
     );
 };

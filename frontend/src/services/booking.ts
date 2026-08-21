@@ -16,7 +16,7 @@ export const getOwnerBookings = async(): Promise<BookingResponse[]> => {
     return data;
 }
 
-export const updateBookingsStatus = async(status: string, id: number): Promise<BookingStatusResponse> => {
+export const updateBookingsStatus = async({status, id} : BookingStatusResponse): Promise<BookingStatusResponse> => {
     const { data } = await api.put<BookingStatusResponse>(`/bookings/${id}/status`, { status });
     return data;
 }

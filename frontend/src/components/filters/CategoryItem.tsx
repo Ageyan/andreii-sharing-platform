@@ -1,5 +1,5 @@
-import { useSearch } from '../context/SearchContext';
-import type { ItemCategory } from '../types/items.types';
+import { useSearch } from '../../context/SearchContext';
+import type { ItemCategory } from '../../types/items.types';
 
 interface Category {
     id: number;

@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import type { Item } from '../types/items.types';
+import type { Item } from '../../types/items.types';
 
 interface ItemCardProps {
     item: Item;

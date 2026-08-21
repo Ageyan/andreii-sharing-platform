@@ -28,7 +28,7 @@ export const putUserUpdate = async(req: Request, res: Response): Promise<void> =
     try {
         const sqlQuerry = `
             UPDATE users SET name = $1, phone = $2 WHERE id = $3
-            RETURNING id, name, email, phone, created_at
+            RETURNING id, name, email, phone, created_at, avatar_url
         `
 
         const result = await query(sqlQuerry, 

@@ -2,7 +2,7 @@
 @use '../utils/mixins' as *;
 
 .dashboard {
-    padding: 20px 0 110px;
+    padding: 12px 0 110px;
     flex: 1;
 
     @include tablet {

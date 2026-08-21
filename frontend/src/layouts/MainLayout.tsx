@@ -1,7 +1,7 @@
 import { Outlet } from 'react-router-dom';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
-import AiChat from '../components/AiChat';
+import Header from '../components/layout/Header';
+import Footer from '../components/layout/Footer';
+import AiChat from '../components/common/AiChat';
 
 const MainLayout = () => {
     return (

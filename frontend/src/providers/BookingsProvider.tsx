@@ -1,14 +1,17 @@
 import { useState, useEffect, type ReactNode } from 'react';
+import axios from 'axios';
+
 import { BookingsContext } from '../context/BookingsContext';
 import { getMyBookings, getOwnerBookings } from '../services/booking';
 import type { BookingResponse } from '../types/booking.types';
-import axios from 'axios';
+import type { ToastState } from '../types/toast.types';
 
 export const BookingsProvider = ({ children }: { children: ReactNode }) => {
     const [ownerBookings, setOwnerBookings] = useState<BookingResponse[]>([]);
     const [myBookings, setMyBookings] = useState<BookingResponse[]>([]);
     const [error, setError] = useState<string>('');
     const [loader, setLoader] = useState<boolean>(false);
+    const [toast, setToast] = useState<ToastState>({ show: false, message: '', type: 'success' });
 
     useEffect(() => {
         const getBookingsItem = async () => {
@@ -40,7 +43,16 @@ export const BookingsProvider = ({ children }: { children: ReactNode }) => {
 
     return (
         <BookingsContext.Provider
-            value={{ ownerBookings, setOwnerBookings, myBookings, setMyBookings, error, loader }}
+            value={{
+                ownerBookings,
+                setOwnerBookings,
+                myBookings,
+                setMyBookings,
+                error,
+                loader,
+                toast,
+                setToast,
+            }}
         >
             {children}
         </BookingsContext.Provider>

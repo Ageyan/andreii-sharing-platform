@@ -1,20 +1,22 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { lazy, Suspense } from 'react';
+
 import { BookingsProvider } from '../providers/BookingsProvider';
+
 import MainLayout from '../layouts/MainLayout';
 import ProtectedRoute from '../routes/ProtectedRoute';
-import Loader from '../components/Loader';
-import BookingsMy from '../components/BookingsMy';
-import BookingsOwner from '../components/BookingsOwner';
+import Loader from '../components/common/Loader';
+import BookingsMy from '../components/dashboard/BookingsMy';
+import BookingsOwner from '../components/dashboard/BookingsOwner';
 
 const HomePage = lazy(() => import('../pages/HomePage'));
 const DashboardPage = lazy(() => import('../pages/DashboardPage'));
 const ItemPage = lazy(() => import('../pages/ItemPage'));
 const AuthPage = lazy(() => import('../pages/AuthPage'));
-const DashProfile = lazy(() => import('../components/DashProfile'));
-const DashItems = lazy(() => import('../components/DashItems'));
-const DashBookings = lazy(() => import('../components/DashBookings'));
-const DashChats = lazy(() => import('../components/DashChats'));
+const DashProfile = lazy(() => import('../components/dashboard/DashProfile'));
+const DashItems = lazy(() => import('../components/dashboard/DashItems'));
+const DashBookings = lazy(() => import('../components/dashboard/DashBookings'));
+const DashChats = lazy(() => import('../components/dashboard/DashChats'));
 
 const AppRouter = () => {
     return (

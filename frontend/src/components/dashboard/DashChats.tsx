@@ -1,15 +1,17 @@
-import { useEffect, useState } from 'react';
-import type { GetUserChatsProps, GetUserMessage } from '../types/chat.types';
-import { getUserChats, getUserMessages, updateStatusMessage } from '../services/chat';
+import { useEffect, useState, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import Loader from './Loader';
 import axios from 'axios';
-import { useUserInfo } from '../context/UserContext';
-import { socket } from '../services/socket';
-import Toast from './Toast';
-import type { ToastState } from '../types/toast.types';
-import { useRef } from 'react';
-import { formatTime } from '../utils/date.utils';
+
+import type { GetUserChatsProps, GetUserMessage } from '../../types/chat.types';
+import type { ToastState } from '../../types/toast.types';
+import { getUserChats, getUserMessages, updateStatusMessage } from '../../services/chat';
+import { socket } from '../../services/socket';
+import { useUserInfo } from '../../context/UserContext';
+import { formatTime } from '../../utils/date.utils';
+
+import Loader from '../common/Loader';
+import Toast from '../common/Toast';
+
 import { CiLocationArrow1 } from 'react-icons/ci';
 import { IoIosArrowBack } from 'react-icons/io';
 
@@ -286,13 +288,12 @@ const DashChats = () => {
                     </div>
                 )}
             </div>
-            {toast.show && (
-                <Toast
-                    message={toast.message}
-                    type={toast.type}
-                    onClose={() => setToast(prev => ({ ...prev, show: false }))}
-                ></Toast>
-            )}
+            <Toast
+                show={toast.show}
+                onClose={() => setToast(prev => ({ ...prev, show: false }))}
+                message={toast.message}
+                type={toast.type}
+            />
         </div>
     );
 };

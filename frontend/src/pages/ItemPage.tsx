@@ -3,10 +3,10 @@ import { getItemById } from '../services/items';
 import { useEffect, useState } from 'react';
 import type { Item } from '../types/items.types';
 import axios from 'axios';
-import Toast from '../components/Toast';
+import Toast from '../components/common/Toast';
 import type { ToastState } from '../types/toast.types';
-import Loader from '../components/Loader';
-import ItemPageSidebar from '../components/ItemPageSidebar';
+import Loader from '../components/common/Loader';
+import ItemPageSidebar from '../components/item/ItemPageSidebar';
 import { BsFillChatDotsFill } from 'react-icons/bs';
 import { getOrCreateChat } from '../services/chat';
 import { useUserInfo } from '../context/UserContext';
@@ -180,22 +180,21 @@ const ItemPage = () => {
                     </div>
                 </>
             )}
-            {toast.show && (
-                <Toast
-                    message={toast.message}
-                    type={toast.type}
-                    onClose={() => setToast(prev => ({ ...prev, show: false }))}
-                >
-                    {toast.type === 'success' && (
-                        <button
-                            className="toast__link-btn"
-                            onClick={() => navigate('/dashboard/bookings')}
-                        >
-                            Перейти до кабінету &rarr;
-                        </button>
-                    )}
-                </Toast>
-            )}
+            <Toast
+                show={toast.show}
+                message={toast.message}
+                type={toast.type}
+                onClose={() => setToast(prev => ({ ...prev, show: false }))}
+            >
+                {toast.type === 'success' && (
+                    <button
+                        className="toast__link-btn"
+                        onClick={() => navigate('/dashboard/bookings')}
+                    >
+                        Перейти до кабінету &rarr;
+                    </button>
+                )}
+            </Toast>
             {!loader && !error && item && (
                 <div className="item-page__mobile-desk">
                     <div>
@@ -212,7 +211,6 @@ const ItemPage = () => {
                     </button>
                 </div>
             )}
-
             <div
                 className={`item-page__mobile-backdrop ${modalOpen ? 'show' : ''}`}
                 onClick={() => setModalOpen(false)}

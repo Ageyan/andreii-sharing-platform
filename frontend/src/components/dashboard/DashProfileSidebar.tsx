@@ -1,10 +1,11 @@
-import { NavLink } from 'react-router-dom';
-import { useUserInfo } from '../context/UserContext';
-import { useBookings } from '../context/BookingsContext';
-import { getUnreadMessages } from '../services/chat';
 import { useState, useEffect } from 'react';
-import { socket } from '../services/socket';
+import { NavLink } from 'react-router-dom';
 import axios from 'axios';
+
+import { useUserInfo } from '../../context/UserContext';
+import { useBookings } from '../../context/BookingsContext';
+import { getUnreadMessages } from '../../services/chat';
+import { socket } from '../../services/socket';
 
 const DashProfileSidebar = () => {
     const [countUnreadMessages, setCountUnreadMessages] = useState<number>(0);
@@ -61,6 +62,8 @@ const DashProfileSidebar = () => {
         };
     }, [user]);
 
+    const pendingCount = ownerBookings.filter(i => i.status === 'pending').length;
+
     return (
         <aside className="profile-sidebar">
             <div className="profile-sidebar__user-card">
@@ -108,13 +111,9 @@ const DashProfileSidebar = () => {
                     <span className="profile-sidebar__title">Бронь</span>
                     <span
                         className={`notification-badge 
-                            ${
-                                ownerBookings.filter(i => i.status === 'pending').length === 0
-                                    ? ''
-                                    : 'notification-badge--show'
-                            }`}
+                            ${pendingCount ? '' : 'notification-badge--show'}`}
                     >
-                        {ownerBookings.filter(i => i.status === 'pending').length}
+                        {pendingCount}
                     </span>
                 </NavLink>
                 <NavLink

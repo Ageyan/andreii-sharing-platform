@@ -5,7 +5,7 @@ import { query } from '../config/db';
 import { handleError } from '../utils/errorHandler';
 
 export const register = async(req: Request, res: Response): Promise<void> => {
-    const { name,phone, email, password } = req.body;
+    const { name, phone, email, password } = req.body;
         
     try {
         const userExist = await query('SELECT * FROM users WHERE email = $1', [email]);

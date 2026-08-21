@@ -1,9 +1,9 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import SearchInput from './SearchInput';
+import SearchInput from '../common/SearchInput';
 import { BsSearch } from 'react-icons/bs';
 import { useState } from 'react';
 import { MdAccountCircle } from 'react-icons/md';
-import { useUserInfo } from '../context/UserContext';
+import { useUserInfo } from '../../context/UserContext';
 
 const Header = () => {
     const [isSearchOpen, setIsSearchOpen] = useState<boolean>(false);
