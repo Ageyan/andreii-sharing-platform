@@ -1,10 +1,10 @@
 import { useState, useEffect, type ReactNode } from 'react';
 import axios from 'axios';
 
-import { BookingsContext } from '../context/BookingsContext';
-import { getMyBookings, getOwnerBookings } from '../services/booking';
-import type { BookingResponse } from '../types/booking.types';
 import type { ToastState } from '../types/toast.types';
+import type { BookingResponse } from '../types/booking.types';
+import { getMyBookings, getOwnerBookings } from '../services/booking';
+import { BookingsContext } from '../context/BookingsContext';
 
 export const BookingsProvider = ({ children }: { children: ReactNode }) => {
     const [ownerBookings, setOwnerBookings] = useState<BookingResponse[]>([]);

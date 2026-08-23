@@ -1,14 +1,9 @@
-import CategoryItem from './CategoryItem';
 import type { ItemCategory } from '../../types/items.types';
+import type { Category } from '../../types/items.types';
 
-interface CategoryList {
-    id: number;
-    name: ItemCategory;
-    bg: string;
-    src: string;
-}
+import CategoryItem from './CategoryItem';
 
-const categories: CategoryList[] = [
+const categories: Category[] = [
     {
         id: 1,
         bg: 'all',

@@ -1,5 +1,5 @@
-@use '../utils/variables' as *;
-@use '../utils/mixins' as *;
+@use '../../utils/variables' as *;
+@use '../../utils/mixins' as *;
 
 .footer {
     flex: 0 0 auto;
@@ -16,7 +16,7 @@
     }
 
     @include tablet {
-        padding-top: 34px 0;
+        padding-top: 34px;
         padding-bottom: calc(34px + env(safe-area-inset-bottom));
     }
 

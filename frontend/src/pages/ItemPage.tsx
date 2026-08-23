@@ -1,15 +1,18 @@
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
-import { getItemById } from '../services/items';
 import { useEffect, useState } from 'react';
-import type { Item } from '../types/items.types';
 import axios from 'axios';
-import Toast from '../components/common/Toast';
+
+import type { Item } from '../types/items.types';
 import type { ToastState } from '../types/toast.types';
-import Loader from '../components/common/Loader';
-import ItemPageSidebar from '../components/item/ItemPageSidebar';
-import { BsFillChatDotsFill } from 'react-icons/bs';
+import { getItemById } from '../services/items';
 import { getOrCreateChat } from '../services/chat';
 import { useUserInfo } from '../context/UserContext';
+
+import Toast from '../components/common/Toast';
+import Loader from '../components/common/Loader';
+import ItemPageSidebar from '../components/item/ItemPageSidebar';
+
+import { BsFillChatDotsFill } from 'react-icons/bs';
 
 const ItemPage = () => {
     const [item, setItem] = useState<Item | null>(null);

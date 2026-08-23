@@ -1,4 +1,5 @@
 import { useState, type ReactNode } from 'react';
+
 import { SearchContext } from '../context/SearchContext';
 
 export const SearchProvider = ({ children }: { children: ReactNode }) => {

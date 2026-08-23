@@ -158,6 +158,18 @@ const DashChats = () => {
         navigate(`/items/${currentChat?.item_id}`);
     };
 
+    useEffect(() => {
+        if (activeChat) {
+            document.body.classList.add('page-chat-active');
+        } else {
+            document.body.classList.remove('page-chat-active');
+        }
+
+        return () => {
+            document.body.classList.remove('page-chat-active');
+        };
+    }, [activeChat]);
+
     return (
         <div className={`dash-chats ${activeChat ? 'is-chat-open' : ''}`}>
             <div className="dash-chats__sidebar">

@@ -1,5 +1,5 @@
-@use '../utils/variables' as *;
-@use '../utils/mixins' as *;
+@use '../../utils/variables' as *;
+@use '../../utils/mixins' as *;
 
 .sort {
     display: flex;
@@ -28,7 +28,7 @@
         font-family: 'Montserrat', sans-serif;
         font-weight: 600;
         cursor: pointer;
-        color: $color-text-main;    
+        color: $color-text-main;
         transition: color 0.3s ease-in-out;
 
         @include tablet {
@@ -40,7 +40,6 @@
         &:hover {
             color: $color-accent;
         }
-
     }
 
     &__icon {
@@ -56,13 +55,13 @@
 
     &__options {
         position: absolute;
-        top: calc(100% + 6px); 
+        top: calc(100% + 6px);
         left: 0;
-        background-color: $white; 
+        background-color: $white;
         border: 1px solid $color-text-main;
         border-radius: 12px;
         box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-        z-index: 10; 
+        z-index: 10;
         overflow: hidden;
         width: max-content;
     }
@@ -80,7 +79,7 @@
         }
 
         &:hover {
-            background-color: rgba($color-accent, 0.1); 
+            background-color: rgba($color-accent, 0.1);
             color: $color-accent;
         }
 
@@ -113,4 +112,3 @@
         }
     }
 }
-

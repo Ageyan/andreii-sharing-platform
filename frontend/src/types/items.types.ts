@@ -19,8 +19,26 @@ export type ItemCategory = 'Усі речі' | 'Авто' | 'Електроні�
 
 export type ItemCategoryAdd = Exclude<ItemCategory, 'Усі речі'> | 'Оберіть категорію';
 
+export interface Category {
+    id: number;
+    name: ItemCategory;
+    bg: string;
+    src: string;
+}
+
+export type SortTitle = 'Спочатку нові' | 'Спочатку старі' | 'Спочатку дорожчі' | 'Спочатку дешевші';
+export type SortValue = 'newest' | 'oldest' | 'price-desc' | 'price-asc';
+
+export interface Sorts {
+    id: number;
+    title: SortTitle;
+    sort: SortValue;
+}
+
 export interface PaginatedItems {
     data: Item[]
     hasMore: boolean
 }
+
+
 

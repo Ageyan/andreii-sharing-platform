@@ -1,18 +1,12 @@
 import { useState, useRef } from 'react';
-import { IoIosArrowDown } from 'react-icons/io';
+
 import type { ItemCategory } from '../../types/items.types';
+import type { SortValue, Sorts } from '../../types/items.types';
 import { useOutsideClick } from '../../hooks/useOutsideClick';
 
-type SortTitle = 'Спочатку нові' | 'Спочатку старі' | 'Спочатку дорожчі' | 'Спочатку дешевші';
-export type SortValue = 'newest' | 'oldest' | 'price-desc' | 'price-asc';
+import { IoIosArrowDown } from 'react-icons/io';
 
-interface SortsList {
-    id: number;
-    title: SortTitle;
-    sort: SortValue;
-}
-
-const sorts: SortsList[] = [
+const sorts: Sorts[] = [
     { id: 1, title: 'Спочатку нові', sort: 'newest' },
     { id: 2, title: 'Спочатку старі', sort: 'oldest' },
     { id: 3, title: 'Спочатку дорожчі', sort: 'price-desc' },
@@ -20,13 +14,13 @@ const sorts: SortsList[] = [
 ];
 
 interface SortProps {
-    setSerchTerm: (value: string) => void;
+    setSearchTerm: (value: string) => void;
     setSelectCategory: (value: ItemCategory) => void;
     sortBy: SortValue;
     setSortBy: (value: SortValue) => void;
 }
 
-const SortContainer = ({ setSerchTerm, setSelectCategory, sortBy, setSortBy }: SortProps) => {
+const SortContainer = ({ setSearchTerm, setSelectCategory, sortBy, setSortBy }: SortProps) => {
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const containRef = useRef<HTMLDivElement | null>(null);
     useOutsideClick(containRef, () => setIsOpen(false));
@@ -63,7 +57,7 @@ const SortContainer = ({ setSerchTerm, setSelectCategory, sortBy, setSortBy }: S
             <button
                 className="sort__clear-btn"
                 onClick={() => {
-                    setSerchTerm('');
+                    setSearchTerm('');
                     setSelectCategory('Усі речі');
                     setSortBy('newest');
                 }}

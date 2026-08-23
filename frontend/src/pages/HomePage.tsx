@@ -1,12 +1,14 @@
 import { useState, useEffect, useRef, useLayoutEffect } from 'react';
 import axios from 'axios';
+
 import type { Item, ItemCategory } from '../types/items.types';
+import type { SortValue } from '../types/items.types';
 import { getItems } from '../services/items';
+import { useSearch } from '../context/SearchContext';
+
 import ItemCard from '../components/item/ItemCard';
 import SortContainer from '../components/filters/SortContainer';
-import type { SortValue } from '../components/filters/SortContainer';
 import CategoryContainer from '../components/filters/CategoryContainer';
-import { useSearch } from '../context/SearchContext';
 import Loader from '../components/common/Loader';
 
 const HomePage = () => {
@@ -128,7 +130,7 @@ const HomePage = () => {
             />
             <div className="home-page__main-layout">
                 <SortContainer
-                    setSerchTerm={setSearchTerm}
+                    setSearchTerm={setSearchTerm}
                     setSelectCategory={setSelectCategory}
                     sortBy={sortBy}
                     setSortBy={setSortBy}

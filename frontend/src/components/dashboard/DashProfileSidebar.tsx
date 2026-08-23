@@ -111,7 +111,7 @@ const DashProfileSidebar = () => {
                     <span className="profile-sidebar__title">Бронь</span>
                     <span
                         className={`notification-badge 
-                            ${pendingCount ? '' : 'notification-badge--show'}`}
+                            ${pendingCount === 0 ? '' : 'notification-badge--show'}`}
                     >
                         {pendingCount}
                     </span>

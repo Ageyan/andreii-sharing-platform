@@ -1,15 +1,18 @@
 import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
+
+import type { ToastState } from '../types/toast.types';
 import { handleLogin, handleRegister } from '../services/auth';
+import { getUserInfo } from '../services/user';
+import { useUserInfo } from '../context/UserContext';
+
+import Toast from '../components/common/Toast';
+import Loader from '../components/common/Loader';
+
 import { MdAlternateEmail, MdOutlineDriveFileRenameOutline } from 'react-icons/md';
 import { RiLockPasswordLine } from 'react-icons/ri';
 import { FaPhoneAlt } from 'react-icons/fa';
-import Toast from '../components/common/Toast';
-import type { ToastState } from '../types/toast.types';
-import { useUserInfo } from '../context/UserContext';
-import { getUserInfo } from '../services/user';
-import Loader from '../components/common/Loader';
 
 const AuthPage = () => {
     const [name, setName] = useState<string>('');
@@ -49,7 +52,7 @@ const AuthPage = () => {
                     return;
                 }
 
-                if (password.length < 4) {
+                if (password.length < 6) {
                     setToast({
                         show: true,
                         message: 'Пароль має містити щонайменше 6 символів',

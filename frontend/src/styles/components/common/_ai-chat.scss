@@ -1,5 +1,5 @@
-@use '../utils/variables' as *;
-@use '../utils/mixins' as *;
+@use '../../utils/variables' as *;
+@use '../../utils/mixins' as *;
 
 .ai-chat {
     position: fixed;
@@ -9,11 +9,11 @@
     font-family: 'Montserrat', sans-serif;
 
     @include tablet {
-        bottom: calc(90px + env(safe-area-inset-bottom));
+        bottom: calc(110px + env(safe-area-inset-bottom));
     }
 
     @include desktop {
-        bottom: calc(80px + env(safe-area-inset-bottom));
+        bottom: calc(88px + env(safe-area-inset-bottom));
     }
 
     &__window {

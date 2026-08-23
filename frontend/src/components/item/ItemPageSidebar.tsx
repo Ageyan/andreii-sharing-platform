@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
+import axios from 'axios';
+
 import type { ToastState } from '../../types/toast.types';
 import type { Item } from '../../types/items.types';
 import { createBooking } from '../../services/booking';
 import { getLocalDateString, getNextDay } from '../../utils/date.utils';
-import axios from 'axios';
+
 import Loader from '../common/Loader';
 
 interface ItemPageSidebarProps {
@@ -32,16 +34,16 @@ const ItemPageSidebar = ({ item, setToast, isAuthenticated, myItem }: ItemPageSi
     const startBooking = async (event: React.SubmitEvent<HTMLFormElement>) => {
         event.preventDefault();
 
-        if (myItem) return;
+        if (!item || myItem) return;
 
         const start = new Date(startDate).getTime();
         const end = new Date(endDate).getTime();
         const totalDays = Math.ceil((end - start) / (1000 * 60 * 60 * 24));
-        const totalPrice = totalDays * Number(item!.price_per_day);
+        const totalPrice = totalDays * Number(item.price_per_day);
 
         setBookingLoader(true);
         try {
-            await createBooking(item!.id, startDate, endDate, totalPrice);
+            await createBooking(item.id, startDate, endDate, totalPrice);
             setToast({
                 show: true,
                 message: 'Запит на оренду надіслано! Очікуйте на підтвердження від власника',
@@ -120,7 +122,7 @@ const ItemPageSidebar = ({ item, setToast, isAuthenticated, myItem }: ItemPageSi
                 {isAuthenticated
                     ? myItem
                         ? 'Ви не можете орендувати власні речі'
-                        : `* Ви можете скасувати бронь безкоштовно після 3-х годин від початку
+                        : `* Ви можете скасувати бронь безкоштовно протягом 3-х годин від початку
                         оренди.`
                     : myItem
                       ? 'Ви не можете орендувати власні речі'

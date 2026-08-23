@@ -1,8 +1,9 @@
 import { useEffect, useState, type ReactNode } from 'react';
-import { UserContext } from '../context/UserContext';
+import axios from 'axios';
+
 import type { UserInfo } from '../types/user.types';
 import { getUserInfo } from '../services/user';
-import axios from 'axios';
+import { UserContext } from '../context/UserContext';
 
 export const UserProvider = ({ children }: { children: ReactNode }) => {
     const [user, setUser] = useState<UserInfo | null>(null);

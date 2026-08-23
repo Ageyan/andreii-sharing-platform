@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import { query } from "../config/db";
 import { io } from '../index';
 import { handleError } from "../utils/errorHandler";
+import { SaveMessage } from "../types/chat.types";
 
 export const getOrCreateChat = async (req: Request, res: Response): Promise<void> => {
     const { item_id, owner_id } = req.body;
@@ -140,5 +141,24 @@ export const updateStatusMessages = async (req: Request, res: Response): Promise
         io.to(id.toString()).emit('messages_read');
     } catch (error) {
         handleError(error, res, 'зміні статусу непрочитаних повідомлень')
+    }
+}
+
+export const saveMessages = async (data: SaveMessage): Promise<void> => {
+    const { chat_id, sender_id, text } = data;
+
+    try {
+        const sqlQuery = `
+            INSERT INTO messages (chat_id, sender_id, text)
+            VALUES ($1, $2, $3)
+            RETURNING *
+        `
+
+        const result = await query(sqlQuery, [chat_id, sender_id, text])
+
+        io.to(data.chat_id.toString()).emit('receive_message', result.rows[0]);
+    } catch (error) {
+        console.error('Помилка при збереженні повідомлення', error);
+        io.to(data.chat_id.toString()).emit('error', error);
     }
 }

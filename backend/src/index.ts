@@ -1,16 +1,19 @@
-import express, { Request, Response } from 'express';
+import express, { Response } from 'express';
 import 'dotenv/config';
 import cors from 'cors';
 import http from 'http';
 import { Server } from 'socket.io';
+
+import { saveMessages } from './controllers/chatController';
+
 import { initDatabase } from './models/initDB';
+
 import authRoutes from './routes/authRoutes';
 import itemRoutes from './routes/itemRoutes';
 import bookingRoutes from './routes/bookingRoutes';
 import userRoutes from './routes/userRoutes';
 import chatAiRoutes from './routes/chatAiRoutes';
 import chatRoutes from './routes/chatRoutes';
-import { query } from './config/db';
 
 const app = express();
 const port = process.env.PORT || 8000;
@@ -83,33 +86,12 @@ io.on('connection', (socket) => {
         socket.join(chatId.toString());
     })
 
-    socket.on('send_message', async(data) => {
-        const { chat_id, sender_id, text } = data;
-
-        try {
-            const sqlQuery = `
-                INSERT INTO messages (chat_id, sender_id, text)
-                VALUES ($1, $2, $3)
-                RETURNING *
-            `
-
-            const result = await query(sqlQuery, [chat_id, sender_id, text])
-
-            io.to(data.chat_id.toString()).emit('receive_message', result.rows[0]);
-        } catch (error) {
-            console.error('Помилка при отриманні чатів', error);
-            io.to(data.chat_id.toString()).emit('error', error);
-        }
-    })
+    socket.on('send_message', saveMessages);
 });
 
 app.get('/', (res: Response) => {
     res.send('Сервер RentIt успішно запущено на TypeScript!')
 });
-
-// app.listen(port, () => {
-//     console.log(`🚀 Сервер працює на http://localhost:${port}`);
-// });
 
 httpServer.listen(port, () => {
     console.log(`🚀 Сервер працює на http://localhost:${port}`);

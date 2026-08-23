@@ -4,30 +4,34 @@
 @use './base/reset';
 @use './base/typography';
 
-@use './layout/layout';
+@use './layouts/main-layout';
 
 @use './pages/auth-page';
 @use './pages/dashboard-page';
 @use './pages/home-page';
 @use './pages/item-page';
 
-@use './components/ai-chat';
-@use './components/category-container';
-@use './components/category-item';
-@use './components/dash-booking';
-@use './components/dash-chats';
-@use './components/dash-items';
-@use './components//dash-profile-sidebar';
-@use './components//dash-profile';
-@use './components/error-empty-message';
-@use './components/footer';
-@use './components/header';
-@use './components/item-card';
-@use './components/item-sidebar';
-@use './components/loader';
-@use './components/notification-badge';
-@use './components/profile-card';
-@use './components/profile-item-form';
-@use './components/search-input';
-@use './components/sort-container';
-@use './components/toats';
+@use './components/common/ai-chat';
+@use './components/common/error-empty-message';
+@use './components/common/loader';
+@use './components/common/notification-badge';
+@use './components/common/search-input';
+@use './components/common/toats';
+
+@use './components/dashboard/dash-booking';
+@use './components/dashboard/dash-chats';
+@use './components/dashboard/dash-items';
+@use './components/dashboard/dash-profile-sidebar';
+@use './components/dashboard/dash-profile';
+@use './components/dashboard/profile-card';
+@use './components/dashboard/profile-item-form';
+
+@use './components/filters/category-container';
+@use './components/filters/category-item';
+@use './components/filters/sort-container';
+
+@use './components/item/item-card';
+@use './components/item/item-sidebar';
+
+@use './components/layout/footer';
+@use './components/layout/header';
