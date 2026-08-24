@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 import { cancelBookingRequest } from '../../services/booking';
@@ -24,6 +25,9 @@ const BookingsMy = () => {
     const { myBookings, setMyBookings, setToast } = useBookings();
     const [loadingId, setLoadingId] = useState<number | null>(null);
     const [currentTime, setCurrentTime] = useState<number>(() => Date.now());
+
+    const navigate = useNavigate();
+    const location = useLocation();
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -64,6 +68,10 @@ const BookingsMy = () => {
         }
     };
 
+    const handleNavigate = (id: number) => {
+        navigate(`/items/${id}`, { state: { from: location.pathname } });
+    };
+
     return myBookings.length === 0 ? (
         <div className="empty-state">
             <span className="empty-state__icon">📦</span>
@@ -75,7 +83,7 @@ const BookingsMy = () => {
                 const isCancelable = canCancel(item.created_at, item.status, currentTime);
                 const isCurrentLoading = loadingId === item.id;
                 return (
-                    <ProfileItemCard key={item.id} item={item}>
+                    <ProfileItemCard key={item.id} item={item} handleNavigate={handleNavigate}>
                         {isCancelable && (
                             <div className="profile-card__actions">
                                 <button

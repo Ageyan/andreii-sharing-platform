@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 import { updateBookingsStatus } from '../../services/booking';
@@ -13,6 +14,9 @@ import { MdDone, MdClose } from 'react-icons/md';
 const BookingsOwner = () => {
     const { ownerBookings, setOwnerBookings, setToast } = useBookings();
     const [loadingId, setLoadingId] = useState<number | null>(null);
+
+    const navigate = useNavigate();
+    const location = useLocation();
 
     const handleUpdateStatus = async ({ status, id }: BookingStatusResponse) => {
         setLoadingId(id);
@@ -43,6 +47,10 @@ const BookingsOwner = () => {
         }
     };
 
+    const handleNavigate = (id: number) => {
+        navigate(`/items/${id}`, { state: { from: location.pathname } });
+    };
+
     return ownerBookings.length === 0 ? (
         <div className="empty-state">
             <span className="empty-state__icon">📅</span>
@@ -53,7 +61,12 @@ const BookingsOwner = () => {
             {ownerBookings.map(item => {
                 const isCurrentLoading = loadingId === item.id;
                 return (
-                    <ProfileItemCard key={item.id} item={item} priceLabel="Дохід:">
+                    <ProfileItemCard
+                        key={item.id}
+                        item={item}
+                        priceLabel="Дохід:"
+                        handleNavigate={handleNavigate}
+                    >
                         {item.status === 'pending' && (
                             <div className="profile-card__actions">
                                 <button

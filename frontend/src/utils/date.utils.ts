@@ -23,3 +23,12 @@ export const formatDate = (dateString: string | undefined) => {
         year: 'numeric',
     });
 };
+
+export const formatDateBooking = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('uk-UA', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+    });
+};

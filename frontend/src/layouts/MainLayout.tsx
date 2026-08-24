@@ -9,12 +9,15 @@ const MainLayout = () => {
     const location = useLocation();
 
     useEffect(() => {
-        document.body.classList.remove('page-home', 'page-dashboard');
+        document.body.classList.remove('mobile-bg-accent', 'mobile-bg-main');
 
         if (location.pathname === '/' || location.pathname === '/auth') {
-            document.body.classList.add('page-home-auth');
-        } else if (location.pathname.startsWith('/dashboard')) {
-            document.body.classList.add('page-dashboard');
+            document.body.classList.add('mobile-bg-accent');
+        } else if (
+            location.pathname.startsWith('/dashboard') ||
+            location.pathname.startsWith('/items')
+        ) {
+            document.body.classList.add('mobile-bg-main');
         }
     }, [location.pathname]);
 

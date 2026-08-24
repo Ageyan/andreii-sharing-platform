@@ -100,7 +100,7 @@ const ItemPage = () => {
             {!loader && !error && item && (
                 <>
                     <button className="item-page__back-btn" onClick={() => navigate(-1)}>
-                        &larr; Назад до каталогу
+                        &larr; Назад
                     </button>
                     <div className="item-page__layout">
                         <div className="item-page__main-content">

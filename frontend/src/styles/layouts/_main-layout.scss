@@ -22,7 +22,7 @@ body {
     font-family: 'Roboto', sans-serif;
     color: $text-main;
 
-    &.page-home-auth {
+    &.mobile-bg-accent {
         background-color: $color-accent;
 
         @include desktop {
@@ -43,7 +43,7 @@ body {
         }
     }
 
-    &.page-dashboard {
+    &.mobile-bg-main {
         background-color: $bg-main;
 
         @include desktop {

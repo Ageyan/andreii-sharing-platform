@@ -1,23 +1,22 @@
 import type { BookingResponse } from '../../types/booking.types';
 
+import { formatDateBooking } from '../../utils/date.utils';
+
 import { MdOutlineArrowRightAlt } from 'react-icons/md';
 
 interface ProfileCardProps {
     item: BookingResponse;
     children?: React.ReactNode;
     priceLabel?: string;
+    handleNavigate: (id: number) => void;
 }
 
-const ProfileItemCard = ({ item, children, priceLabel = 'Всього:' }: ProfileCardProps) => {
-    const formatDate = (dateString: string) => {
-        const date = new Date(dateString);
-        return date.toLocaleDateString('uk-UA', {
-            day: '2-digit',
-            month: '2-digit',
-            year: 'numeric',
-        });
-    };
-
+const ProfileItemCard = ({
+    item,
+    children,
+    priceLabel = 'Всього:',
+    handleNavigate,
+}: ProfileCardProps) => {
     const getStatusLabel = (status: string) => {
         switch (status) {
             case 'pending':
@@ -41,7 +40,7 @@ const ProfileItemCard = ({ item, children, priceLabel = 'Всього:' }: Profi
         'https://wezom.com.ua/Media/filemanager/blog/struktura-internet-magazina-klyuchevye-momenty-sozdaniya/original/rEd1gfWUQnNVLIM0caWoMcl8aDVQ27G6372YEQYQ.jpg';
 
     return (
-        <div className="profile-card">
+        <div className="profile-card" onClick={() => handleNavigate(item.item_id)}>
             <div className="profile-card__image-wrapper">
                 <img
                     src={item.image_url[0] || fallbackImage}
@@ -53,9 +52,9 @@ const ProfileItemCard = ({ item, children, priceLabel = 'Всього:' }: Profi
             <div className="profile-card__info">
                 <h3 className="profile-card__title">{item.title}</h3>
                 <div className="profile-card__dates">
-                    <span>{formatDate(item.start_date)}</span>
+                    <span>{formatDateBooking(item.start_date)}</span>
                     <MdOutlineArrowRightAlt className="profile-card__dates-icon" />
-                    <span>{formatDate(item.end_date)}</span>
+                    <span>{formatDateBooking(item.end_date)}</span>
                 </div>
                 <p className="profile-card__price">
                     {priceLabel} <strong>{item.total_price}</strong> грн
