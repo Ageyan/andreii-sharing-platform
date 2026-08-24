@@ -15,7 +15,6 @@
     z-index: 1000;
     min-width: 200px;
     max-width: 420px;
-    animation: slideIn 0.3s ease-in-out forwards;
     border-left: 8px solid transparent;
     transform: translateX(120%);
     opacity: 0;
@@ -44,7 +43,7 @@
     }
 
     &--success {
-        border-left-color: #059669;
+        border-left-color: $confirmed-color;
     }
 
     &--error {
