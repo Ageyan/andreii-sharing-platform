@@ -88,6 +88,7 @@
         -webkit-line-clamp: 3;
         -webkit-box-orient: vertical;
         overflow: hidden;
+        overflow-wrap: anywhere;
 
         @include tablet {
             font-size: 0.9rem;

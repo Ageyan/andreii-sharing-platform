@@ -265,6 +265,7 @@
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.02);
             border: 1px solid $border-color;
             line-height: 1.4;
+            overflow-wrap: anywhere;
         }
 
         &-time {

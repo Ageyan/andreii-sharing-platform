@@ -71,6 +71,7 @@
         font-size: 1.8rem;
         font-weight: 700;
         color: $color-text-main;
+        overflow-wrap: anywhere;
 
         @include tablet {
             font-size: 2rem;
@@ -256,6 +257,7 @@
         font-size: 1.05rem;
         color: $color-text-muted;
         line-height: 1.6;
+        overflow-wrap: anywhere;
     }
 
     &__desktop-sidebar {

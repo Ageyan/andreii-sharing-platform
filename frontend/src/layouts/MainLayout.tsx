@@ -1,11 +1,14 @@
 import { useEffect } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 
+import { useScrollToTop } from '../hooks/useScrollToTop';
+
 import Header from '../components/layout/Header';
 import Footer from '../components/layout/Footer';
 import AiChat from '../components/common/AiChat';
 
 const MainLayout = () => {
+    useScrollToTop();
     const location = useLocation();
 
     useEffect(() => {

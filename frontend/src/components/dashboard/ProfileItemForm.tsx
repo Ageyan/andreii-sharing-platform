@@ -155,7 +155,7 @@ const ProfileItemForm = ({
             return;
         }
 
-        if (!editingItem && selectedFiles.length === 0) {
+        if (selectedFiles.length === 0) {
             setToast({ show: true, message: 'Додайте хоча б одне фото', type: 'error' });
             return;
         }
