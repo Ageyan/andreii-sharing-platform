@@ -48,11 +48,11 @@ Node.js, featuring real-time chat and a fully responsive, mobile-first design.
 
 <img width="1710" height="1107" alt="Screenshot chats" src="https://github.com/user-attachments/assets/6b465694-886b-4ed1-90ee-3a2539df38be" />
 
-<img width="250" height="580" alt="Screenshot main page mobile" src="https://github.com/user-attachments/assets/9cab7443-9d1b-4418-86e7-3e50c8411b23" />
+<img width="270" height="580" alt="Screenshot main page mobile" src="https://github.com/user-attachments/assets/9cab7443-9d1b-4418-86e7-3e50c8411b23" />
 
-<img width="250" height="580" alt="Screenshot" src="https://github.com/user-attachments/assets/4b3a29db-fd46-4c00-86a9-a6709ac969fd" />
+<img width="270" height="580" alt="Screenshot" src="https://github.com/user-attachments/assets/4b3a29db-fd46-4c00-86a9-a6709ac969fd" />
 
-<img width="250" height="580" alt="Screenshot chats mobile" src="https://github.com/user-attachments/assets/6fd692d3-e027-4717-a240-452e89703a0e" />
+<img width="270" height="580" alt="Screenshot chats mobile" src="https://github.com/user-attachments/assets/6fd692d3-e027-4717-a240-452e89703a0e" />
 
 ## 🚀 Getting Started
 
