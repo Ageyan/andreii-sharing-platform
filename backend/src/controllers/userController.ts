@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+
 import { query } from '../config/db';
 import { handleError } from '../utils/errorHandler';
 

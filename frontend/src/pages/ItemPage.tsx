@@ -91,7 +91,7 @@ const ItemPage = () => {
 
     return (
         <div className="item-page">
-            {loader && <Loader />}
+            {loader && <Loader fullPage={true} />}
             {error && (
                 <div className="error-banner">
                     <span>⚠️</span> {error}

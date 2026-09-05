@@ -72,12 +72,13 @@ const BookingsOwner = () => {
                                 <button
                                     className="profile-card__btn profile-card__btn--confirm"
                                     disabled={loadingId !== null}
-                                    onClick={() =>
+                                    onClick={e => {
+                                        e.stopPropagation();
                                         handleUpdateStatus({
                                             status: 'confirmed',
                                             id: item.id,
-                                        })
-                                    }
+                                        });
+                                    }}
                                 >
                                     {isCurrentLoading ? (
                                         <Loader />
@@ -93,12 +94,13 @@ const BookingsOwner = () => {
                                 <button
                                     className="profile-card__btn profile-card__btn--cancel"
                                     disabled={loadingId !== null}
-                                    onClick={() =>
+                                    onClick={e => {
+                                        e.stopPropagation();
                                         handleUpdateStatus({
                                             status: 'cancelled_by_owner',
                                             id: item.id,
-                                        })
-                                    }
+                                        });
+                                    }}
                                 >
                                     {isCurrentLoading ? (
                                         <Loader />

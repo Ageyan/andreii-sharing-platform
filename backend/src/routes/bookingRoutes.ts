@@ -1,4 +1,5 @@
 import { Router } from "express";
+
 import { createBooking, getMyBookings, getOwnerBookings, updateBookingStatus, cancelBooking } from "../controllers/bookingController";
 import { protect } from "../middleware/authMiddleware";
 

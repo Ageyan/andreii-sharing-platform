@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+
 import { query } from '../config/db';
 import { handleError } from '../utils/errorHandler';
 
@@ -30,7 +31,6 @@ export const register = async(req: Request, res: Response): Promise<void> => {
             message: 'Користувач успішно зареєстрований',
             user: newUser.rows[0]
         });
-        
     } catch(error) {
         handleError(error, res, 'реєстрації')
     }

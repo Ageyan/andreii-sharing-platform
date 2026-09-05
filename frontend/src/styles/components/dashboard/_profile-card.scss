@@ -55,6 +55,7 @@
         flex-direction: column;
         gap: 8px;
         flex-grow: 1;
+        min-width: 0;
 
         @include tablet {
             gap: 10px;
@@ -66,6 +67,9 @@
         font-size: 1.05rem;
         font-weight: 700;
         color: $color-text-main;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
         margin: 0;
 
         @include tablet {

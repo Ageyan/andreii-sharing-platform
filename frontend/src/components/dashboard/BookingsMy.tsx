@@ -89,7 +89,10 @@ const BookingsMy = () => {
                                 <button
                                     className="profile-card__btn profile-card__btn--cancel"
                                     disabled={loadingId !== null}
-                                    onClick={() => handleCancel(item.id)}
+                                    onClick={e => {
+                                        e.stopPropagation();
+                                        handleCancel(item.id);
+                                    }}
                                 >
                                     {isCurrentLoading ? (
                                         <Loader />

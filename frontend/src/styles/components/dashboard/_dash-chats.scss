@@ -62,9 +62,10 @@
         display: flex;
         flex-direction: column;
         background: $white;
+        flex-shrink: 0;
 
         @include desktop {
-            width: 320px;
+            width: 300px;
         }
     }
 
@@ -112,11 +113,14 @@
         display: flex;
         align-items: center;
         gap: 15px;
+        flex: 1;
+        min-width: 0;
     }
 
     &__item-img {
         width: 50px;
         height: 50px;
+        flex-shrink: 0;
         border-radius: 8px;
         border: 1px solid $border-color;
     }
@@ -125,17 +129,25 @@
         display: flex;
         flex-direction: column;
         align-items: flex-start;
+        flex: 1;
+        min-width: 0;
     }
 
     &__item-name {
         margin: 0 0 5px 0;
         font-size: 1rem;
         color: $color-text-main;
+        text-align: left;
         font-weight: 600;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        width: 100%;
     }
 
     &__item-role {
         font-size: 0.8rem;
+        text-align: left;
         color: $color-text-muted;
     }
 
@@ -176,11 +188,15 @@
     &__header {
         display: flex;
         align-items: center;
+        width: 100%;
+        max-width: 100%;
         min-height: 80px;
+        min-width: 0;
         padding: 12px 16px;
         background: $white;
         border-bottom: 1px solid $border-color;
         gap: 15px;
+        flex-shrink: 0;
 
         @include tablet {
             padding: 15px 20px;
@@ -207,6 +223,7 @@
             border-radius: 50%;
             border: 1px solid $border-color;
             cursor: pointer;
+            flex-shrink: 0;
         }
 
         &-info {
@@ -214,16 +231,26 @@
             flex-direction: column;
             align-items: flex-start;
             gap: 4px;
+            flex: 1;
+            min-width: 0;
+            overflow: hidden;
         }
 
         &-title {
             font-size: 1.1rem;
             color: $color-text-main;
+            text-align: left;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            width: 100%;
+            max-width: 100%;
         }
 
         &-status {
             font-size: 0.8rem;
             color: $color-accent;
+            text-align: left;
 
             &.online {
                 color: $color-accent;

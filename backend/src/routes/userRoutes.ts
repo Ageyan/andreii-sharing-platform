@@ -1,4 +1,5 @@
 import { Router } from 'express';
+
 import { protect } from '../middleware/authMiddleware';
 import { getUserInfo, putUserUpdate, updateAvatar } from '../controllers/userController';
 import { upload } from '../config/cloudinaryConfig';
