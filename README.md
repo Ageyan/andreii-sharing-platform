@@ -15,6 +15,7 @@ A full-stack web application for renting and sharing items. Built with React, Ty
 - **Smart Pagination:** Infinite scrolling implemented with a custom Intersection Observer.
 - **Secure Authentication:** JWT-based user authentication and authorization.
 - **Image Optimization:** Automatic image resizing and face-cropping via Cloudinary API.
+- **AI Assistant Integration:** Smart chatbot feature to help users navigate the platform and find items quickly, powered by AI.
 
 ## 💻 Tech Stack
 
@@ -30,6 +31,7 @@ A full-stack web application for renting and sharing items. Built with React, Ty
 - PostgreSQL (pg)
 - Socket.io
 - Cloudinary (Multer)
+- Gemini API
 
 ## 📸 Screenshots
 
@@ -57,7 +59,7 @@ A full-stack web application for renting and sharing items. Built with React, Ty
 
 1. **Clone the repository:**
 ```bash
-git clone [https://github.com/Ageyan/my-sharing-platform.git](https://github.com/Ageyan/my-sharing-platform.git)
+git clone https://github.com/Ageyan/andreii-sharing-platform
 ```
 
 2. **Install frontend dependencies:**
