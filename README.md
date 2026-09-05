@@ -45,4 +45,4 @@ A full-stack web application for renting and sharing items. Built with React, Ty
 
 1. Clone the repository:
    ```bash
-   git clone [https://github.com/Ageyan/my-sharing-platform.git]
+   git clone https://github.com/Ageyan/my-sharing-platform.git
