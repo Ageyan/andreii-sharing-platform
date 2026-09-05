@@ -23,6 +23,11 @@ Node.js, featuring real-time chat and a fully responsive, mobile-first design.
 - **AI Assistant Integration:** Smart chatbot feature to help users navigate the platform and find
   items quickly, powered by AI.
 
+## 🌍 Live Demo
+
+**Check out the live application here:**
+[Open Live App](https://andreii-sharing-platform.vercel.app)
+
 ## 💻 Tech Stack
 
 **Frontend:**
